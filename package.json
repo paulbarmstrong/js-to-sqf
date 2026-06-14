@@ -2,21 +2,15 @@
 	"name": "js-to-sqf",
 	"version": "1.0.0",
 	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"types": "index.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+			"types": "./index.d.ts"
 		}
 	},
 	"files": [
-		"dist"
+		"index.d.ts"
 	],
-	"scripts": {
-		"build": "tsc",
-		"prepublishOnly": "npm run build"
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/paulbarmstrong/js-to-sqf.git"
@@ -32,9 +26,5 @@
 		"url": "https://github.com/paulbarmstrong/js-to-sqf/issues"
 	},
 	"homepage": "https://github.com/paulbarmstrong/js-to-sqf#readme",
-	"description": "Type definitions for the js-to-sqf ecosystem",
-	"devDependencies": {
-		"@types/node": "^25.9.3",
-		"typescript": "^6.0.3"
-	}
+	"description": "Type definitions for the js-to-sqf ecosystem"
 }

@@ -1,0 +1,1 @@
+export function diagLog(message: any): void
