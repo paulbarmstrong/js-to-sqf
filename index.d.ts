@@ -172,6 +172,12 @@ export type PositionRelative = [number, number, number]
  */
 export type PositionConfig = [number, number, number]
 
+/**
+ * Function that can be provided as the script for addAction.
+ * @see {@link https://community.bistudio.com/wiki/addAction}
+ */
+export type AddActionScript = (target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void
+
 export namespace bis {
 	export function crewCount(className: string, includeCargoSeats: boolean): number
 }
@@ -434,13 +440,35 @@ export function add3DENLayer(parentLayerID: number, name: string): number
  * handling of user interaction see inGameUISetEventHandler.
  *
  * @param object - unit, vehicle or static object; no agents
- * @param title - the action name displayed in the action menu; may contain Structured Text
- * @param script - path to script file relative to mission folder, or code to execute
+ * @param title - action name displayed in the action menu; may contain Structured Text
+ * @param script - path to script file relative to mission folder, or inline code to execute
+ * @param arguments - (Optional, default nil) arguments to pass to the script, accessible as _this
+ * select 3
+ * @param priority - (Optional, default 1.5) priority value; higher number = higher position in menu
+ * @param showWindow - (Optional, default true) if true, players see the title text as they approach
+ * the object
+ * @param hideOnUse - (Optional, default true) if true, closes the action menu after the action is
+ * selected
+ * @param shortcut - (Optional, default "") key name from bin.pbo to bind to this action
+ * @param condition - (Optional, default "true") expression that must return true for the action to be
+ * shown
+ * @param positionInModel - (Optional, default "") named selection in the model for positioning the action
+ * in 3D space
+ * @param radius - (Optional, default 50) maximum 3D distance in meters for the action to be
+ * available; -1 disables
+ * @param radiusView - (Optional) maximum cursor distance in meters from the 3D action to activate it;
+ * -1 disables
+ * @param showIn3D - (Optional) bitmask condition for showing the action in 3D space
+ * @param available - (Optional) bitmask condition for being able to activate the action
+ * @param textDefault - (Optional, default "") Structured Text shown as the 3D action or highlighted in
+ * the action menu
+ * @param textToolTip - (Optional, default "") Structured Text faded in under textDefault when hovering
+ * in 3D space
  * @returns the added action's ID. Action can be removed with removeAction (see also removeAllActions). IDs are incrementing, the first given action to each unit has the ID 0, the second the ID 1, etc. IDs are also passed to the called script (see the script parameter)
  * @see {@link https://community.bistudio.com/wiki/addAction}
  * @sqfsyntaxtype binary
  */
-export function addAction(object: GameObject, title: string, script: string | Function): number
+export function addAction(object: GameObject, title: string, script: AddActionScript, arguments?: any, priority?: number, showWindow?: boolean, hideOnUse?: boolean, shortcut?: string, condition?: string, positionInModel?: string, radius?: number, radiusView?: number, showIn3D?: number, available?: number, textDefault?: string, textToolTip?: string): number
 
 /**
  * Adds a backpack for a unit. If a unit already has a backpack, the old backpack

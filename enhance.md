@@ -48,9 +48,10 @@ Type Strategy:
 	b. number (native ts/js type)
 	c. boolean (native ts/js type)
 	d. Array (native ts/js type, both in Array<T> form and tuple form like [string, string, boolean])
-	e. Function (native ts/js type)
 	f. Unions (from typescript)
-	g. The types under `sqf-data-types.json`. Note that `GameObject` is mean to represent the SQL `Object` data type
+	g. The types under `sqf-data-types.json`
+	  * Note that `GameObject` is mean to represent the SQL `Object` data type
+	  * Any "script" parameters should have their own pre-existing type in `sqf-data-types.json`, like `AddActionScript`
 	h. any (native ts/js type. use this if something tries to specify a huge amount of different types)
   2. If it is a mixed-type array returnValue then have the type be an actual JSON array where elements have:
 	a. name as being the a name of the variable, if there's a suitable name for it based on the returnValue text. Otherwise should be omitted. Avoid using javascript reserved words like `function`

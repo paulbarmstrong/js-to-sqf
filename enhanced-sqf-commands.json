@@ -475,13 +475,91 @@
         "name": "title",
         "type": "string",
         "optional": false,
-        "description": "the action name displayed in the action menu; may contain Structured Text"
+        "description": "action name displayed in the action menu; may contain Structured Text"
       },
       {
         "name": "script",
-        "type": "string | Function",
+        "type": "AddActionScript",
         "optional": false,
-        "description": "path to script file relative to mission folder, or code to execute"
+        "description": "path to script file relative to mission folder, or inline code to execute"
+      },
+      {
+        "name": "arguments",
+        "type": "any",
+        "optional": true,
+        "description": "(Optional, default nil) arguments to pass to the script, accessible as _this select 3"
+      },
+      {
+        "name": "priority",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional, default 1.5) priority value; higher number = higher position in menu"
+      },
+      {
+        "name": "showWindow",
+        "type": "boolean",
+        "optional": true,
+        "description": "(Optional, default true) if true, players see the title text as they approach the object"
+      },
+      {
+        "name": "hideOnUse",
+        "type": "boolean",
+        "optional": true,
+        "description": "(Optional, default true) if true, closes the action menu after the action is selected"
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "optional": true,
+        "description": "(Optional, default \"\") key name from bin.pbo to bind to this action"
+      },
+      {
+        "name": "condition",
+        "type": "string",
+        "optional": true,
+        "description": "(Optional, default \"true\") expression that must return true for the action to be shown"
+      },
+      {
+        "name": "positionInModel",
+        "type": "string",
+        "optional": true,
+        "description": "(Optional, default \"\") named selection in the model for positioning the action in 3D space"
+      },
+      {
+        "name": "radius",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional, default 50) maximum 3D distance in meters for the action to be available; -1 disables"
+      },
+      {
+        "name": "radiusView",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional) maximum cursor distance in meters from the 3D action to activate it; -1 disables"
+      },
+      {
+        "name": "showIn3D",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional) bitmask condition for showing the action in 3D space"
+      },
+      {
+        "name": "available",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional) bitmask condition for being able to activate the action"
+      },
+      {
+        "name": "textDefault",
+        "type": "string",
+        "optional": true,
+        "description": "(Optional, default \"\") Structured Text shown as the 3D action or highlighted in the action menu"
+      },
+      {
+        "name": "textToolTip",
+        "type": "string",
+        "optional": true,
+        "description": "(Optional, default \"\") Structured Text faded in under textDefault when hovering in 3D space"
       }
     ],
     "returnValue": {

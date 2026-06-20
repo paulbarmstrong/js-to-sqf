@@ -118,5 +118,11 @@
 		"description": "The format used in configs, such as mission.sqm, is [X, Z, Y], where Z and Y are swapped around. One other command that uses this format is positionCameraToWorld. Z in configs is measured from the sea level.",
 		"url": "https://community.bistudio.com/wiki/Position#PositionConfig",
 		"type": "[number, number, number]"
+	},
+	{
+		"name": "AddActionScript",
+		"description": "Function that can be provided as the script for addAction.",
+		"url": "https://community.bistudio.com/wiki/addAction",
+		"type": "(target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void"
 	}
 ]

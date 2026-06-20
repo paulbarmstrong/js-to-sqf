@@ -17,5 +17,12 @@
 	"a less b",
 	"a less= b",
 	"a or b",
-	"switch"
+	"switch",
+	"do",
+	"for",
+	"while",
+	"forEach",
+	"apply",
+	"select",
+	"call"
 ]
