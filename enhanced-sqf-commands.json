@@ -1,0 +1,1699 @@
+[
+  {
+    "name": "abs",
+    "url": "https://community.bistudio.com/wiki/abs",
+    "syntax": "abs x",
+    "description": "Returns absolute (positive) value of a real number.",
+    "parameters": [
+      {
+        "name": "x",
+        "type": "number"
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "accTime",
+    "url": "https://community.bistudio.com/wiki/accTime",
+    "syntax": "accTime",
+    "description": "Returns the current simulation acceleration factor.",
+    "parameters": [],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "acos",
+    "url": "https://community.bistudio.com/wiki/acos",
+    "syntax": "acos x",
+    "description": "ArcCosine of a number, result in Degrees",
+    "parameters": [
+      {
+        "name": "x",
+        "type": "number",
+        "description": "any other value returns NaN"
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "action",
+    "url": "https://community.bistudio.com/wiki/action",
+    "syntax": "unit action actionArray",
+    "description": "Make a unit perform an action. See Category:Actions for action names and syntaxes. Since Arma 3 2.18 it is possible to use actionNow to perform some actions immediately without any animation. However, note that some actions do require animations (for example, opening inventory while on foot), otherwise they will get cancelled. ⓘ\n• in singleplayer, when user Alt-Tabs the simulation is paused and so the action will also halt until user returns to the game. For example, player action [\"GetInDriver\", car]; executed while user is Alt-Tabbed will result in the user seeing the action happening when he returns to the game screen. This does not happen in Multiplayer.\n• the alternative syntax creates a temporary Logic entity in place of unit.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "actionArray",
+        "type": "Array<any>"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "actionIDs",
+    "url": "https://community.bistudio.com/wiki/actionIDs",
+    "syntax": "actionIDs entity",
+    "parameters": [
+      {
+        "name": "entity",
+        "type": "GameObject",
+        "description": "entity with added user actions"
+      }
+    ],
+    "returnValue": {
+      "type": "Array<number>",
+      "description": "IDs of all user actions added to given entity with addAction command"
+    }
+  },
+  {
+    "name": "actionKeys",
+    "url": "https://community.bistudio.com/wiki/actionKeys",
+    "syntax": "actionKeys userAction",
+    "description": "Returns Array containing dikCodes of keys, buttons and combos assigned to the given user action. Action names could be found in config class ControllerSchemes or user action names or user profile, for example: keyWatch[] = { 24 }; To retrieve the value, use the property name without 'key': actionKeys \"Watch\"; // 24 In addition, some of the actions are also listed in here: inputAction/actions",
+    "parameters": [
+      {
+        "name": "userAction",
+        "type": "string"
+      }
+    ],
+    "returnValue": {
+      "type": "Array<number>"
+    }
+  },
+  {
+    "name": "actionKeysEx",
+    "url": "https://community.bistudio.com/wiki/actionKeysEx",
+    "syntax": "actionKeysEx userAction",
+    "description": "Gives a broken down version of actionKeys return. Returns an Array containing the breakdowns of the dikCodes of keys, buttons and combos assigned to the given user action. Action names can be found in config class ControllerSchemes or user action names or user profile (see Example 1). In addition, some of the actions are also listed here: inputAction/actions The Key Device can be one of several types:\n• \"KEYBOARD\"\n• \"MOUSE_BUTTON\"\n• \"MOUSE_AXIS\"\n• \"JOYSTICK_BUTTON\"\n• \"JOYSTICK_AXIS\"\n• \"JOYSTICK_POV\"\n• \"XINPUT\" - (Xbox) Controller Input\n• \"TRACKER\" - Motion Tracking (TrackIR, Tobii etc)",
+    "parameters": [
+      {
+        "name": "userAction",
+        "type": "string",
+        "description": "user action name (see inputAction/actions)"
+      }
+    ],
+    "returnValue": {
+      "description": "array of [mainKeyArray, comboKeyArray, isDoubleTap] entries",
+      "type": [
+        {
+          "name": "mainKeyArray",
+          "type": "Array<any>",
+          "description": "key info: [dikCode, device, deviceId]"
+        },
+        {
+          "name": "comboKeyArray",
+          "type": "Array<any>",
+          "description": "combo key info: [dikCode, device, deviceId]; filled only for combination keys"
+        },
+        {
+          "name": "isDoubleTap",
+          "type": "boolean",
+          "description": "whether the action key is a double-tap"
+        }
+      ]
+    }
+  },
+  {
+    "name": "actionKeysImages",
+    "url": "https://community.bistudio.com/wiki/actionKeysImages",
+    "syntax": "actionKeysImages userAction",
+    "description": "Returns a list of button images or names assigned to the given user action. A maximum of maxKeys keys is listed. You can find the action names in the ControllerSchemes config class or user action names.",
+    "parameters": [
+      {
+        "name": "userAction",
+        "type": "string"
+      }
+    ],
+    "returnValue": {
+      "type": "StructuredText"
+    }
+  },
+  {
+    "name": "actionKeysNames",
+    "url": "https://community.bistudio.com/wiki/actionKeysNames",
+    "syntax": "actionKeysNames userAction",
+    "description": "Returns a list of button names assigned to the given user action. Action names can be found in config class ControllerSchemes or user action names.",
+    "parameters": [
+      {
+        "name": "userAction",
+        "type": "string"
+      }
+    ],
+    "returnValue": {
+      "type": "string"
+    }
+  },
+  {
+    "name": "actionKeysNamesArray",
+    "url": "https://community.bistudio.com/wiki/actionKeysNamesArray",
+    "syntax": "actionKeysNamesArray userAction",
+    "description": "Returns a list of button names assigned to the given user action. You can find the action names in config class ControllerSchemes or user action names.",
+    "parameters": [
+      {
+        "name": "userAction",
+        "type": "string",
+        "description": "name of the action"
+      }
+    ],
+    "returnValue": {
+      "type": "Array<string>"
+    }
+  },
+  {
+    "name": "actionName",
+    "url": "https://community.bistudio.com/wiki/actionName",
+    "syntax": "actionName action",
+    "description": "Returns localized name of action.",
+    "parameters": [
+      {
+        "name": "action",
+        "type": "string"
+      }
+    ],
+    "returnValue": {
+      "type": "string"
+    }
+  },
+  {
+    "name": "actionNow",
+    "url": "https://community.bistudio.com/wiki/actionNow",
+    "syntax": "unit actionNow actionArray",
+    "description": "Make a unit perform an action immediately (without any animation/pre-processing). See the action command for more information.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "actionArray",
+        "type": "Array<any>"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "actionParams",
+    "url": "https://community.bistudio.com/wiki/actionParams",
+    "syntax": "entity actionParams id",
+    "description": "Returns Array with params for given user action id (similar to addAction param array).",
+    "parameters": [
+      {
+        "name": "entity",
+        "type": "GameObject",
+        "description": "entity with added user actions"
+      },
+      {
+        "name": "id",
+        "type": "number",
+        "description": "id of existing user action (returned by addAction or actionIDs)"
+      }
+    ],
+    "returnValue": {
+      "description": "array with [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, radius, unconscious, textWindowBackground, textWindowForeground, selection, memoryPoint]",
+      "type": [
+        {
+          "name": "title",
+          "type": "string",
+          "description": "action title text"
+        },
+        {
+          "name": "script",
+          "type": "string",
+          "description": "script file or expression assigned to the action"
+        },
+        {
+          "name": "arguments",
+          "type": "any",
+          "description": "arguments passed to the action"
+        },
+        {
+          "name": "priority",
+          "type": "number",
+          "description": "action priority on the action menu"
+        },
+        {
+          "name": "showWindow",
+          "type": "boolean",
+          "description": "whether the action is shown in the center of the screen too"
+        },
+        {
+          "name": "hideOnUse",
+          "type": "boolean",
+          "description": "whether the action menu should close after selecting the action"
+        },
+        {
+          "name": "shortcut",
+          "type": "string",
+          "description": "action bindings to an existing engine action if any"
+        },
+        {
+          "name": "condition",
+          "type": "string",
+          "description": "expression returning true or nil for action to appear on the action menu"
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "description": "max distance to entity at which action becomes available"
+        },
+        {
+          "name": "unconscious",
+          "type": "boolean",
+          "description": "whether the action is available to unconscious person"
+        },
+        {
+          "name": "textWindowBackground",
+          "type": "string"
+        },
+        {
+          "name": "textWindowForeground",
+          "type": "string"
+        },
+        {
+          "name": "selection",
+          "type": "string",
+          "description": "named selection in Geometry LOD to which the action is attached"
+        },
+        {
+          "name": "memoryPoint",
+          "type": "string",
+          "description": "memory point on the object to which the action is attached"
+        }
+      ]
+    }
+  },
+  {
+    "name": "activateAddons",
+    "url": "https://community.bistudio.com/wiki/activateAddons",
+    "syntax": "activateAddons addonsList",
+    "description": "Activates the listed addons.",
+    "parameters": [
+      {
+        "name": "addonsList",
+        "type": "Array<string>"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "activatedAddons",
+    "url": "https://community.bistudio.com/wiki/activatedAddons",
+    "syntax": "activatedAddons",
+    "description": "Returns a list of all activated addons.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Array<string>"
+    }
+  },
+  {
+    "name": "activateKey",
+    "url": "https://community.bistudio.com/wiki/activateKey",
+    "syntax": "activateKey keyname",
+    "description": "Activates the given keyname for the current user profile. The keys are used to unlock missions or campaigns. See keys, keysLimit and doneKeys in the Description.ext#Mission Keys chapter.",
+    "parameters": [
+      {
+        "name": "keyname",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "activeTitleEffectParams",
+    "url": "https://community.bistudio.com/wiki/activeTitleEffectParams",
+    "syntax": "activeTitleEffectParams layer",
+    "description": "Returns type, effect, speed and map visibility of the given active title effect (see allActiveTitleEffects)",
+    "parameters": [
+      {
+        "name": "layer",
+        "type": "number",
+        "description": "layer number or -1 (see allActiveTitleEffects)"
+      }
+    ],
+    "returnValue": {
+      "description": "array with [type, effect, speed, showInMap], or empty array",
+      "type": [
+        {
+          "name": "type",
+          "type": "string",
+          "description": "type of effect: \"OBJ\", \"RSC\", or \"TXT\""
+        },
+        {
+          "name": "effect",
+          "type": "string",
+          "description": "Title Effect Type (\"PLAIN\", \"BLACK OUT\", etc.)"
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "description": "effect speed multiplier"
+        },
+        {
+          "name": "showInMap",
+          "type": "boolean",
+          "description": "true if effect is available over map"
+        }
+      ]
+    }
+  },
+  {
+    "name": "add3DENConnection",
+    "url": "https://community.bistudio.com/wiki/add3DENConnection",
+    "syntax": "add3DENConnection [type, from, to]",
+    "description": "Connect entities together. Be aware to select the correct type of Eden Entities for the connection type.",
+    "parameters": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": "connection class from \"Cfg3DEN\" >> \"Connections\":"
+      },
+      {
+        "name": "from",
+        "type": "Array<EdenEntity>",
+        "description": "entities which are being connected"
+      },
+      {
+        "name": "to",
+        "type": "EdenEntity",
+        "description": "entity to which entities will be connected to"
+      }
+    ],
+    "returnValue": {
+      "type": "boolean",
+      "description": "true If the connection was made"
+    }
+  },
+  {
+    "name": "add3DENEventHandler",
+    "url": "https://community.bistudio.com/wiki/add3DENEventHandler",
+    "syntax": "add3DENEventHandler [type, code]",
+    "description": "Adds an Eden Editor Event Handler.",
+    "parameters": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": "see Eden Editor Event Handler"
+      },
+      {
+        "name": "code",
+        "type": "Function",
+        "description": "event handler code; _this = event parameters, _thisEvent = event type, _thisEventHandler = handler index"
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "add3DENLayer",
+    "url": "https://community.bistudio.com/wiki/add3DENLayer",
+    "syntax": "add3DENLayer [parentLayerID, name]",
+    "description": "Adds an editing layer in Eden Editor.",
+    "parameters": [
+      {
+        "name": "parentLayerID",
+        "type": "number",
+        "description": "ID of the parent layer. No layer will be created when the ID does not point to a layer. Use -1 to create the layer to root."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "layer display name"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "layer ID"
+    }
+  },
+  {
+    "name": "addAction",
+    "url": "https://community.bistudio.com/wiki/addAction",
+    "syntax": "object addAction [title, script]",
+    "description": "Adds an entry to the action menu of an object. The action can only be activated when in proximity to the object and looking at it. Adding an action to the player makes that action available to the player at all times. For event handling of user interaction see inGameUISetEventHandler.",
+    "parameters": [
+      {
+        "name": "object",
+        "type": "GameObject",
+        "description": "unit, vehicle or static object; no agents"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "the action name displayed in the action menu; may contain Structured Text"
+      },
+      {
+        "name": "script",
+        "type": "string | Function",
+        "description": "path to script file relative to mission folder, or code to execute"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "the added action's ID. Action can be removed with removeAction (see also removeAllActions). IDs are incrementing, the first given action to each unit has the ID 0, the second the ID 1, etc. IDs are also passed to the called script (see the script parameter)"
+    }
+  },
+  {
+    "name": "addBackpack",
+    "url": "https://community.bistudio.com/wiki/addBackpack",
+    "syntax": "unit addBackpack backpackClassName",
+    "description": "Adds a backpack for a unit. If a unit already has a backpack, the old backpack will be placed on the ground under the unit. Items defined in the backpack's config will be added as well. ⓘClassname list of available backpacks:\n• Arma 2 OA backpacks\n• Arma 3 backpacks - objects starting with \"B_\", starts with \"B_AssaultPack_khk\"",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "backpackClassName",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addBackpackCargo",
+    "url": "https://community.bistudio.com/wiki/addBackpackCargo",
+    "syntax": "vehicle addBackpackCargo [backpackClassName, count]",
+    "description": "Add backpack(s) to the cargo space of vehicle. Classname list of available backpacks is here. For a list of possible backpacks, see:\n• 1.50 Arma 2: Operation Arrowhead: Backpacks\n• 1.00 Arma 3: CfgVehicles Equipment (starting with B_) In Arma 3, arguments for this command are local LALocal. For the global variant, see addBackpackCargoGlobal.",
+    "parameters": [
+      {
+        "name": "vehicle",
+        "type": "GameObject",
+        "description": "vehicle to add the backpack to"
+      },
+      {
+        "name": "backpackClassName",
+        "type": "string",
+        "description": "backpack classname"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of backpacks to add. negative count will remove backpacks."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addBackpackCargoGlobal",
+    "url": "https://community.bistudio.com/wiki/addBackpackCargoGlobal",
+    "syntax": "vehicle addBackpackCargoGlobal [packClassName, count]",
+    "description": "Add backpack(s) to the cargo space of vehicle. ⓘClassname list of available backpacks:\n• Arma 2:OA backpacks\n• Arma 3 backpacks - objects starting with \"B_\", starts near \"B_AssaultPack_khk\"",
+    "parameters": [
+      {
+        "name": "vehicle",
+        "type": "GameObject",
+        "description": "object to add the Backpack to"
+      },
+      {
+        "name": "packClassName",
+        "type": "string",
+        "description": "see the topic Category:Weapons for reference about possible values."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of backpacks to add; a negative value will remove backpacks."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addBackpackGlobal",
+    "url": "https://community.bistudio.com/wiki/addBackpackGlobal",
+    "syntax": "unit addBackpackGlobal backpack",
+    "description": "Adds a backpack to a unit - global variant of addBackpack. ⚠The backpack added with this command will be created on the PC local to the unit you are adding it to, even if executed on the server. Because of this, if non-local unit is the target and one tries to immediately access added backpack, the backpack returned will be null. When adding backpack dynamically to a remote unit, wait until the backpack is added (See Example 2).",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject",
+        "description": "soldier"
+      },
+      {
+        "name": "backpack",
+        "type": "string",
+        "description": "backpack class name"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addBinocularItem",
+    "url": "https://community.bistudio.com/wiki/addBinocularItem",
+    "syntax": "unit addBinocularItem item",
+    "description": "Adds weapon item, including magazine, directly to the binocular weapon. This is used for infantry weapons.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCamShake",
+    "url": "https://community.bistudio.com/wiki/addCamShake",
+    "syntax": "addCamShake [power, duration, frequency]",
+    "description": "Creates the camera shaking effect, like when you are near an explosion",
+    "parameters": [
+      {
+        "name": "power",
+        "type": "number",
+        "description": "strength of shake (camera movement), practical range is 0 to 20"
+      },
+      {
+        "name": "duration",
+        "type": "number",
+        "description": "duration in seconds divided by 2"
+      },
+      {
+        "name": "frequency",
+        "type": "number",
+        "description": "frequency of shake, practical range is 0 to 100"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorAddons",
+    "url": "https://community.bistudio.com/wiki/addCuratorAddons",
+    "syntax": "curatorObj addCuratorAddons addons",
+    "description": "Allow curator use of given addon.",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "description": "curator module."
+      },
+      {
+        "name": "addons",
+        "type": "Array<string>",
+        "description": "CfgPatches class names"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorCameraArea",
+    "url": "https://community.bistudio.com/wiki/addCuratorCameraArea",
+    "syntax": "curatorObj addCuratorCameraArea [cameraAreaID, position, radius]",
+    "description": "Adds or changes curator camera area (depends on if ID is already used).",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "description": "curator module."
+      },
+      {
+        "name": "cameraAreaID",
+        "type": "number"
+      },
+      {
+        "name": "position",
+        "type": "[number, number, number]"
+      },
+      {
+        "name": "radius",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorEditableObjects",
+    "url": "https://community.bistudio.com/wiki/addCuratorEditableObjects",
+    "syntax": "curatorObj addCuratorEditableObjects [objects, addCrew]",
+    "description": "Register objects which can be edited by a curator.",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "description": "curator module"
+      },
+      {
+        "name": "objects",
+        "type": "Array<GameObject>"
+      },
+      {
+        "name": "addCrew",
+        "type": "boolean"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorEditingArea",
+    "url": "https://community.bistudio.com/wiki/addCuratorEditingArea",
+    "syntax": "curatorObj addCuratorEditingArea [editAreaID, position, radius]",
+    "description": "Adds or changes curator edit area (depends on if ID is already used).",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "description": "curator module."
+      },
+      {
+        "name": "editAreaID",
+        "type": "number"
+      },
+      {
+        "name": "position",
+        "type": "[number, number, number]"
+      },
+      {
+        "name": "radius",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorPoints",
+    "url": "https://community.bistudio.com/wiki/addCuratorPoints",
+    "syntax": "curatorObj addCuratorPoints points",
+    "description": "Adds or removes curator points.",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "description": "curator module."
+      },
+      {
+        "name": "points",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addCuratorSelected",
+    "url": "https://community.bistudio.com/wiki/addCuratorSelected",
+    "syntax": "addCuratorSelected items",
+    "description": "Add items to the selected curator items.",
+    "parameters": [
+      {
+        "name": "items",
+        "type": "Array<any>",
+        "description": "items to add; items can be an Object, Group, Waypoint, or String (marker)"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addEditorObject",
+    "url": "https://community.bistudio.com/wiki/addEditorObject",
+    "syntax": "map addEditorObject typeNameSubtypeConfig",
+    "description": "Add an object to the editor and assign arguments. Create script is,called with _new equal to true. Returns the ID of the new EditorObject.,Subtype class is optional. ⓘSome Old Editor Command",
+    "parameters": [
+      {
+        "name": "map",
+        "type": "Control"
+      },
+      {
+        "name": "typeNameSubtypeConfig",
+        "type": "Array<any>",
+        "description": "[type, [name1, value1, ...], subtypeClass]"
+      }
+    ],
+    "returnValue": {
+      "type": "string"
+    }
+  },
+  {
+    "name": "addEventHandler",
+    "url": "https://community.bistudio.com/wiki/addEventHandler",
+    "syntax": "target addEventHandler [type, code]",
+    "description": "Adds an Event Handler to the given object.\n• As many Event Handlers of any type can be added - existing Event Handlers do not get overwritten\n• Use removeEventHandler to remove an Event Handler Read Event Handlers for more information and a list of all available Event Handlers.",
+    "parameters": [
+      {
+        "name": "target",
+        "type": "GameObject | Group"
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "see Event Handlers for the full list of available options"
+      },
+      {
+        "name": "code",
+        "type": "Function | string",
+        "description": "code that should be executed when the Event Handler fires"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "the index of the added Event Handler. Indices start at 0 for each unit and increment with each added Event Handler."
+    }
+  },
+  {
+    "name": "addForce",
+    "url": "https://community.bistudio.com/wiki/addForce",
+    "syntax": "object addForce [force, position]",
+    "description": "Applies given force for one frame (essentially an impulse) to unit or given PhysX object at given position. ⓘFor more information see NVIDIA docs.",
+    "parameters": [
+      {
+        "name": "object",
+        "type": "GameObject",
+        "description": "PhysX object or unit (must be local; will be set unconscious)"
+      },
+      {
+        "name": "force",
+        "type": "[number, number, number]",
+        "description": "force vector in world space in newton-seconds"
+      },
+      {
+        "name": "position",
+        "type": "[number, number, number]",
+        "description": "position relative to object"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addForceGeneratorRTD",
+    "url": "https://community.bistudio.com/wiki/addForceGeneratorRTD",
+    "syntax": "addForceGeneratorRTD parameters",
+    "description": "Adds force generator to world. For this command to have any effect, the Advanced Flight Model (AFM) has to be enabled. AFM status can be checked with difficultyEnabledRTD.",
+    "parameters": [
+      {
+        "name": "parameters",
+        "type": "Array<any>"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "force index"
+    }
+  },
+  {
+    "name": "addGoggles",
+    "url": "https://community.bistudio.com/wiki/addGoggles",
+    "syntax": "unit addGoggles type",
+    "description": "Create a new item and try to link it into goggles (glasses) slot. ⓘThis command does not add NVGs, which are hmd slot items (see linkItem instead).",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addGroupIcon",
+    "url": "https://community.bistudio.com/wiki/addGroupIcon",
+    "syntax": "group addGroupIcon [iconClass, offset]",
+    "description": "Adds icon to a group leader. Returns icon ID, Control icons visibility with setGroupIconsVisible. Since Arma 3 v2.22 the offset can be set separately for 2d and 3d.",
+    "parameters": [
+      {
+        "name": "group",
+        "type": "Group",
+        "description": "group to which add the icon"
+      },
+      {
+        "name": "iconClass",
+        "type": "string",
+        "description": "class name of an icon from CfgGroupIcons"
+      },
+      {
+        "name": "offset",
+        "type": "Array<number>",
+        "description": "(Optional, default [0,0]) X and Y offsets of the icon in format [offsetX, offsetY, (offsetX3d), (offsetY3d)]"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "icon ID"
+    }
+  },
+  {
+    "name": "addHandgunItem",
+    "url": "https://community.bistudio.com/wiki/addHandgunItem",
+    "syntax": "unit addHandgunItem item",
+    "description": "Adds weapon item, including magazine, directly to the handgunWeapon. This is used for infantry weapons.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addHeadgear",
+    "url": "https://community.bistudio.com/wiki/addHeadgear",
+    "syntax": "unit addHeadgear item",
+    "description": "Creates a headgear item and tries to link it to headgear slot. If slot is occupied with another item, the item in the slot will be replaced.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItem",
+    "url": "https://community.bistudio.com/wiki/addItem",
+    "syntax": "unit addItem item",
+    "description": "Creates new item and tries to add it into inventory. Inventory must have enough space to accomodate new item or command will fail.The item can also be a weapon or a magazine.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemCargo",
+    "url": "https://community.bistudio.com/wiki/addItemCargo",
+    "syntax": "box addItemCargo [item, count]",
+    "description": "Creates new items and stores them in given container. Works with items, weapons, magazines, equipment and glasses but not backpacks. In the latter case use addBackpackCargo instead. For the global variant, see addItemCargoGlobal.",
+    "parameters": [
+      {
+        "name": "box",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of items to add; a negative value removes items"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemCargoGlobal",
+    "url": "https://community.bistudio.com/wiki/addItemCargoGlobal",
+    "syntax": "box addItemCargoGlobal [item, count]",
+    "description": "Global variant of addItemCargo.",
+    "parameters": [
+      {
+        "name": "box",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of items to add. negative count will remove items."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemPool",
+    "url": "https://community.bistudio.com/wiki/addItemPool",
+    "syntax": "addItemPool [itemName, count]",
+    "description": "Adds count items of type name into the weapon pool (used in the campaign to transfer items to the next mission)",
+    "parameters": [
+      {
+        "name": "itemName",
+        "type": "string",
+        "description": "item name"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of items to add"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemToBackpack",
+    "url": "https://community.bistudio.com/wiki/addItemToBackpack",
+    "syntax": "unit addItemToBackpack item",
+    "description": "Create new item and store it to soldier's backpack. The item can also be a weapon or a magazine.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemToUniform",
+    "url": "https://community.bistudio.com/wiki/addItemToUniform",
+    "syntax": "unit addItemToUniform item",
+    "description": "Create new item and store it to soldier's uniform. The item can also be a weapon or a magazine.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addItemToVest",
+    "url": "https://community.bistudio.com/wiki/addItemToVest",
+    "syntax": "unit addItemToVest item",
+    "description": "Create new item and store it to soldier's vest. The item can also be a weapon or a magazine.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addLiveStats",
+    "url": "https://community.bistudio.com/wiki/addLiveStats",
+    "syntax": "unit addLiveStats score",
+    "description": "Adds score to the Xbox Live Statistics score for the given unit (or the commander unit of the given vehicle).",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "score",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazine",
+    "url": "https://community.bistudio.com/wiki/addMagazine",
+    "syntax": "unitName addMagazine magazineName",
+    "description": "Adds a magazine to a person. Infantry units can only carry a specific number of magazines, once the magazine slots are filled (or uniform/vest/bagpack are full in Arma 3), any further addMagazine commands are ignored. If class of magazine does not exist, an error message is printed in .rpt: player addMagazine \"dasdsa\"; // .rpt: Given magazine[dasdsa] not found ⓘUse addMagazine before addWeapon for the weapon to be loaded with the magazine automatically.",
+    "parameters": [
+      {
+        "name": "unitName",
+        "type": "GameObject",
+        "description": "person to add the magazines to"
+      },
+      {
+        "name": "magazineName",
+        "type": "string",
+        "description": "magazine name. See the topic Category:Weapons for reference about possible values."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazineAmmoCargo",
+    "url": "https://community.bistudio.com/wiki/addMagazineAmmoCargo",
+    "syntax": "cargospace addMagazineAmmoCargo [magazine, quantity, ammocount]",
+    "description": "Adds magazines with specified ammo count to the cargo space of a vehicle or a container.",
+    "parameters": [
+      {
+        "name": "cargospace",
+        "type": "GameObject",
+        "description": "vehicle or container or weaponholder"
+      },
+      {
+        "name": "magazine",
+        "type": "string",
+        "description": "magazine class name"
+      },
+      {
+        "name": "quantity",
+        "type": "number",
+        "description": "number of magazines to add. a negative value remove magazines"
+      },
+      {
+        "name": "ammocount",
+        "type": "number",
+        "description": "ammo count in each magazine"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazineCargo",
+    "url": "https://community.bistudio.com/wiki/addMagazineCargo",
+    "syntax": "vehicleName addMagazineCargo [magazineName, count]",
+    "description": "Add magazines to the cargo space of vehicles, which can be taken out by infantry units. Once the magazine cargo space is filled up, any further addMagazineCargo commands are ignored. In Arma 3, arguments for this command must be local (LALocal). For the global variant see addMagazineCargoGlobal.",
+    "parameters": [
+      {
+        "name": "vehicleName",
+        "type": "GameObject",
+        "description": "vehicle to add the magazines to"
+      },
+      {
+        "name": "magazineName",
+        "type": "string",
+        "description": "magazine name. See Category:Weapons for reference about possible values."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of magazines to add. negative count will remove magazines."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazineCargoGlobal",
+    "url": "https://community.bistudio.com/wiki/addMagazineCargoGlobal",
+    "syntax": "vehicleName addMagazineCargoGlobal [magazineName, count]",
+    "description": "Add magazines to the cargo space of vehicles, which can be taken out by infantry units. MP Synchronized",
+    "parameters": [
+      {
+        "name": "vehicleName",
+        "type": "GameObject",
+        "description": "vehicle to add the magazines to"
+      },
+      {
+        "name": "magazineName",
+        "type": "string",
+        "description": "magazine name. See Category:Weapons for reference about possible values."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of magazines to add. negative count will remove magazines."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazineGlobal",
+    "url": "https://community.bistudio.com/wiki/addMagazineGlobal",
+    "syntax": "unit addMagazineGlobal magazineName",
+    "description": "Adds magazine to a unit regardless of locality. This command can also be used to add magazine to a vehicle, like a static gun, for example.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "magazineName",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazinePool",
+    "url": "https://community.bistudio.com/wiki/addMagazinePool",
+    "syntax": "addMagazinePool [magazineName, count]",
+    "description": "Adds magazines to the magazine pool, of which the player may choose in the following mission. Available in campaigns only.",
+    "parameters": [
+      {
+        "name": "magazineName",
+        "type": "string",
+        "description": "magazine class name. See the topic Category:Weapons for reference about possible values."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of magazines to add"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazines",
+    "url": "https://community.bistudio.com/wiki/addMagazines",
+    "syntax": "unit addMagazines [magazineName, count]",
+    "description": "Adds multiple magazines to the unit. For cargo containers use addMagazineCargoGlobal command. ⓘThis command is meant to be used on human units. If used on vehicles, this command is LALocal GEGlobal.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject",
+        "description": "a soldier"
+      },
+      {
+        "name": "magazineName",
+        "type": "string"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "description": "number of magazines"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazinesTurret",
+    "url": "https://community.bistudio.com/wiki/addMagazinesTurret",
+    "syntax": "vehicle addMagazinesTurret [magazineName, turretPath, quantity]",
+    "description": "Adds given number of a magazine to the given turret. Use turret path [-1] for driver's turret.",
+    "parameters": [
+      {
+        "name": "vehicle",
+        "type": "GameObject"
+      },
+      {
+        "name": "magazineName",
+        "type": "string"
+      },
+      {
+        "name": "turretPath",
+        "type": "TurretPath"
+      },
+      {
+        "name": "quantity",
+        "type": "number",
+        "description": "desired number of the magazines"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMagazineTurret",
+    "url": "https://community.bistudio.com/wiki/addMagazineTurret",
+    "syntax": "vehicle addMagazineTurret [magazineName, turretPath]",
+    "description": "Adds a magazine to the turret. Use turret path [-1] for driver's turret. ⚠Invalid combinations may be created by using this command, for example by adding 20 grenades. In these cases, behaviour is undefined.",
+    "parameters": [
+      {
+        "name": "vehicle",
+        "type": "GameObject"
+      },
+      {
+        "name": "magazineName",
+        "type": "string"
+      },
+      {
+        "name": "turretPath",
+        "type": "TurretPath"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addMenu",
+    "url": "https://community.bistudio.com/wiki/addMenu",
+    "syntax": "map addMenu [text, priority]",
+    "description": "Adds a new menu button. Priority is optional. ⓘSome Old Editor Command",
+    "parameters": [
+      {
+        "name": "map",
+        "type": "Control"
+      },
+      {
+        "name": "text",
+        "type": "string"
+      },
+      {
+        "name": "priority",
+        "type": "number"
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "addMenuItem",
+    "url": "https://community.bistudio.com/wiki/addMenuItem",
+    "syntax": "map addMenuItem menuIndexTextCommandPriority",
+    "description": "Creates a new menu item. Menu can be \"file\" or \"view\",index is index,as returned from addMenu command. priority is optional and determines,where in the menu the item will reside (higher priority items first). ⓘSome Old Editor Command",
+    "parameters": [
+      {
+        "name": "map",
+        "type": "Control"
+      },
+      {
+        "name": "menuIndexTextCommandPriority",
+        "type": "Array<any>",
+        "description": "[menu or index, text, command, priority]"
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "addMissionEventHandler",
+    "url": "https://community.bistudio.com/wiki/addMissionEventHandler",
+    "syntax": "addMissionEventHandler [event, expression]",
+    "description": "Adds event handler attached to the current mission and returns event handler handle. For the list of available mission event handlers see: Arma 3: Mission Event Handlers",
+    "parameters": [
+      {
+        "name": "event",
+        "type": "string",
+        "description": "event name"
+      },
+      {
+        "name": "expression",
+        "type": "Function | string",
+        "description": "expression that will be executed in missionNamespace when event handler fires"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "the index of the currently added mission event handler is returned"
+    }
+  },
+  {
+    "name": "addMPEventHandler",
+    "url": "https://community.bistudio.com/wiki/addMPEventHandler",
+    "syntax": "object addMPEventHandler [type, expression]",
+    "description": "Adds a multiplayer event handler (EH) to the given object and returns EH handle. See Event Handlers. ⚠A Multiplayer Event Handler is not saved in a save file and therefore will not be restored on load - use it accordingly.",
+    "parameters": [
+      {
+        "name": "object",
+        "type": "GameObject",
+        "description": "object to monitor"
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "event handler name"
+      },
+      {
+        "name": "expression",
+        "type": "string | Function",
+        "description": "expression to execute"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "event handler index"
+    }
+  },
+  {
+    "name": "addMusicEventHandler",
+    "url": "https://community.bistudio.com/wiki/addMusicEventHandler",
+    "syntax": "addMusicEventHandler [type, function]",
+    "description": "Adds playMusic event handler. Returns id of the handler or -1 when failed. Like addMissionEventHandler, the music event handler is attached to the mission. See Arma 3: Event Handlers - Music Event Handlers.",
+    "parameters": [
+      {
+        "name": "type",
+        "type": "string",
+        "description": "\"MusicStart\" or \"MusicStop\""
+      },
+      {
+        "name": "fun",
+        "type": "string | Function",
+        "description": "handler; params array is [musicClassname, eventHandlerId, currentPosition, totalLength]"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "event handler id"
+    }
+  },
+  {
+    "name": "addonFiles",
+    "url": "https://community.bistudio.com/wiki/addonFiles",
+    "syntax": "addonFiles [prefix, fileExtension]",
+    "description": "Returns a list of files present in the addon. ⓘQuerying protected .ebo addons will return an empty array [].",
+    "parameters": [
+      {
+        "name": "prefix",
+        "type": "string",
+        "description": "addon prefix available from allAddonsInfo. Since it is possible to also return all files present in a scenario folder from within Eden Editor or Eden preview with the special prefix $mission"
+      },
+      {
+        "name": "fileExtension",
+        "type": "string",
+        "description": "(Optional) file extension to filter results, for example \".paa\""
+      }
+    ],
+    "returnValue": {
+      "type": "Array<string>"
+    }
+  },
+  {
+    "name": "addOwnedMine",
+    "url": "https://community.bistudio.com/wiki/addOwnedMine",
+    "syntax": "unit addOwnedMine mine",
+    "description": "Sets ownership of a remotely detonatable mine to a unit. If the unit is a player, an action that allows the player to detonate the mine is added to the action menu.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "mine",
+        "type": "GameObject",
+        "description": "the mine object"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addPlayerScores",
+    "url": "https://community.bistudio.com/wiki/addPlayerScores",
+    "syntax": "unit addPlayerScores values",
+    "description": "MP server only: Adds player score. Kill Type infantry soft armor air killed Score Points 1 2 3 5 -1",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "values",
+        "type": "[number, number, number, number, number]",
+        "description": "score values: [killsInfantry, killsSoft, killsArmor, killsAir, score]"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addPrimaryWeaponItem",
+    "url": "https://community.bistudio.com/wiki/addPrimaryWeaponItem",
+    "syntax": "unit addPrimaryWeaponItem item",
+    "description": "Adds weapon item, including magazine, directly to the primaryWeapon. This is used for infantry weapons.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {
+      "type": "void | boolean",
+      "description": "false is returned if item can not be added"
+    }
+  },
+  {
+    "name": "addPublicVariableEventHandler",
+    "url": "https://community.bistudio.com/wiki/addPublicVariableEventHandler",
+    "syntax": "addPublicVariableEventHandler [varName, code]",
+    "description": "This command is deprecated since 1.52 and the introduction of remoteExec and remoteExecCall. This event handler will detect if a missionNamespace variable (it is attached to) has been broadcast over network with publicVariable, publicVariableClient or publicVariableServer commands and will execute EH code upon detection. ⓘ\n• This EH works only in Multiplayer environment\n• There is no way to remove this EH\n• This EH will not fire on the machine that executed broadcast with publicVariable command, only on the machines that receive the broadcast\n• The value of broadcast variable can be exactly the same, it is the actual broadcast that triggers EH not the change in variable",
+    "parameters": [
+      {
+        "name": "varName",
+        "type": "string",
+        "description": "missionNamespace variable name"
+      },
+      {
+        "name": "code",
+        "type": "Function",
+        "description": "executed in missionNamespace; _this is [varName, value, target]"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addRating",
+    "url": "https://community.bistudio.com/wiki/addRating",
+    "syntax": "unitName addRating rating",
+    "description": "Add a number to the rating of a unit - negative values can be used to reduce the rating. This command is usually used to reward for completed mission objectives.The rating is given at the end of the mission and is automatically adjusted when killing enemies or friendlies. When the rating gets below -2000, the unit's side switches to sideEnemy and the unit is attacked by everyone. ⓘSee also ArmA: Armed Assault: Rating Values and Arma 3: Event Handlers - HandleRating.",
+    "parameters": [
+      {
+        "name": "unitName",
+        "type": "GameObject"
+      },
+      {
+        "name": "rating",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addResources",
+    "url": "https://community.bistudio.com/wiki/addResources",
+    "syntax": "teamMember addResources resourceN",
+    "description": "Adds resources to a team member.",
+    "parameters": [
+      {
+        "name": "teamMember",
+        "type": "TeamMember"
+      },
+      {
+        "name": "resourceN",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addScore",
+    "url": "https://community.bistudio.com/wiki/addScore",
+    "syntax": "unit addScore score",
+    "description": "Adds a number to the score of a unit. Negative values will remove from the score.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "score",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addScoreSide",
+    "url": "https://community.bistudio.com/wiki/addScoreSide",
+    "syntax": "side addScoreSide value",
+    "description": "Adds side score. This is shown in the MP score tab as the total score. MP only.",
+    "parameters": [
+      {
+        "name": "side",
+        "type": "Side"
+      },
+      {
+        "name": "value",
+        "type": "number"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addSecondaryWeaponItem",
+    "url": "https://community.bistudio.com/wiki/addSecondaryWeaponItem",
+    "syntax": "unit addSecondaryWeaponItem item",
+    "description": "Adds weapon item, including magazine, directly to the secondaryWeapon. This is used for infantry weapons.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "item",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addSwitchableUnit",
+    "url": "https://community.bistudio.com/wiki/addSwitchableUnit",
+    "syntax": "addSwitchableUnit unit",
+    "description": "Adds a unit to the list of units available for Team Switch. Units marked as playable in editor are automatically switchable. This command adds non-playable unit into array of switchableUnits and makes them available for teamSwitch. Singleplayer only!",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addTeamMember",
+    "url": "https://community.bistudio.com/wiki/addTeamMember",
+    "syntax": "team addTeamMember member",
+    "description": "Add given member to given team. Effect is local, unless both member and team are local to PC on which command is executed, then effect is global. The same Team Member can be member of several different teams at the same time.",
+    "parameters": [
+      {
+        "name": "team",
+        "type": "TeamMember"
+      },
+      {
+        "name": "member",
+        "type": "TeamMember"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addToRemainsCollector",
+    "url": "https://community.bistudio.com/wiki/addToRemainsCollector",
+    "syntax": "addToRemainsCollector remains",
+    "description": "Adds an array of vehicles/units to disposal manager for automatic wreck/body removal. The disposal manager follows wreck/body removal values set in description.ext",
+    "parameters": [
+      {
+        "name": "remains",
+        "type": "Array<GameObject>",
+        "description": "array of vehicles/units"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addTorque",
+    "url": "https://community.bistudio.com/wiki/addTorque",
+    "syntax": "object addTorque torque",
+    "description": "Applies torque (rotation momentum) to the center of mass of the given object. Torque force is defined as vector [x, y, z] applied in world space. If you need to define torque in model space, convert the torque vector first by vectorModelToWorld or vectorModelToWorldVisual command. The torque applied as impulse. Diagram below explain which way the object would rotate. For more information see NVIDIA docs ⓘA single application of torque would produce one impulse, which may not be enough. In this case consider applying a series of continuous impulses, for example to make a quad bike to roll forward: onEachFrame { quad addTorque (quad vectorModelToWorld [100,0,0]) }; ⚠This command doesn't follow convention for torque direction, which obeys right-hand rule. To comply, negate all values in the vector.",
+    "parameters": [
+      {
+        "name": "object",
+        "type": "GameObject",
+        "description": "PhysX object"
+      },
+      {
+        "name": "torque",
+        "type": "[number, number, number]",
+        "description": "world vector in format [x,y,z]"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addUniform",
+    "url": "https://community.bistudio.com/wiki/addUniform",
+    "syntax": "unit addUniform type",
+    "description": "Create a new uniform and try to link it into uniform slot (given uniform has to be supported by allowedUniforms list of target soldier). ⓘTo check if a uniform is allowed use isUniformAllowed, and to force an incompatible uniform use forceAddUniform.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addUserActionEventHandler",
+    "url": "https://community.bistudio.com/wiki/addUserActionEventHandler",
+    "syntax": "addUserActionEventHandler [keyName, event, expression]",
+    "description": "Adds a user action event handler to the current mission and returns its event handler index.",
+    "parameters": [
+      {
+        "name": "keyName",
+        "type": "string",
+        "description": "action key name - see inputAction/actions"
+      },
+      {
+        "name": "event",
+        "type": "string",
+        "description": "event name - see UserAction Event Handlers. Can be one of:"
+      },
+      {
+        "name": "expression",
+        "type": "Function",
+        "description": "expression that will be executed in missionNamespace when event handler fires."
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "the index of the currently added UserAction event handler is returned"
+    }
+  },
+  {
+    "name": "addVehicle",
+    "url": "https://community.bistudio.com/wiki/addVehicle",
+    "syntax": "groupName addVehicle vehicleName",
+    "description": "Adds a specified vehicle for use by a specified AI led group. ⓘSee AI Group Vehicle Management for more information.",
+    "parameters": [
+      {
+        "name": "groupName",
+        "type": "Group"
+      },
+      {
+        "name": "vehicleName",
+        "type": "GameObject"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addVest",
+    "url": "https://community.bistudio.com/wiki/addVest",
+    "syntax": "unit addVest type",
+    "description": "Create a new vest and try to link it into vest slot.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject"
+      },
+      {
+        "name": "type",
+        "type": "string"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "addWaypoint",
+    "url": "https://community.bistudio.com/wiki/addWaypoint",
+    "syntax": "groupName addWaypoint [center, radius, index, name]",
+    "description": "Adds (or inserts when index is given) a new waypoint to a group. The waypoint is placed randomly within a circle with the given center and radius. ⓘFor older titles and prior to Arma 3 v1.90, use setWaypointPosition if you need exact waypoint placement.",
+    "parameters": [
+      {
+        "name": "groupName",
+        "type": "Group"
+      },
+      {
+        "name": "center",
+        "type": "[number, number, number] | GameObject",
+        "description": "PositionAGL (PositionASL if radius is negative) or Object"
+      },
+      {
+        "name": "radius",
+        "type": "number",
+        "description": "random waypoint placement within radius from center; -1 for exact placement"
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "description": "(Optional, default -1) insert at this position; if invalid, appended at end"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "(Optional, default \"\") waypointName"
+      }
+    ],
+    "returnValue": {
+      "type": "Waypoint"
+    }
+  }
+]

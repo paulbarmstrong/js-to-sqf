@@ -1,0 +1,122 @@
+[
+	{
+		"name": "GameObject",
+		"description": "Object refers to a building block within a scenario. In general when using this term the author refers to the representation of an object (soldier, house, crate, etc.) that can be manipulated when in the 3D environment via the scripting language. As there is a special representation that is used in the mission editor, one might distinguish between a 'game object' (this article) and an 'editor object' (see Editor Object).",
+		"url": "https://community.bistudio.com/wiki/Object"
+	},
+	{
+		"name": "Group",
+		"description": "A group is its own data type in the scripting language. All units belong to a group. If units are linked together in the editor, they are all part of the same group. If a unit is not linked to anyone else, then it belongs to its own group.",
+		"url": "https://community.bistudio.com/wiki/Group"
+	},
+	{
+		"name": "TurretPath",
+		"description": "A Turret Path is an Array of Numbers that determines a turret seat's \"path\", a turret being able to have a turret that has a turret etc.",
+		"url": "https://community.bistudio.com/wiki/Turret_Path"
+	},
+	{
+		"name": "Team",
+		"description": "A team",
+		"url": "https://community.bistudio.com/wiki/Team"
+	},
+	{
+		"name": "TeamMember",
+		"description": "A member of a `Team`.",
+		"url": "https://community.bistudio.com/wiki/Team_Member"
+	},
+	{
+		"name": "Control",
+		"description": "Control UI object.",
+		"url": "https://community.bistudio.com/wiki/Control"
+	},
+	{
+		"name": "DiaryRecord",
+		"description": "A Diary Record is created by createDiaryRecord.",
+		"url": "https://community.bistudio.com/wiki/Diary_Record"
+	},
+	{
+		"name": "Side",
+		"description": "Data type representing a side.",
+		"url": "https://community.bistudio.com/wiki/Side"
+	},
+	{
+		"name": "Display",
+		"description": "Display is a UI object that holds Dialogs and Controls. Similar to how controls are identified by IDCs, displays and dialogs are identified by IDDs. If the IDD is available, displays (and dialogs) can be accessed with findDisplay. The existence of a distinction between displays and dialogs becomes apparent at time of creation and closing. A display uses the functions createDisplay and closeDisplay, whereas a dialog uses createDialog and closeDialog.",
+		"url": "https://community.bistudio.com/wiki/Display"
+	},
+	{
+		"name": "Namespace",
+		"description": "A Namespace is a container for Variables. Any global variable is always part of exactly one namespace - another namespace may contain a variable with the same Identifier, but they remain two distinct independent variables. Scripts and functions are always executed in the context of some namespace.",
+		"url": "https://community.bistudio.com/wiki/Namespace"
+	},
+	{
+		"name": "Waypoint",
+		"description": "Group is of type Group, index is of type Number.",
+		"url": "https://community.bistudio.com/wiki/Waypoint",
+		"type": "[Group, number]"
+	},
+	{
+		"name": "StructuredText",
+		"description": "Structured Text is a Data Type that has been introduced with Armed Assault. It is a rich text, which is able to include images and formatting. It can be created using XML-like syntax, as seen below. However, using XML-like syntax alone is not going to turn a normal string into structured text, it should be converted to TEXT first.",
+		"url": "https://community.bistudio.com/wiki/Structured_Text"
+	},
+	{
+		"name": "EdenEntity",
+		"description": "Eden Entity is an entity which can be created, edited or deleted in the Eden Editor.",
+		"url": "https://community.bistudio.com/wiki/Eden_Entity"
+	},
+	{
+		"name": "Postition2D",
+		"description": "2D position.",
+		"url": "https://community.bistudio.com/wiki/Position#Position2D",
+		"type": "[number, number]"
+	},
+	{
+		"name": "PositionASL",
+		"description": "\"Above Sea Level\" 3D position. Z is measured from the sea level which is constant across the map.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionASL",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionASLW",
+		"description": "\"Above Sea Level including Waves\" 3D position. Z is measured from the surface of water at that position. Both waves and pond objects affect the result.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionASLW",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionATL",
+		"description": "\"Above Terrain Level\" 3D position. Z is measured from the terrain level which varies across the map.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionATL",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionAGL",
+		"description": "\"Above Ground Level\" 3D position. Z is the same as in PositionASLW when over sea and is the same as in PositionATL when over land. Most commands either take or return PositionAGL.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionAGL",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionAGLS",
+		"description": "\"Above Ground Level including Surfaces\" 3D position. Over land, Z is measured as height over terrain level minus the height of surface over terrain level underneath. If such surface exists and is counted in, the resulting Z becomes 0.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionAGLS",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionWorld",
+		"description": "Similar to PositionASL, however Z is measured from the sea level to the the model centre [0, 0, 0] of the object, rather than transformed boundingCenter or land contact vertices.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionWorld",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionRelative",
+		"description": "Relative position is normally an [X, Y, Z] offset from the model centre.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionRelative",
+		"type": "[number, number, number]"
+	},
+	{
+		"name": "PositionConfig",
+		"description": "The format used in configs, such as mission.sqm, is [X, Z, Y], where Z and Y are swapped around. One other command that uses this format is positionCameraToWorld. Z in configs is measured from the sea level.",
+		"url": "https://community.bistudio.com/wiki/Position#PositionConfig",
+		"type": "[number, number, number]"
+	}
+]

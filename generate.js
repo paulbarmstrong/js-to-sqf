@@ -1,33 +1,10 @@
 import { readFile, writeFile } from "fs/promises"
 import { exit } from "process"
 
-const COMMAND_OVERRIDES = {
-	"acos": {
-		parameters: [
-			{name: "x", type: "Number", description: "Number in range -1..+1 - any other value returns NaN"}
-		]
-	}
-}
+const dataTypes = JSON.parse(await readFile("sqf-data-types.json"))
+const commands = JSON.parse(await readFile("enhanced-sqf-commands.json"))
 
-const singularize = { Numbers: "Number", Strings: "String", Objects: "Object", Booleans: "Boolean", Arrays: "Array" }
-
-const commands = JSON.parse(await readFile("commands.json"))
-	.filter(command => !["+", "-"].includes(command.name) && !command.name.includes(" "))
-
-commands.forEach(command => {
-	command.parameters = COMMAND_OVERRIDES[command.name]?.parameters ?? command.parameters.map(parameter => {
-		const [, name, type, description] = parameter
-			.replaceAll(" or 2.10 ", "|")
-			.replaceAll("Team Member", "TeamMember")
-			.replaceAll(/Array of (\w+)/gi, (_, type) => `Array<${singularize[type] ?? type}>`)
-			.match(/^\s*(\w+)\s*:\s*([\w<>|]+)(?:\s*-\s*(.+))?\s*$/)
-		return {name, type, description}
-	})
-})
-
-const output = `declare class GameObject {}
-
-export interface MissionDefinition {
+const output = `export interface MissionDefinition {
 	init?: () => void
 	initServer?: () => void
 	initPlayerLocal?: (player: GameObject, didJIP: boolean) => void
@@ -37,6 +14,14 @@ export function defineMission(def: MissionDefinition): MissionDefinition {
 	return def
 }
 
+${dataTypes.map(dataType => {
+	return `/**
+${wrapText(dataType.description, 80).map(text => ` * ${text}`).join("\n")}
+ * @see {@link ${dataType.url}}
+ */
+${dataType.type !== undefined ? `export type ${dataType.name} = ${dataType.type}` : `declare class ${dataType.name} {}`}
+`
+}).join("\n")}
 export namespace bis {
 	export function crewCount(className: string, includeCargoSeats: boolean): number
 }
@@ -48,22 +33,37 @@ export namespace diag {
 ${
 	commands
 		.map(command => {
-			const description = command.description.includes("Description needed") ? (
-				`Represents the SQF \`${command.name}\` command.`
-			) : (
-				command.description
-			)
 			return `/**
-${wrapText(description, 80).map(text => ` * ${text}`).join("\n")}
+${wrapText(command.description ?? `Represents the SQF \`${command.name}\` command.`, 80).map(text => ` * ${text}`).join("\n")}
  *
 ${
 	command.parameters.filter(parameter => parameter.description !== undefined).map(parameter => {
-		return ` * @param ${parameter.name} - ${parameter.description}`
-	})
-}
- * @see {@link ${command.url}}
+		const wrappedDescription = wrapText(parameter.description, 80)
+			.map((line, index) => index === 0 ? line : ` * ${line}`)
+			.join("\n")
+		return ` * @param ${parameter.name} - ${wrappedDescription}\n`
+	}).join("")
+}${command.returnValue.type === undefined ? "" : ` * @returns ${command.returnValue.description ?? (typeof command.returnValue.type === "string" ? command.returnValue.type : "")}${typeof command.returnValue.type === "string" ? "" : command.returnValue.type.map(returnElement => {
+	return ` * ${returnElement.name ? ` - ${returnElement.name}` : ""} - ${returnElement.description ?? returnElement.type}`
+}).join("\n")}\n`} * @see {@link ${command.url}}
  */
-export function ${command.name}(): void
+export function ${command.name}(${
+	command.parameters.map(parameter => `${parameter.name}${parameter.optional ? "?" : ""}: ${parameter.type}`).join(", ")
+}): ${(() => {
+		if (command.returnValue.type === undefined) {
+			return "void"
+		} else if (typeof command.returnValue.type === "string") {
+			return command.returnValue.type
+		} else {
+			return `[${command.returnValue.type.map(returnElement => {
+				if (returnElement.name !== undefined) {
+					return `${returnElement.name}: ${returnElement.type}`
+				} else {
+					return returnElement.type
+				}
+			}).join(", ")}]`
+		}
+	})()}
 `})
 		.join("\n")
 }
@@ -75,22 +75,22 @@ function wrapText(text, maxWidth) {
 	const lines = []
 
 	for (const paragraph of text.split("\n")) {
-		const wordList = paragraph.split(/\s+/).filter(Boolean)
-		let currentLine = ""
-
-		for (const word of wordList) {
-			const candidate = currentLine ? `${currentLine} ${word}` : word
-
-			if (candidate.length > maxWidth) {
-				if (currentLine) lines.push(currentLine)
-				currentLine = word
-			} else {
-				currentLine = candidate
-			}
+		if (paragraph.length <= maxWidth) {
+			lines.push(paragraph)
+			continue
 		}
 
-		if (currentLine) lines.push(currentLine)
-		if (wordList.length === 0) lines.push("") // preserve blank lines
+		const indent = paragraph.match(/^\s*/)[0]
+		let remaining = paragraph
+
+		while (remaining.length > maxWidth) {
+			const breakAt = remaining.slice(0, maxWidth + 1).lastIndexOf(" ")
+			if (breakAt <= indent.length) break
+			lines.push(remaining.slice(0, breakAt))
+			remaining = indent + remaining.slice(breakAt + 1)
+		}
+
+		lines.push(remaining)
 	}
 
 	return lines

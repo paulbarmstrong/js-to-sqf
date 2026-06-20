@@ -1,0 +1,21 @@
+[
+	"-",
+	"! a",
+	"+",
+	"a : b",
+	"a != b",
+	"a * b",
+	"a / b",
+	"a && b",
+	"a % b",
+	"a ^ b",
+	"a = b",
+	"a == b",
+	"a greater b",
+	"a greater= b",
+	"a hash b",
+	"a less b",
+	"a less= b",
+	"a or b",
+	"switch"
+]
