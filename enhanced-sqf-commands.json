@@ -7,7 +7,8 @@
     "parameters": [
       {
         "name": "x",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -33,6 +34,7 @@
       {
         "name": "x",
         "type": "number",
+        "optional": false,
         "description": "any other value returns NaN"
       }
     ],
@@ -48,11 +50,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "actionArray",
-        "type": "Array<any>"
+        "type": "Array<any>",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -65,6 +69,7 @@
       {
         "name": "entity",
         "type": "GameObject",
+        "optional": false,
         "description": "entity with added user actions"
       }
     ],
@@ -81,7 +86,8 @@
     "parameters": [
       {
         "name": "userAction",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -97,6 +103,7 @@
       {
         "name": "userAction",
         "type": "string",
+        "optional": false,
         "description": "user action name (see inputAction/actions)"
       }
     ],
@@ -129,7 +136,8 @@
     "parameters": [
       {
         "name": "userAction",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -144,7 +152,8 @@
     "parameters": [
       {
         "name": "userAction",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -160,6 +169,7 @@
       {
         "name": "userAction",
         "type": "string",
+        "optional": false,
         "description": "name of the action"
       }
     ],
@@ -175,7 +185,8 @@
     "parameters": [
       {
         "name": "action",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -190,11 +201,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "actionArray",
-        "type": "Array<any>"
+        "type": "Array<any>",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -208,11 +221,13 @@
       {
         "name": "entity",
         "type": "GameObject",
+        "optional": false,
         "description": "entity with added user actions"
       },
       {
         "name": "id",
         "type": "number",
+        "optional": false,
         "description": "id of existing user action (returned by addAction or actionIDs)"
       }
     ],
@@ -298,7 +313,8 @@
     "parameters": [
       {
         "name": "addonsList",
-        "type": "Array<string>"
+        "type": "Array<string>",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -321,7 +337,8 @@
     "parameters": [
       {
         "name": "keyname",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -335,6 +352,7 @@
       {
         "name": "layer",
         "type": "number",
+        "optional": false,
         "description": "layer number or -1 (see allActiveTitleEffects)"
       }
     ],
@@ -342,7 +360,7 @@
       "description": "array with [type, effect, speed, showInMap], or empty array",
       "type": [
         {
-          "name": "type",
+          "name": "effectType",
           "type": "string",
           "description": "type of effect: \"OBJ\", \"RSC\", or \"TXT\""
         },
@@ -373,16 +391,19 @@
       {
         "name": "type",
         "type": "string",
+        "optional": false,
         "description": "connection class from \"Cfg3DEN\" >> \"Connections\":"
       },
       {
         "name": "from",
         "type": "Array<EdenEntity>",
+        "optional": false,
         "description": "entities which are being connected"
       },
       {
         "name": "to",
         "type": "EdenEntity",
+        "optional": false,
         "description": "entity to which entities will be connected to"
       }
     ],
@@ -400,11 +421,13 @@
       {
         "name": "type",
         "type": "string",
+        "optional": false,
         "description": "see Eden Editor Event Handler"
       },
       {
         "name": "code",
         "type": "Function",
+        "optional": false,
         "description": "event handler code; _this = event parameters, _thisEvent = event type, _thisEventHandler = handler index"
       }
     ],
@@ -415,17 +438,19 @@
   {
     "name": "add3DENLayer",
     "url": "https://community.bistudio.com/wiki/add3DENLayer",
-    "syntax": "add3DENLayer [parentLayerID, name]",
+    "syntax": "parentLayerID add3DENLayer name",
     "description": "Adds an editing layer in Eden Editor.",
     "parameters": [
       {
         "name": "parentLayerID",
         "type": "number",
+        "optional": false,
         "description": "ID of the parent layer. No layer will be created when the ID does not point to a layer. Use -1 to create the layer to root."
       },
       {
         "name": "name",
         "type": "string",
+        "optional": false,
         "description": "layer display name"
       }
     ],
@@ -437,22 +462,25 @@
   {
     "name": "addAction",
     "url": "https://community.bistudio.com/wiki/addAction",
-    "syntax": "object addAction [title, script]",
+    "syntax": "object addAction [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, positionInModel, radius, radiusView, showIn3D, available, textDefault, textToolTip]",
     "description": "Adds an entry to the action menu of an object. The action can only be activated when in proximity to the object and looking at it. Adding an action to the player makes that action available to the player at all times. For event handling of user interaction see inGameUISetEventHandler.",
     "parameters": [
       {
         "name": "object",
         "type": "GameObject",
+        "optional": false,
         "description": "unit, vehicle or static object; no agents"
       },
       {
         "name": "title",
         "type": "string",
+        "optional": false,
         "description": "the action name displayed in the action menu; may contain Structured Text"
       },
       {
         "name": "script",
         "type": "string | Function",
+        "optional": false,
         "description": "path to script file relative to mission folder, or code to execute"
       }
     ],
@@ -469,11 +497,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "backpackClassName",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -487,16 +517,19 @@
       {
         "name": "vehicle",
         "type": "GameObject",
+        "optional": false,
         "description": "vehicle to add the backpack to"
       },
       {
         "name": "backpackClassName",
         "type": "string",
+        "optional": false,
         "description": "backpack classname"
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of backpacks to add. negative count will remove backpacks."
       }
     ],
@@ -511,16 +544,19 @@
       {
         "name": "vehicle",
         "type": "GameObject",
+        "optional": false,
         "description": "object to add the Backpack to"
       },
       {
         "name": "packClassName",
         "type": "string",
+        "optional": false,
         "description": "see the topic Category:Weapons for reference about possible values."
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of backpacks to add; a negative value will remove backpacks."
       }
     ],
@@ -535,11 +571,13 @@
       {
         "name": "unit",
         "type": "GameObject",
+        "optional": false,
         "description": "soldier"
       },
       {
         "name": "backpack",
         "type": "string",
+        "optional": false,
         "description": "backpack class name"
       }
     ],
@@ -553,11 +591,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -571,16 +611,19 @@
       {
         "name": "power",
         "type": "number",
+        "optional": false,
         "description": "strength of shake (camera movement), practical range is 0 to 20"
       },
       {
         "name": "duration",
         "type": "number",
+        "optional": false,
         "description": "duration in seconds divided by 2"
       },
       {
         "name": "frequency",
         "type": "number",
+        "optional": false,
         "description": "frequency of shake, practical range is 0 to 100"
       }
     ],
@@ -595,11 +638,13 @@
       {
         "name": "curatorObj",
         "type": "GameObject",
+        "optional": false,
         "description": "curator module."
       },
       {
         "name": "addons",
         "type": "Array<string>",
+        "optional": false,
         "description": "CfgPatches class names"
       }
     ],
@@ -614,19 +659,23 @@
       {
         "name": "curatorObj",
         "type": "GameObject",
+        "optional": false,
         "description": "curator module."
       },
       {
         "name": "cameraAreaID",
-        "type": "number"
+        "type": "number",
+        "optional": false
       },
       {
         "name": "position",
-        "type": "[number, number, number]"
+        "type": "[number, number, number]",
+        "optional": false
       },
       {
         "name": "radius",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -640,15 +689,18 @@
       {
         "name": "curatorObj",
         "type": "GameObject",
+        "optional": false,
         "description": "curator module"
       },
       {
         "name": "objects",
-        "type": "Array<GameObject>"
+        "type": "Array<GameObject>",
+        "optional": false
       },
       {
         "name": "addCrew",
-        "type": "boolean"
+        "type": "boolean",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -662,19 +714,23 @@
       {
         "name": "curatorObj",
         "type": "GameObject",
+        "optional": false,
         "description": "curator module."
       },
       {
         "name": "editAreaID",
-        "type": "number"
+        "type": "number",
+        "optional": false
       },
       {
         "name": "position",
-        "type": "[number, number, number]"
+        "type": "[number, number, number]",
+        "optional": false
       },
       {
         "name": "radius",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -688,11 +744,13 @@
       {
         "name": "curatorObj",
         "type": "GameObject",
+        "optional": false,
         "description": "curator module."
       },
       {
         "name": "points",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -706,6 +764,7 @@
       {
         "name": "items",
         "type": "Array<any>",
+        "optional": false,
         "description": "items to add; items can be an Object, Group, Waypoint, or String (marker)"
       }
     ],
@@ -714,16 +773,18 @@
   {
     "name": "addEditorObject",
     "url": "https://community.bistudio.com/wiki/addEditorObject",
-    "syntax": "map addEditorObject typeNameSubtypeConfig",
+    "syntax": "map addEditorObject [type,[name1,value1,...],subtype class]",
     "description": "Add an object to the editor and assign arguments. Create script is,called with _new equal to true. Returns the ID of the new EditorObject.,Subtype class is optional. ⓘSome Old Editor Command",
     "parameters": [
       {
         "name": "map",
-        "type": "Control"
+        "type": "Control",
+        "optional": false
       },
       {
         "name": "typeNameSubtypeConfig",
         "type": "Array<any>",
+        "optional": false,
         "description": "[type, [name1, value1, ...], subtypeClass]"
       }
     ],
@@ -739,16 +800,19 @@
     "parameters": [
       {
         "name": "target",
-        "type": "GameObject | Group"
+        "type": "GameObject | Group",
+        "optional": false
       },
       {
         "name": "type",
         "type": "string",
+        "optional": false,
         "description": "see Event Handlers for the full list of available options"
       },
       {
         "name": "code",
         "type": "Function | string",
+        "optional": false,
         "description": "code that should be executed when the Event Handler fires"
       }
     ],
@@ -760,22 +824,25 @@
   {
     "name": "addForce",
     "url": "https://community.bistudio.com/wiki/addForce",
-    "syntax": "object addForce [force, position]",
+    "syntax": "object addForce [force, position, setUnconscious]",
     "description": "Applies given force for one frame (essentially an impulse) to unit or given PhysX object at given position. ⓘFor more information see NVIDIA docs.",
     "parameters": [
       {
         "name": "object",
         "type": "GameObject",
+        "optional": false,
         "description": "PhysX object or unit (must be local; will be set unconscious)"
       },
       {
         "name": "force",
         "type": "[number, number, number]",
+        "optional": false,
         "description": "force vector in world space in newton-seconds"
       },
       {
         "name": "position",
         "type": "[number, number, number]",
+        "optional": false,
         "description": "position relative to object"
       }
     ],
@@ -789,7 +856,8 @@
     "parameters": [
       {
         "name": "parameters",
-        "type": "Array<any>"
+        "type": "Array<any>",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -805,11 +873,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "type",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -823,16 +893,19 @@
       {
         "name": "group",
         "type": "Group",
+        "optional": false,
         "description": "group to which add the icon"
       },
       {
         "name": "iconClass",
         "type": "string",
+        "optional": false,
         "description": "class name of an icon from CfgGroupIcons"
       },
       {
         "name": "offset",
         "type": "Array<number>",
+        "optional": true,
         "description": "(Optional, default [0,0]) X and Y offsets of the icon in format [offsetX, offsetY, (offsetX3d), (offsetY3d)]"
       }
     ],
@@ -849,11 +922,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -866,11 +941,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -883,11 +960,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -900,15 +979,18 @@
     "parameters": [
       {
         "name": "box",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of items to add; a negative value removes items"
       }
     ],
@@ -922,15 +1004,18 @@
     "parameters": [
       {
         "name": "box",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of items to add. negative count will remove items."
       }
     ],
@@ -945,11 +1030,13 @@
       {
         "name": "itemName",
         "type": "string",
+        "optional": false,
         "description": "item name"
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of items to add"
       }
     ],
@@ -963,11 +1050,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -980,11 +1069,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -997,11 +1088,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1014,11 +1107,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "score",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1026,17 +1121,19 @@
   {
     "name": "addMagazine",
     "url": "https://community.bistudio.com/wiki/addMagazine",
-    "syntax": "unitName addMagazine magazineName",
+    "syntax": "unitName addMagazine magazineName LALocalGEGlobal",
     "description": "Adds a magazine to a person. Infantry units can only carry a specific number of magazines, once the magazine slots are filled (or uniform/vest/bagpack are full in Arma 3), any further addMagazine commands are ignored. If class of magazine does not exist, an error message is printed in .rpt: player addMagazine \"dasdsa\"; // .rpt: Given magazine[dasdsa] not found ⓘUse addMagazine before addWeapon for the weapon to be loaded with the magazine automatically.",
     "parameters": [
       {
         "name": "unitName",
         "type": "GameObject",
+        "optional": false,
         "description": "person to add the magazines to"
       },
       {
         "name": "magazineName",
         "type": "string",
+        "optional": false,
         "description": "magazine name. See the topic Category:Weapons for reference about possible values."
       }
     ],
@@ -1051,21 +1148,25 @@
       {
         "name": "cargospace",
         "type": "GameObject",
+        "optional": false,
         "description": "vehicle or container or weaponholder"
       },
       {
         "name": "magazine",
         "type": "string",
+        "optional": false,
         "description": "magazine class name"
       },
       {
         "name": "quantity",
         "type": "number",
+        "optional": false,
         "description": "number of magazines to add. a negative value remove magazines"
       },
       {
         "name": "ammocount",
         "type": "number",
+        "optional": false,
         "description": "ammo count in each magazine"
       }
     ],
@@ -1080,16 +1181,19 @@
       {
         "name": "vehicleName",
         "type": "GameObject",
+        "optional": false,
         "description": "vehicle to add the magazines to"
       },
       {
         "name": "magazineName",
         "type": "string",
+        "optional": false,
         "description": "magazine name. See Category:Weapons for reference about possible values."
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of magazines to add. negative count will remove magazines."
       }
     ],
@@ -1104,16 +1208,19 @@
       {
         "name": "vehicleName",
         "type": "GameObject",
+        "optional": false,
         "description": "vehicle to add the magazines to"
       },
       {
         "name": "magazineName",
         "type": "string",
+        "optional": false,
         "description": "magazine name. See Category:Weapons for reference about possible values."
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of magazines to add. negative count will remove magazines."
       }
     ],
@@ -1127,11 +1234,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "magazineName",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1145,11 +1254,13 @@
       {
         "name": "magazineName",
         "type": "string",
+        "optional": false,
         "description": "magazine class name. See the topic Category:Weapons for reference about possible values."
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of magazines to add"
       }
     ],
@@ -1164,15 +1275,18 @@
       {
         "name": "unit",
         "type": "GameObject",
+        "optional": false,
         "description": "a soldier"
       },
       {
         "name": "magazineName",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "count",
         "type": "number",
+        "optional": false,
         "description": "number of magazines"
       }
     ],
@@ -1186,19 +1300,23 @@
     "parameters": [
       {
         "name": "vehicle",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "magazineName",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "turretPath",
-        "type": "TurretPath"
+        "type": "TurretPath",
+        "optional": false
       },
       {
         "name": "quantity",
         "type": "number",
+        "optional": false,
         "description": "desired number of the magazines"
       }
     ],
@@ -1207,20 +1325,29 @@
   {
     "name": "addMagazineTurret",
     "url": "https://community.bistudio.com/wiki/addMagazineTurret",
-    "syntax": "vehicle addMagazineTurret [magazineName, turretPath]",
+    "syntax": "vehicle addMagazineTurret [magazineName, turretPath, ammoCount]",
     "description": "Adds a magazine to the turret. Use turret path [-1] for driver's turret. ⚠Invalid combinations may be created by using this command, for example by adding 20 grenades. In these cases, behaviour is undefined.",
     "parameters": [
       {
         "name": "vehicle",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "magazineName",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "turretPath",
-        "type": "TurretPath"
+        "type": "TurretPath",
+        "optional": false
+      },
+      {
+        "name": "ammoCount",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional, default 0) desired ammo count"
       }
     ],
     "returnValue": {}
@@ -1233,15 +1360,18 @@
     "parameters": [
       {
         "name": "map",
-        "type": "Control"
+        "type": "Control",
+        "optional": false
       },
       {
         "name": "text",
-        "type": "string"
+        "type": "string",
+        "optional": false
       },
       {
         "name": "priority",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -1251,16 +1381,18 @@
   {
     "name": "addMenuItem",
     "url": "https://community.bistudio.com/wiki/addMenuItem",
-    "syntax": "map addMenuItem menuIndexTextCommandPriority",
+    "syntax": "map addMenuItem [menu or index,text,command,priority]",
     "description": "Creates a new menu item. Menu can be \"file\" or \"view\",index is index,as returned from addMenu command. priority is optional and determines,where in the menu the item will reside (higher priority items first). ⓘSome Old Editor Command",
     "parameters": [
       {
         "name": "map",
-        "type": "Control"
+        "type": "Control",
+        "optional": false
       },
       {
         "name": "menuIndexTextCommandPriority",
         "type": "Array<any>",
+        "optional": false,
         "description": "[menu or index, text, command, priority]"
       }
     ],
@@ -1271,17 +1403,19 @@
   {
     "name": "addMissionEventHandler",
     "url": "https://community.bistudio.com/wiki/addMissionEventHandler",
-    "syntax": "addMissionEventHandler [event, expression]",
+    "syntax": "addMissionEventHandler [event, expression, arguments]",
     "description": "Adds event handler attached to the current mission and returns event handler handle. For the list of available mission event handlers see: Arma 3: Mission Event Handlers",
     "parameters": [
       {
         "name": "event",
         "type": "string",
+        "optional": false,
         "description": "event name"
       },
       {
         "name": "expression",
         "type": "Function | string",
+        "optional": false,
         "description": "expression that will be executed in missionNamespace when event handler fires"
       }
     ],
@@ -1299,16 +1433,19 @@
       {
         "name": "object",
         "type": "GameObject",
+        "optional": false,
         "description": "object to monitor"
       },
       {
         "name": "type",
         "type": "string",
+        "optional": false,
         "description": "event handler name"
       },
       {
         "name": "expression",
         "type": "string | Function",
+        "optional": false,
         "description": "expression to execute"
       }
     ],
@@ -1326,11 +1463,13 @@
       {
         "name": "type",
         "type": "string",
+        "optional": false,
         "description": "\"MusicStart\" or \"MusicStop\""
       },
       {
-        "name": "fun",
+        "name": "handler",
         "type": "string | Function",
+        "optional": false,
         "description": "handler; params array is [musicClassname, eventHandlerId, currentPosition, totalLength]"
       }
     ],
@@ -1348,11 +1487,13 @@
       {
         "name": "prefix",
         "type": "string",
+        "optional": false,
         "description": "addon prefix available from allAddonsInfo. Since it is possible to also return all files present in a scenario folder from within Eden Editor or Eden preview with the special prefix $mission"
       },
       {
         "name": "fileExtension",
         "type": "string",
+        "optional": true,
         "description": "(Optional) file extension to filter results, for example \".paa\""
       }
     ],
@@ -1368,11 +1509,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "mine",
         "type": "GameObject",
+        "optional": false,
         "description": "the mine object"
       }
     ],
@@ -1386,11 +1529,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "values",
         "type": "[number, number, number, number, number]",
+        "optional": false,
         "description": "score values: [killsInfantry, killsSoft, killsArmor, killsAir, score]"
       }
     ],
@@ -1404,11 +1549,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {
@@ -1419,17 +1566,19 @@
   {
     "name": "addPublicVariableEventHandler",
     "url": "https://community.bistudio.com/wiki/addPublicVariableEventHandler",
-    "syntax": "addPublicVariableEventHandler [varName, code]",
+    "syntax": "varName addPublicVariableEventHandler code",
     "description": "This command is deprecated since 1.52 and the introduction of remoteExec and remoteExecCall. This event handler will detect if a missionNamespace variable (it is attached to) has been broadcast over network with publicVariable, publicVariableClient or publicVariableServer commands and will execute EH code upon detection. ⓘ\n• This EH works only in Multiplayer environment\n• There is no way to remove this EH\n• This EH will not fire on the machine that executed broadcast with publicVariable command, only on the machines that receive the broadcast\n• The value of broadcast variable can be exactly the same, it is the actual broadcast that triggers EH not the change in variable",
     "parameters": [
       {
         "name": "varName",
         "type": "string",
+        "optional": false,
         "description": "missionNamespace variable name"
       },
       {
         "name": "code",
         "type": "Function",
+        "optional": false,
         "description": "executed in missionNamespace; _this is [varName, value, target]"
       }
     ],
@@ -1443,11 +1592,13 @@
     "parameters": [
       {
         "name": "unitName",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "rating",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1455,16 +1606,18 @@
   {
     "name": "addResources",
     "url": "https://community.bistudio.com/wiki/addResources",
-    "syntax": "teamMember addResources resourceN",
+    "syntax": "teamMember addResources [resource1, resource2, ...]",
     "description": "Adds resources to a team member.",
     "parameters": [
       {
         "name": "teamMember",
-        "type": "TeamMember"
+        "type": "TeamMember",
+        "optional": false
       },
       {
         "name": "resourceN",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1477,11 +1630,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "score",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1494,11 +1649,13 @@
     "parameters": [
       {
         "name": "side",
-        "type": "Side"
+        "type": "Side",
+        "optional": false
       },
       {
         "name": "value",
-        "type": "number"
+        "type": "number",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1511,11 +1668,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "item",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1528,7 +1687,8 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1541,11 +1701,13 @@
     "parameters": [
       {
         "name": "team",
-        "type": "TeamMember"
+        "type": "TeamMember",
+        "optional": false
       },
       {
         "name": "member",
-        "type": "TeamMember"
+        "type": "TeamMember",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1559,6 +1721,7 @@
       {
         "name": "remains",
         "type": "Array<GameObject>",
+        "optional": false,
         "description": "array of vehicles/units"
       }
     ],
@@ -1573,11 +1736,13 @@
       {
         "name": "object",
         "type": "GameObject",
+        "optional": false,
         "description": "PhysX object"
       },
       {
         "name": "torque",
         "type": "[number, number, number]",
+        "optional": false,
         "description": "world vector in format [x,y,z]"
       }
     ],
@@ -1591,11 +1756,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "type",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1609,16 +1776,19 @@
       {
         "name": "keyName",
         "type": "string",
+        "optional": false,
         "description": "action key name - see inputAction/actions"
       },
       {
         "name": "event",
         "type": "string",
+        "optional": false,
         "description": "event name - see UserAction Event Handlers. Can be one of:"
       },
       {
         "name": "expression",
         "type": "Function",
+        "optional": false,
         "description": "expression that will be executed in missionNamespace when event handler fires."
       }
     ],
@@ -1635,11 +1805,13 @@
     "parameters": [
       {
         "name": "groupName",
-        "type": "Group"
+        "type": "Group",
+        "optional": false
       },
       {
         "name": "vehicleName",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1652,11 +1824,13 @@
     "parameters": [
       {
         "name": "unit",
-        "type": "GameObject"
+        "type": "GameObject",
+        "optional": false
       },
       {
         "name": "type",
-        "type": "string"
+        "type": "string",
+        "optional": false
       }
     ],
     "returnValue": {}
@@ -1669,31 +1843,155 @@
     "parameters": [
       {
         "name": "groupName",
-        "type": "Group"
+        "type": "Group",
+        "optional": false
       },
       {
         "name": "center",
         "type": "[number, number, number] | GameObject",
+        "optional": false,
         "description": "PositionAGL (PositionASL if radius is negative) or Object"
       },
       {
         "name": "radius",
         "type": "number",
+        "optional": false,
         "description": "random waypoint placement within radius from center; -1 for exact placement"
       },
       {
         "name": "index",
         "type": "number",
+        "optional": true,
         "description": "(Optional, default -1) insert at this position; if invalid, appended at end"
       },
       {
         "name": "name",
         "type": "string",
+        "optional": true,
         "description": "(Optional, default \"\") waypointName"
       }
     ],
     "returnValue": {
       "type": "Waypoint"
+    }
+  },
+  {
+    "name": "mod",
+    "url": "https://community.bistudio.com/wiki/mod",
+    "syntax": "a mod b",
+    "description": "Remainder of a divided by b.",
+    "parameters": [
+      {
+        "name": "a",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "b",
+        "type": "number",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
+    "name": "moveTo",
+    "url": "https://community.bistudio.com/wiki/moveTo",
+    "syntax": "unit moveTo position",
+    "description": "Low level command to person to move to given position. It is good to check first if AI pilot unit state is COMPLETED moveToCompleted first as this command will set unit into WAIT state waiting for instruction, but only if the unit has COMPLETED.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject",
+        "optional": false
+      },
+      {
+        "name": "position",
+        "type": "[number, number, number]",
+        "optional": false
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "object",
+    "url": "https://community.bistudio.com/wiki/object",
+    "syntax": "object id",
+    "description": "Returns Object with given id. Object's id can be checked in mission editor. ⚠This command was removed as of Armed Assault v1.08; for later versions and titles, use nearestObject command family instead.",
+    "parameters": [
+      {
+        "name": "id",
+        "type": "number",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "GameObject"
+    }
+  },
+  {
+    "name": "player",
+    "url": "https://community.bistudio.com/wiki/player",
+    "syntax": "player",
+    "description": "A person object controlled by user. In Intros and Outros this isn't set by default and must be assigned.",
+    "parameters": [],
+    "returnValue": {
+      "type": "GameObject"
+    }
+  },
+  {
+    "name": "sideChat",
+    "url": "https://community.bistudio.com/wiki/sideChat",
+    "syntax": "unit sideChat chatText",
+    "description": "Types text to the side radio channel by the specified unit. Use clearRadio to clear chat history ⚠The unit must have an assigned radio item (such as \"ItemRadio\") to see or transmit the messages. A radio item must have the property simulation = \"ItemRadio\"; in its CfgWeapons config.",
+    "parameters": [
+      {
+        "name": "unit",
+        "type": "GameObject",
+        "optional": false,
+        "description": "unit transmitting message"
+      },
+      {
+        "name": "chatText",
+        "type": "string",
+        "optional": false,
+        "description": "message to transmit"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "systemChat",
+    "url": "https://community.bistudio.com/wiki/systemChat",
+    "syntax": "systemChat text",
+    "description": "Types text to the system radio channel. The text will be visible only on the PC where command was executed. If you need the message to show on all computers, you have to execute it globally (see remoteExec). Use clearRadio to clear chat history",
+    "parameters": [
+      {
+        "name": "text",
+        "type": "string",
+        "optional": false,
+        "description": "message to transmit"
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "vehicle",
+    "url": "https://community.bistudio.com/wiki/vehicle",
+    "syntax": "vehicle unitName",
+    "description": "Vehicle in which given unit is mounted. If none, unit is returned. Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit is in for alive units, for dead units which are groupless, this command returns the unit itself - use objectParent instead.",
+    "parameters": [
+      {
+        "name": "unitName",
+        "type": "GameObject",
+        "optional": false,
+        "description": "alive unit"
+      }
+    ],
+    "returnValue": {
+      "type": "GameObject"
     }
   }
 ]

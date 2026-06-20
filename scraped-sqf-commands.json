@@ -4,12 +4,10 @@
     "name": "-",
     "parameters": [
       "numberA: Number",
-      "numberB: Number",
-      "arrayA: Array of Anything",
-      "arrayB: Array of Anything"
+      "numberB: Number"
     ],
-    "returnValue": "Array of Anything",
-    "syntax": "arrayA - arrayB",
+    "returnValue": "Number",
+    "syntax": "numberA - numberB",
     "url": "https://community.bistudio.com/wiki/-"
   },
   {
@@ -27,17 +25,10 @@
     "name": "+",
     "parameters": [
       "numberA: Number",
-      "numberB: Number",
-      "number: Number",
-      "arrayA: Array of Anything",
-      "arrayB: Array of Anything",
-      "stringA: String",
-      "stringB: String",
-      "array: Array of Anything",
-      "hashMap: HashMap"
+      "numberB: Number"
     ],
-    "returnValue": "HashMap - a new instance of the provided HashMap filled with the same key-value pairs (deep copy)",
-    "syntax": "+ hashMap",
+    "returnValue": "Number - the sum of numberA and numberB",
+    "syntax": "numberA + numberB",
     "url": "https://community.bistudio.com/wiki/%2B"
   },
   {
@@ -78,12 +69,10 @@
     "name": "a / b",
     "parameters": [
       "a: Number - dividend",
-      "b: Number - divisor",
-      "config: Config",
-      "name: String"
+      "b: Number - divisor"
     ],
-    "returnValue": "Nothing",
-    "syntax": "config / name",
+    "returnValue": "Number - quotient",
+    "syntax": "a / b",
     "url": "https://community.bistudio.com/wiki/a_/_b"
   },
   {
@@ -91,12 +80,10 @@
     "name": "a && b",
     "parameters": [
       "booleanA: Boolean - test condition or variable",
-      "booleanB: Boolean - test condition or variable",
-      "boolean: Boolean - test condition or variable",
-      "code: Code - code that once executed returns a Boolean. The code is not evaluated if boolean is false."
+      "booleanB: Boolean - test condition or variable"
     ],
     "returnValue": "Boolean",
-    "syntax": "boolean && code",
+    "syntax": "booleanA && booleanB",
     "url": "https://community.bistudio.com/wiki/a_%26%26_b"
   },
   {
@@ -203,8 +190,7 @@
     "name": "a or b",
     "parameters": [
       "a: Boolean - test condition or variable",
-      "b: Boolean - test condition or variable",
-      "b: Code - code that returns Boolean. It is not evaluated if a returns true"
+      "b: Boolean - test condition or variable"
     ],
     "returnValue": "Boolean",
     "syntax": "a || b",
@@ -246,7 +232,7 @@
       "actionArray: Array"
     ],
     "returnValue": "Nothing",
-    "syntax": "action actionArray",
+    "syntax": "unit action actionArray",
     "url": "https://community.bistudio.com/wiki/action"
   },
   {
@@ -265,8 +251,8 @@
     "parameters": [
       "userAction: String"
     ],
-    "returnValue": "Array of Strings",
-    "syntax": "actionKeys [userAction]",
+    "returnValue": "Array of Numbers",
+    "syntax": "actionKeys userAction",
     "url": "https://community.bistudio.com/wiki/actionKeys"
   },
   {
@@ -283,35 +269,30 @@
     "description": "Returns a list of button images or names assigned to the given user action. A maximum of maxKeys keys is listed. You can find the action names in the ControllerSchemes config class or user action names.",
     "name": "actionKeysImages",
     "parameters": [
-      "userAction: String",
-      "maxKeys: Number"
+      "userAction: String"
     ],
     "returnValue": "Structured Text",
-    "syntax": "actionKeysImages [userAction, maxKeys]",
+    "syntax": "actionKeysImages userAction",
     "url": "https://community.bistudio.com/wiki/actionKeysImages"
   },
   {
     "description": "Returns a list of button names assigned to the given user action. Action names can be found in config class ControllerSchemes or user action names.",
     "name": "actionKeysNames",
     "parameters": [
-      "userAction: String",
-      "maxKeys: Number - maximum number of keys to return",
-      "inputDevicePriority: String - result sorted by inputDevicePriority with values:\n• \"Mouse\"\n• \"Keyboard\"\n• \"Stick\"\n• \"Gamepad\"\n• \"Tracker\"\n• \"Combo\" (mouse and keyboard combinations)\n• \"Controler\"sic (any controller other than mouse or keyboard) Other values are considered as:\n• \"Unsorted\""
+      "userAction: String"
     ],
     "returnValue": "String",
-    "syntax": "actionKeysNames [userAction, maxKeys, inputDevicePriority]",
+    "syntax": "actionKeysNames userAction",
     "url": "https://community.bistudio.com/wiki/actionKeysNames"
   },
   {
     "description": "Returns a list of button names assigned to the given user action. You can find the action names in config class ControllerSchemes or user action names.",
     "name": "actionKeysNamesArray",
     "parameters": [
-      "userAction: String - name of the action",
-      "maxKeys: Number - maximum number of keys to return",
-      "inputDevicePriority: String - (Optional) result sorted by inputDevicePriority with values:\n• \"Mouse\"\n• \"Keyboard\"\n• \"Stick\"\n• \"Gamepad\"\n• \"Tracker\"\n• \"Combo\" (mouse and keyboard combinations)\n• \"Controler\"sic (any controller other than mouse or keyboard) Other values are considered as:\n• \"Unsorted\""
+      "userAction: String - name of the action"
     ],
     "returnValue": "Array of Strings",
-    "syntax": "actionKeysNamesArray [userAction, maxKeys, inputDevicePriority]",
+    "syntax": "actionKeysNamesArray userAction",
     "url": "https://community.bistudio.com/wiki/actionKeysNamesArray"
   },
   {
@@ -437,18 +418,10 @@
       "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. 2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
       "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. 1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
       "textDefault: String - (Optional, default \"\") structured Text which is shown as the 3D action (so it can be an icon), or in the center of the screen when the action is highlighted in the action menu for a 2D action",
-      "textToolTip: String - (Optional, default \"\") structured Text which is faded in under the textDefault when hovering over the action in 3D space",
-      "object: Object - unit, vehicle or static object. No agents and simple objects!",
-      "title: String - the action name displayed in the action menu, may contain Structured Text. Because of that < and > symbols will be interpreted as opening and closing XML tags. To avoid this use &lt; for < and &gt; for >. The title text appearance can be changed with setUserActionText",
-      "script: String or Code - either path to the script file, relative to the mission folder or string with code or the actual script code. If the string is a path to script file, the script file must have extension .SQS or .SQF. The script, whether it is a file or a code, will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: params [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
-      "condition: String - (Optional, default \"true\") expression that must return true for the action to be shown. Special variables passed to the script code are:\n• _target: Object - The object to which action is attached or, if the object is a unit inside of vehicle, the vehicle\n• _this: Object - Caller person to whom the action is shown (or not shown if condition returns false)\n• _originalTarget: Object - The original object to which the action is attached, regardless if the object/unit is in a vehicle or not\n• _actionId: Number - checked action's ID (same as addAction's return value) ⚠If the player is the group leader, has an action added to them, and selects a subordinate, _this alternatively switches between the player and this selected unit - RPT logging Unknown attribute itemsCmd in the process. ⚠\n• condition is evaluated on each frame in unscheduled environment.\n• condition is not evaluated if a dialog is open.\n• If action is added to an object and not to the player, condition will only get evaluated if the player is closer than ~50m to the object surface and is looking at the object.\n• If action is added to player, condition is evaluated all the time.",
-      "radius: Number - (Optional, default 50) maximum 3D distance in meters between the activating unit's eyePos and object's memoryPoint, selection or position. -1 disables the radius; hardcoded limit is 50",
-      "unconscious: Boolean - (Optional, default false) if true will be shown to incapacitated player. See also setUnconscious and lifeState",
-      "selection: String - (Optional, default \"\") object's geometry LOD's named selection",
-      "memoryPoint: String - (Optional, default \"\") object's memory point. If selection is supplied, memoryPoint is not used"
+      "textToolTip: String - (Optional, default \"\") structured Text which is faded in under the textDefault when hovering over the action in 3D space"
     ],
     "returnValue": "Number - the added action's ID. Action can be removed with removeAction (see also removeAllActions). IDs are incrementing, the first given action to each unit has the ID 0, the second the ID 1, etc. IDs are also passed to the called script (see the script parameter)",
-    "syntax": "object addAction [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, radius, unconscious, selection, memoryPoint]",
+    "syntax": "object addAction [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, positionInModel, radius, radiusView, showIn3D, available, textDefault, textToolTip]",
     "url": "https://community.bistudio.com/wiki/addAction"
   },
   {
@@ -776,11 +749,10 @@
     "name": "addMagazine",
     "parameters": [
       "unitName: Object - person to add the magazines to",
-      "magazineName: String - magazine name. See the topic Category:Weapons for reference about possible values.",
-      "ammoCount: Number - ammo quantity to be added to magazine. If it goes beyond maximum magazine capacity, the magazine will be given full and not overloaded."
+      "magazineName: String - magazine name. See the topic Category:Weapons for reference about possible values."
     ],
     "returnValue": "Nothing",
-    "syntax": "unitName addMagazine [magazineName, ammoCount] 1.62 LALocalGEGlobal 1.00 GAGlobalGEGlobal",
+    "syntax": "unitName addMagazine magazineName LALocalGEGlobal",
     "url": "https://community.bistudio.com/wiki/addMagazine"
   },
   {
@@ -987,13 +959,10 @@
     "name": "addPublicVariableEventHandler",
     "parameters": [
       "varName: String - missionNamespace variable name",
-      "code: Code - by default, the code is executed in missionNamespace. _this arguments array is in format [varName, value, target]:\n• varName: String - broadcast variable name (same variable name EH is attached to)\n• value: Anything - broadcast variable value\n• target: Object or Group - target the variable got set on with setVariable (see Alternative Syntax)",
-      "varName: String - name of the variable set on target with setVariable",
-      "target: Object, Group or Team Member",
-      "code: Code"
+      "code: Code - by default, the code is executed in missionNamespace. _this arguments array is in format [varName, value, target]:\n• varName: String - broadcast variable name (same variable name EH is attached to)\n• value: Anything - broadcast variable value\n• target: Object or Group - target the variable got set on with setVariable (see Alternative Syntax)"
     ],
     "returnValue": "Nothing",
-    "syntax": "varName addPublicVariableEventHandler [target, code]",
+    "syntax": "varName addPublicVariableEventHandler code",
     "url": "https://community.bistudio.com/wiki/addPublicVariableEventHandler"
   },
   {
@@ -1151,5 +1120,76 @@
     "returnValue": "Waypoint",
     "syntax": "groupName addWaypoint [center, radius, index, name]",
     "url": "https://community.bistudio.com/wiki/addWaypoint"
+  },
+  {
+    "description": "Remainder of a divided by b.",
+    "name": "mod",
+    "parameters": [
+      "a: Number",
+      "b: Number"
+    ],
+    "returnValue": "Number",
+    "syntax": "a mod b",
+    "url": "https://community.bistudio.com/wiki/mod"
+  },
+  {
+    "description": "Low level command to person to move to given position. It is good to check first if AI pilot unit state is COMPLETED moveToCompleted first as this command will set unit into WAIT state waiting for instruction, but only if the unit has COMPLETED.",
+    "name": "moveTo",
+    "parameters": [
+      "unit: Object",
+      "position: PositionATL"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit moveTo position",
+    "url": "https://community.bistudio.com/wiki/moveTo"
+  },
+  {
+    "description": "Returns Object with given id. Object's id can be checked in mission editor. ⚠This command was removed as of Armed Assault v1.08; for later versions and titles, use nearestObject command family instead.",
+    "name": "object",
+    "parameters": [
+      "id: Number"
+    ],
+    "returnValue": "Object",
+    "syntax": "object id",
+    "url": "https://community.bistudio.com/wiki/object"
+  },
+  {
+    "description": "A person object controlled by user. In Intros and Outros this isn't set by default and must be assigned.",
+    "name": "player",
+    "parameters": [],
+    "returnValue": "Object",
+    "syntax": "player",
+    "url": "https://community.bistudio.com/wiki/player"
+  },
+  {
+    "description": "Types text to the side radio channel by the specified unit. Use clearRadio to clear chat history ⚠The unit must have an assigned radio item (such as \"ItemRadio\") to see or transmit the messages. A radio item must have the property simulation = \"ItemRadio\"; in its CfgWeapons config.",
+    "name": "sideChat",
+    "parameters": [
+      "unit: Object - unit transmitting message",
+      "chatText: String - message to transmit"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit sideChat chatText",
+    "url": "https://community.bistudio.com/wiki/sideChat"
+  },
+  {
+    "description": "Types text to the system radio channel. The text will be visible only on the PC where command was executed. If you need the message to show on all computers, you have to execute it globally (see remoteExec). Use clearRadio to clear chat history",
+    "name": "systemChat",
+    "parameters": [
+      "text: String - message to transmit"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "systemChat text",
+    "url": "https://community.bistudio.com/wiki/systemChat"
+  },
+  {
+    "description": "Vehicle in which given unit is mounted. If none, unit is returned. Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit is in for alive units, for dead units which are groupless, this command returns the unit itself - use objectParent instead.",
+    "name": "vehicle",
+    "parameters": [
+      "unitName: Object - alive unit"
+    ],
+    "returnValue": "Object",
+    "syntax": "vehicle unitName",
+    "url": "https://community.bistudio.com/wiki/vehicle"
   }
 ]

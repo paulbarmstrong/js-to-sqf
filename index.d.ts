@@ -381,14 +381,14 @@ export function activateKey(keyname: string): void
  * (see allActiveTitleEffects)
  *
  * @param layer - layer number or -1 (see allActiveTitleEffects)
- * @returns array with [type, effect, speed, showInMap], or empty array *  - type - type of effect: "OBJ", "RSC", or "TXT"
+ * @returns array with [type, effect, speed, showInMap], or empty array *  - effectType - type of effect: "OBJ", "RSC", or "TXT"
  *  - effect - Title Effect Type ("PLAIN", "BLACK OUT", etc.)
  *  - speed - effect speed multiplier
  *  - showInMap - true if effect is available over map
  * @see {@link https://community.bistudio.com/wiki/activeTitleEffectParams}
  * @sqfsyntaxtype unary
  */
-export function activeTitleEffectParams(layer: number): [type: string, effect: string, speed: number, showInMap: boolean]
+export function activeTitleEffectParams(layer: number): [effectType: string, effect: string, speed: number, showInMap: boolean]
 
 /**
  * Connect entities together. Be aware to select the correct type of Eden Entities
@@ -423,7 +423,7 @@ export function add3DENEventHandler(type: string, code: Function): number
  * @param name - layer display name
  * @returns layer ID
  * @see {@link https://community.bistudio.com/wiki/add3DENLayer}
- * @sqfsyntaxtype unary
+ * @sqfsyntaxtype binary
  */
 export function add3DENLayer(parentLayerID: number, name: string): number
 
@@ -646,7 +646,7 @@ export function addGoggles(unit: GameObject, type: string): void
  * @see {@link https://community.bistudio.com/wiki/addGroupIcon}
  * @sqfsyntaxtype binary
  */
-export function addGroupIcon(group: Group, iconClass: string, offset: Array<number>): number
+export function addGroupIcon(group: Group, iconClass: string, offset?: Array<number>): number
 
 /**
  * Adds weapon item, including magazine, directly to the handgunWeapon. This is
@@ -846,10 +846,11 @@ export function addMagazinesTurret(vehicle: GameObject, magazineName: string, tu
  * ⚠Invalid combinations may be created by using this command, for example by
  * adding 20 grenades. In these cases, behaviour is undefined.
  *
+ * @param ammoCount - (Optional, default 0) desired ammo count
  * @see {@link https://community.bistudio.com/wiki/addMagazineTurret}
  * @sqfsyntaxtype binary
  */
-export function addMagazineTurret(vehicle: GameObject, magazineName: string, turretPath: TurretPath): void
+export function addMagazineTurret(vehicle: GameObject, magazineName: string, turretPath: TurretPath, ammoCount?: number): void
 
 /**
  * Adds a new menu button. Priority is optional. ⓘSome Old Editor Command
@@ -905,13 +906,13 @@ export function addMPEventHandler(object: GameObject, type: string, expression: 
  * Arma 3: Event Handlers - Music Event Handlers.
  *
  * @param type - "MusicStart" or "MusicStop"
- * @param fun - handler; params array is [musicClassname, eventHandlerId, currentPosition,
+ * @param handler - handler; params array is [musicClassname, eventHandlerId, currentPosition,
  * totalLength]
  * @returns event handler id
  * @see {@link https://community.bistudio.com/wiki/addMusicEventHandler}
  * @sqfsyntaxtype unary
  */
-export function addMusicEventHandler(type: string, fun: string | Function): number
+export function addMusicEventHandler(type: string, handler: string | Function): number
 
 /**
  * Returns a list of files present in the addon. ⓘQuerying protected .ebo addons
@@ -925,7 +926,7 @@ export function addMusicEventHandler(type: string, fun: string | Function): numb
  * @see {@link https://community.bistudio.com/wiki/addonFiles}
  * @sqfsyntaxtype unary
  */
-export function addonFiles(prefix: string, fileExtension: string): Array<string>
+export function addonFiles(prefix: string, fileExtension?: string): Array<string>
 
 /**
  * Sets ownership of a remotely detonatable mine to a unit. If the unit is a
@@ -974,7 +975,7 @@ export function addPrimaryWeaponItem(unit: GameObject, item: string): void | boo
  * @param varName - missionNamespace variable name
  * @param code - executed in missionNamespace; _this is [varName, value, target]
  * @see {@link https://community.bistudio.com/wiki/addPublicVariableEventHandler}
- * @sqfsyntaxtype unary
+ * @sqfsyntaxtype binary
  */
 export function addPublicVariableEventHandler(varName: string, code: Function): void
 
@@ -1133,5 +1134,84 @@ export function addVest(unit: GameObject, type: string): void
  * @see {@link https://community.bistudio.com/wiki/addWaypoint}
  * @sqfsyntaxtype binary
  */
-export function addWaypoint(groupName: Group, center: [number, number, number] | GameObject, radius: number, index: number, name: string): Waypoint
+export function addWaypoint(groupName: Group, center: [number, number, number] | GameObject, radius: number, index?: number, name?: string): Waypoint
+
+/**
+ * Remainder of a divided by b.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/mod}
+ * @sqfsyntaxtype binary
+ */
+export function mod(a: number, b: number): number
+
+/**
+ * Low level command to person to move to given position. It is good to check first
+ * if AI pilot unit state is COMPLETED moveToCompleted first as this command will
+ * set unit into WAIT state waiting for instruction, but only if the unit has
+ * COMPLETED.
+ *
+ * @see {@link https://community.bistudio.com/wiki/moveTo}
+ * @sqfsyntaxtype binary
+ */
+export function moveTo(unit: GameObject, position: [number, number, number]): void
+
+/**
+ * Returns Object with given id. Object's id can be checked in mission editor.
+ * ⚠This command was removed as of Armed Assault v1.08; for later versions and
+ * titles, use nearestObject command family instead.
+ *
+ * @returns GameObject
+ * @see {@link https://community.bistudio.com/wiki/object}
+ * @sqfsyntaxtype unary
+ */
+export function object(id: number): GameObject
+
+/**
+ * A person object controlled by user. In Intros and Outros this isn't set by
+ * default and must be assigned.
+ *
+ * @returns GameObject
+ * @see {@link https://community.bistudio.com/wiki/player}
+ * @sqfsyntaxtype nullary
+ */
+export function player(): GameObject
+
+/**
+ * Types text to the side radio channel by the specified unit. Use clearRadio to
+ * clear chat history ⚠The unit must have an assigned radio item (such as
+ * "ItemRadio") to see or transmit the messages. A radio item must have the
+ * property simulation = "ItemRadio"; in its CfgWeapons config.
+ *
+ * @param unit - unit transmitting message
+ * @param chatText - message to transmit
+ * @see {@link https://community.bistudio.com/wiki/sideChat}
+ * @sqfsyntaxtype binary
+ */
+export function sideChat(unit: GameObject, chatText: string): void
+
+/**
+ * Types text to the system radio channel. The text will be visible only on the PC
+ * where command was executed. If you need the message to show on all computers,
+ * you have to execute it globally (see remoteExec). Use clearRadio to clear chat
+ * history
+ *
+ * @param text - message to transmit
+ * @see {@link https://community.bistudio.com/wiki/systemChat}
+ * @sqfsyntaxtype unary
+ */
+export function systemChat(text: string): void
+
+/**
+ * Vehicle in which given unit is mounted. If none, unit is returned.
+ * Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit
+ * is in for alive units, for dead units which are groupless, this command returns
+ * the unit itself - use objectParent instead.
+ *
+ * @param unitName - alive unit
+ * @returns GameObject
+ * @see {@link https://community.bistudio.com/wiki/vehicle}
+ * @sqfsyntaxtype unary
+ */
+export function vehicle(unitName: GameObject): GameObject
 
