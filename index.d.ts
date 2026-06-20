@@ -185,6 +185,7 @@ export namespace diag {
  *
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/abs}
+ * @sqfsyntaxtype unary
  */
 export function abs(x: number): number
 
@@ -193,6 +194,7 @@ export function abs(x: number): number
  *
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/accTime}
+ * @sqfsyntaxtype nullary
  */
 export function accTime(): number
 
@@ -202,6 +204,7 @@ export function accTime(): number
  * @param x - any other value returns NaN
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/acos}
+ * @sqfsyntaxtype unary
  */
 export function acos(x: number): number
 
@@ -219,6 +222,7 @@ export function acos(x: number): number
  * • the alternative syntax creates a temporary Logic entity in place of unit.
  *
  * @see {@link https://community.bistudio.com/wiki/action}
+ * @sqfsyntaxtype binary
  */
 export function action(unit: GameObject, actionArray: Array<any>): void
 
@@ -228,6 +232,7 @@ export function action(unit: GameObject, actionArray: Array<any>): void
  * @param entity - entity with added user actions
  * @returns IDs of all user actions added to given entity with addAction command
  * @see {@link https://community.bistudio.com/wiki/actionIDs}
+ * @sqfsyntaxtype unary
  */
 export function actionIDs(entity: GameObject): Array<number>
 
@@ -240,6 +245,7 @@ export function actionIDs(entity: GameObject): Array<number>
  *
  * @returns Array<number>
  * @see {@link https://community.bistudio.com/wiki/actionKeys}
+ * @sqfsyntaxtype unary
  */
 export function actionKeys(userAction: string): Array<number>
 
@@ -264,6 +270,7 @@ export function actionKeys(userAction: string): Array<number>
  *  - comboKeyArray - combo key info: [dikCode, device, deviceId]; filled only for combination keys
  *  - isDoubleTap - whether the action key is a double-tap
  * @see {@link https://community.bistudio.com/wiki/actionKeysEx}
+ * @sqfsyntaxtype unary
  */
 export function actionKeysEx(userAction: string): [mainKeyArray: Array<any>, comboKeyArray: Array<any>, isDoubleTap: boolean]
 
@@ -274,6 +281,7 @@ export function actionKeysEx(userAction: string): [mainKeyArray: Array<any>, com
  *
  * @returns StructuredText
  * @see {@link https://community.bistudio.com/wiki/actionKeysImages}
+ * @sqfsyntaxtype unary
  */
 export function actionKeysImages(userAction: string): StructuredText
 
@@ -283,6 +291,7 @@ export function actionKeysImages(userAction: string): StructuredText
  *
  * @returns string
  * @see {@link https://community.bistudio.com/wiki/actionKeysNames}
+ * @sqfsyntaxtype unary
  */
 export function actionKeysNames(userAction: string): string
 
@@ -293,6 +302,7 @@ export function actionKeysNames(userAction: string): string
  * @param userAction - name of the action
  * @returns Array<string>
  * @see {@link https://community.bistudio.com/wiki/actionKeysNamesArray}
+ * @sqfsyntaxtype unary
  */
 export function actionKeysNamesArray(userAction: string): Array<string>
 
@@ -301,6 +311,7 @@ export function actionKeysNamesArray(userAction: string): Array<string>
  *
  * @returns string
  * @see {@link https://community.bistudio.com/wiki/actionName}
+ * @sqfsyntaxtype unary
  */
 export function actionName(action: string): string
 
@@ -309,6 +320,7 @@ export function actionName(action: string): string
  * animation/pre-processing). See the action command for more information.
  *
  * @see {@link https://community.bistudio.com/wiki/actionNow}
+ * @sqfsyntaxtype binary
  */
 export function actionNow(unit: GameObject, actionArray: Array<any>): void
 
@@ -333,6 +345,7 @@ export function actionNow(unit: GameObject, actionArray: Array<any>): void
  *  - selection - named selection in Geometry LOD to which the action is attached
  *  - memoryPoint - memory point on the object to which the action is attached
  * @see {@link https://community.bistudio.com/wiki/actionParams}
+ * @sqfsyntaxtype binary
  */
 export function actionParams(entity: GameObject, id: number): [title: string, script: string, arguments: any, priority: number, showWindow: boolean, hideOnUse: boolean, shortcut: string, condition: string, radius: number, unconscious: boolean, textWindowBackground: string, textWindowForeground: string, selection: string, memoryPoint: string]
 
@@ -340,6 +353,7 @@ export function actionParams(entity: GameObject, id: number): [title: string, sc
  * Activates the listed addons.
  *
  * @see {@link https://community.bistudio.com/wiki/activateAddons}
+ * @sqfsyntaxtype unary
  */
 export function activateAddons(addonsList: Array<string>): void
 
@@ -348,6 +362,7 @@ export function activateAddons(addonsList: Array<string>): void
  *
  * @returns Array<string>
  * @see {@link https://community.bistudio.com/wiki/activatedAddons}
+ * @sqfsyntaxtype nullary
  */
 export function activatedAddons(): Array<string>
 
@@ -357,6 +372,7 @@ export function activatedAddons(): Array<string>
  * Description.ext#Mission Keys chapter.
  *
  * @see {@link https://community.bistudio.com/wiki/activateKey}
+ * @sqfsyntaxtype unary
  */
 export function activateKey(keyname: string): void
 
@@ -370,6 +386,7 @@ export function activateKey(keyname: string): void
  *  - speed - effect speed multiplier
  *  - showInMap - true if effect is available over map
  * @see {@link https://community.bistudio.com/wiki/activeTitleEffectParams}
+ * @sqfsyntaxtype unary
  */
 export function activeTitleEffectParams(layer: number): [type: string, effect: string, speed: number, showInMap: boolean]
 
@@ -382,6 +399,7 @@ export function activeTitleEffectParams(layer: number): [type: string, effect: s
  * @param to - entity to which entities will be connected to
  * @returns true If the connection was made
  * @see {@link https://community.bistudio.com/wiki/add3DENConnection}
+ * @sqfsyntaxtype unary
  */
 export function add3DENConnection(type: string, from: Array<EdenEntity>, to: EdenEntity): boolean
 
@@ -393,6 +411,7 @@ export function add3DENConnection(type: string, from: Array<EdenEntity>, to: Ede
  * _thisEventHandler = handler index
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/add3DENEventHandler}
+ * @sqfsyntaxtype unary
  */
 export function add3DENEventHandler(type: string, code: Function): number
 
@@ -404,6 +423,7 @@ export function add3DENEventHandler(type: string, code: Function): number
  * @param name - layer display name
  * @returns layer ID
  * @see {@link https://community.bistudio.com/wiki/add3DENLayer}
+ * @sqfsyntaxtype unary
  */
 export function add3DENLayer(parentLayerID: number, name: string): number
 
@@ -418,6 +438,7 @@ export function add3DENLayer(parentLayerID: number, name: string): number
  * @param script - path to script file relative to mission folder, or code to execute
  * @returns the added action's ID. Action can be removed with removeAction (see also removeAllActions). IDs are incrementing, the first given action to each unit has the ID 0, the second the ID 1, etc. IDs are also passed to the called script (see the script parameter)
  * @see {@link https://community.bistudio.com/wiki/addAction}
+ * @sqfsyntaxtype binary
  */
 export function addAction(object: GameObject, title: string, script: string | Function): number
 
@@ -429,6 +450,7 @@ export function addAction(object: GameObject, title: string, script: string | Fu
  * • Arma 3 backpacks - objects starting with "B_", starts with "B_AssaultPack_khk"
  *
  * @see {@link https://community.bistudio.com/wiki/addBackpack}
+ * @sqfsyntaxtype binary
  */
 export function addBackpack(unit: GameObject, backpackClassName: string): void
 
@@ -444,6 +466,7 @@ export function addBackpack(unit: GameObject, backpackClassName: string): void
  * @param backpackClassName - backpack classname
  * @param count - number of backpacks to add. negative count will remove backpacks.
  * @see {@link https://community.bistudio.com/wiki/addBackpackCargo}
+ * @sqfsyntaxtype binary
  */
 export function addBackpackCargo(vehicle: GameObject, backpackClassName: string, count: number): void
 
@@ -457,6 +480,7 @@ export function addBackpackCargo(vehicle: GameObject, backpackClassName: string,
  * @param packClassName - see the topic Category:Weapons for reference about possible values.
  * @param count - number of backpacks to add; a negative value will remove backpacks.
  * @see {@link https://community.bistudio.com/wiki/addBackpackCargoGlobal}
+ * @sqfsyntaxtype binary
  */
 export function addBackpackCargoGlobal(vehicle: GameObject, packClassName: string, count: number): void
 
@@ -471,6 +495,7 @@ export function addBackpackCargoGlobal(vehicle: GameObject, packClassName: strin
  * @param unit - soldier
  * @param backpack - backpack class name
  * @see {@link https://community.bistudio.com/wiki/addBackpackGlobal}
+ * @sqfsyntaxtype binary
  */
 export function addBackpackGlobal(unit: GameObject, backpack: string): void
 
@@ -479,6 +504,7 @@ export function addBackpackGlobal(unit: GameObject, backpack: string): void
  * used for infantry weapons.
  *
  * @see {@link https://community.bistudio.com/wiki/addBinocularItem}
+ * @sqfsyntaxtype binary
  */
 export function addBinocularItem(unit: GameObject, item: string): void
 
@@ -489,6 +515,7 @@ export function addBinocularItem(unit: GameObject, item: string): void
  * @param duration - duration in seconds divided by 2
  * @param frequency - frequency of shake, practical range is 0 to 100
  * @see {@link https://community.bistudio.com/wiki/addCamShake}
+ * @sqfsyntaxtype unary
  */
 export function addCamShake(power: number, duration: number, frequency: number): void
 
@@ -498,6 +525,7 @@ export function addCamShake(power: number, duration: number, frequency: number):
  * @param curatorObj - curator module.
  * @param addons - CfgPatches class names
  * @see {@link https://community.bistudio.com/wiki/addCuratorAddons}
+ * @sqfsyntaxtype binary
  */
 export function addCuratorAddons(curatorObj: GameObject, addons: Array<string>): void
 
@@ -506,6 +534,7 @@ export function addCuratorAddons(curatorObj: GameObject, addons: Array<string>):
  *
  * @param curatorObj - curator module.
  * @see {@link https://community.bistudio.com/wiki/addCuratorCameraArea}
+ * @sqfsyntaxtype binary
  */
 export function addCuratorCameraArea(curatorObj: GameObject, cameraAreaID: number, position: [number, number, number], radius: number): void
 
@@ -514,6 +543,7 @@ export function addCuratorCameraArea(curatorObj: GameObject, cameraAreaID: numbe
  *
  * @param curatorObj - curator module
  * @see {@link https://community.bistudio.com/wiki/addCuratorEditableObjects}
+ * @sqfsyntaxtype binary
  */
 export function addCuratorEditableObjects(curatorObj: GameObject, objects: Array<GameObject>, addCrew: boolean): void
 
@@ -522,6 +552,7 @@ export function addCuratorEditableObjects(curatorObj: GameObject, objects: Array
  *
  * @param curatorObj - curator module.
  * @see {@link https://community.bistudio.com/wiki/addCuratorEditingArea}
+ * @sqfsyntaxtype binary
  */
 export function addCuratorEditingArea(curatorObj: GameObject, editAreaID: number, position: [number, number, number], radius: number): void
 
@@ -530,6 +561,7 @@ export function addCuratorEditingArea(curatorObj: GameObject, editAreaID: number
  *
  * @param curatorObj - curator module.
  * @see {@link https://community.bistudio.com/wiki/addCuratorPoints}
+ * @sqfsyntaxtype binary
  */
 export function addCuratorPoints(curatorObj: GameObject, points: number): void
 
@@ -538,6 +570,7 @@ export function addCuratorPoints(curatorObj: GameObject, points: number): void
  *
  * @param items - items to add; items can be an Object, Group, Waypoint, or String (marker)
  * @see {@link https://community.bistudio.com/wiki/addCuratorSelected}
+ * @sqfsyntaxtype unary
  */
 export function addCuratorSelected(items: Array<any>): void
 
@@ -549,6 +582,7 @@ export function addCuratorSelected(items: Array<any>): void
  * @param typeNameSubtypeConfig - [type, [name1, value1, ...], subtypeClass]
  * @returns string
  * @see {@link https://community.bistudio.com/wiki/addEditorObject}
+ * @sqfsyntaxtype binary
  */
 export function addEditorObject(map: Control, typeNameSubtypeConfig: Array<any>): string
 
@@ -563,6 +597,7 @@ export function addEditorObject(map: Control, typeNameSubtypeConfig: Array<any>)
  * @param code - code that should be executed when the Event Handler fires
  * @returns the index of the added Event Handler. Indices start at 0 for each unit and increment with each added Event Handler.
  * @see {@link https://community.bistudio.com/wiki/addEventHandler}
+ * @sqfsyntaxtype binary
  */
 export function addEventHandler(target: GameObject | Group, type: string, code: Function | string): number
 
@@ -574,6 +609,7 @@ export function addEventHandler(target: GameObject | Group, type: string, code: 
  * @param force - force vector in world space in newton-seconds
  * @param position - position relative to object
  * @see {@link https://community.bistudio.com/wiki/addForce}
+ * @sqfsyntaxtype binary
  */
 export function addForce(object: GameObject, force: [number, number, number], position: [number, number, number]): void
 
@@ -584,6 +620,7 @@ export function addForce(object: GameObject, force: [number, number, number], po
  *
  * @returns force index
  * @see {@link https://community.bistudio.com/wiki/addForceGeneratorRTD}
+ * @sqfsyntaxtype unary
  */
 export function addForceGeneratorRTD(parameters: Array<any>): number
 
@@ -592,6 +629,7 @@ export function addForceGeneratorRTD(parameters: Array<any>): number
  * does not add NVGs, which are hmd slot items (see linkItem instead).
  *
  * @see {@link https://community.bistudio.com/wiki/addGoggles}
+ * @sqfsyntaxtype binary
  */
 export function addGoggles(unit: GameObject, type: string): void
 
@@ -606,6 +644,7 @@ export function addGoggles(unit: GameObject, type: string): void
  * offsetY, (offsetX3d), (offsetY3d)]
  * @returns icon ID
  * @see {@link https://community.bistudio.com/wiki/addGroupIcon}
+ * @sqfsyntaxtype binary
  */
 export function addGroupIcon(group: Group, iconClass: string, offset: Array<number>): number
 
@@ -614,6 +653,7 @@ export function addGroupIcon(group: Group, iconClass: string, offset: Array<numb
  * used for infantry weapons.
  *
  * @see {@link https://community.bistudio.com/wiki/addHandgunItem}
+ * @sqfsyntaxtype binary
  */
 export function addHandgunItem(unit: GameObject, item: string): void
 
@@ -622,6 +662,7 @@ export function addHandgunItem(unit: GameObject, item: string): void
  * occupied with another item, the item in the slot will be replaced.
  *
  * @see {@link https://community.bistudio.com/wiki/addHeadgear}
+ * @sqfsyntaxtype binary
  */
 export function addHeadgear(unit: GameObject, item: string): void
 
@@ -631,6 +672,7 @@ export function addHeadgear(unit: GameObject, item: string): void
  * or a magazine.
  *
  * @see {@link https://community.bistudio.com/wiki/addItem}
+ * @sqfsyntaxtype binary
  */
 export function addItem(unit: GameObject, item: string): void
 
@@ -641,6 +683,7 @@ export function addItem(unit: GameObject, item: string): void
  *
  * @param count - number of items to add; a negative value removes items
  * @see {@link https://community.bistudio.com/wiki/addItemCargo}
+ * @sqfsyntaxtype binary
  */
 export function addItemCargo(box: GameObject, item: string, count: number): void
 
@@ -649,6 +692,7 @@ export function addItemCargo(box: GameObject, item: string, count: number): void
  *
  * @param count - number of items to add. negative count will remove items.
  * @see {@link https://community.bistudio.com/wiki/addItemCargoGlobal}
+ * @sqfsyntaxtype binary
  */
 export function addItemCargoGlobal(box: GameObject, item: string, count: number): void
 
@@ -659,6 +703,7 @@ export function addItemCargoGlobal(box: GameObject, item: string, count: number)
  * @param itemName - item name
  * @param count - number of items to add
  * @see {@link https://community.bistudio.com/wiki/addItemPool}
+ * @sqfsyntaxtype unary
  */
 export function addItemPool(itemName: string, count: number): void
 
@@ -667,6 +712,7 @@ export function addItemPool(itemName: string, count: number): void
  * weapon or a magazine.
  *
  * @see {@link https://community.bistudio.com/wiki/addItemToBackpack}
+ * @sqfsyntaxtype binary
  */
 export function addItemToBackpack(unit: GameObject, item: string): void
 
@@ -675,6 +721,7 @@ export function addItemToBackpack(unit: GameObject, item: string): void
  * or a magazine.
  *
  * @see {@link https://community.bistudio.com/wiki/addItemToUniform}
+ * @sqfsyntaxtype binary
  */
 export function addItemToUniform(unit: GameObject, item: string): void
 
@@ -683,6 +730,7 @@ export function addItemToUniform(unit: GameObject, item: string): void
  * a magazine.
  *
  * @see {@link https://community.bistudio.com/wiki/addItemToVest}
+ * @sqfsyntaxtype binary
  */
 export function addItemToVest(unit: GameObject, item: string): void
 
@@ -691,6 +739,7 @@ export function addItemToVest(unit: GameObject, item: string): void
  * commander unit of the given vehicle).
  *
  * @see {@link https://community.bistudio.com/wiki/addLiveStats}
+ * @sqfsyntaxtype binary
  */
 export function addLiveStats(unit: GameObject, score: number): void
 
@@ -706,6 +755,7 @@ export function addLiveStats(unit: GameObject, score: number): void
  * @param magazineName - magazine name. See the topic Category:Weapons for reference about possible
  * values.
  * @see {@link https://community.bistudio.com/wiki/addMagazine}
+ * @sqfsyntaxtype binary
  */
 export function addMagazine(unitName: GameObject, magazineName: string): void
 
@@ -718,6 +768,7 @@ export function addMagazine(unitName: GameObject, magazineName: string): void
  * @param quantity - number of magazines to add. a negative value remove magazines
  * @param ammocount - ammo count in each magazine
  * @see {@link https://community.bistudio.com/wiki/addMagazineAmmoCargo}
+ * @sqfsyntaxtype binary
  */
 export function addMagazineAmmoCargo(cargospace: GameObject, magazine: string, quantity: number, ammocount: number): void
 
@@ -731,6 +782,7 @@ export function addMagazineAmmoCargo(cargospace: GameObject, magazine: string, q
  * @param magazineName - magazine name. See Category:Weapons for reference about possible values.
  * @param count - number of magazines to add. negative count will remove magazines.
  * @see {@link https://community.bistudio.com/wiki/addMagazineCargo}
+ * @sqfsyntaxtype binary
  */
 export function addMagazineCargo(vehicleName: GameObject, magazineName: string, count: number): void
 
@@ -742,6 +794,7 @@ export function addMagazineCargo(vehicleName: GameObject, magazineName: string, 
  * @param magazineName - magazine name. See Category:Weapons for reference about possible values.
  * @param count - number of magazines to add. negative count will remove magazines.
  * @see {@link https://community.bistudio.com/wiki/addMagazineCargoGlobal}
+ * @sqfsyntaxtype binary
  */
 export function addMagazineCargoGlobal(vehicleName: GameObject, magazineName: string, count: number): void
 
@@ -750,6 +803,7 @@ export function addMagazineCargoGlobal(vehicleName: GameObject, magazineName: st
  * add magazine to a vehicle, like a static gun, for example.
  *
  * @see {@link https://community.bistudio.com/wiki/addMagazineGlobal}
+ * @sqfsyntaxtype binary
  */
 export function addMagazineGlobal(unit: GameObject, magazineName: string): void
 
@@ -761,6 +815,7 @@ export function addMagazineGlobal(unit: GameObject, magazineName: string): void
  * values.
  * @param count - number of magazines to add
  * @see {@link https://community.bistudio.com/wiki/addMagazinePool}
+ * @sqfsyntaxtype unary
  */
 export function addMagazinePool(magazineName: string, count: number): void
 
@@ -772,6 +827,7 @@ export function addMagazinePool(magazineName: string, count: number): void
  * @param unit - a soldier
  * @param count - number of magazines
  * @see {@link https://community.bistudio.com/wiki/addMagazines}
+ * @sqfsyntaxtype binary
  */
 export function addMagazines(unit: GameObject, magazineName: string, count: number): void
 
@@ -781,6 +837,7 @@ export function addMagazines(unit: GameObject, magazineName: string, count: numb
  *
  * @param quantity - desired number of the magazines
  * @see {@link https://community.bistudio.com/wiki/addMagazinesTurret}
+ * @sqfsyntaxtype binary
  */
 export function addMagazinesTurret(vehicle: GameObject, magazineName: string, turretPath: TurretPath, quantity: number): void
 
@@ -790,6 +847,7 @@ export function addMagazinesTurret(vehicle: GameObject, magazineName: string, tu
  * adding 20 grenades. In these cases, behaviour is undefined.
  *
  * @see {@link https://community.bistudio.com/wiki/addMagazineTurret}
+ * @sqfsyntaxtype binary
  */
 export function addMagazineTurret(vehicle: GameObject, magazineName: string, turretPath: TurretPath): void
 
@@ -798,6 +856,7 @@ export function addMagazineTurret(vehicle: GameObject, magazineName: string, tur
  *
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/addMenu}
+ * @sqfsyntaxtype binary
  */
 export function addMenu(map: Control, text: string, priority: number): number
 
@@ -809,6 +868,7 @@ export function addMenu(map: Control, text: string, priority: number): number
  * @param menuIndexTextCommandPriority - [menu or index, text, command, priority]
  * @returns number
  * @see {@link https://community.bistudio.com/wiki/addMenuItem}
+ * @sqfsyntaxtype binary
  */
 export function addMenuItem(map: Control, menuIndexTextCommandPriority: Array<any>): number
 
@@ -821,6 +881,7 @@ export function addMenuItem(map: Control, menuIndexTextCommandPriority: Array<an
  * @param expression - expression that will be executed in missionNamespace when event handler fires
  * @returns the index of the currently added mission event handler is returned
  * @see {@link https://community.bistudio.com/wiki/addMissionEventHandler}
+ * @sqfsyntaxtype unary
  */
 export function addMissionEventHandler(event: string, expression: Function | string): number
 
@@ -834,6 +895,7 @@ export function addMissionEventHandler(event: string, expression: Function | str
  * @param expression - expression to execute
  * @returns event handler index
  * @see {@link https://community.bistudio.com/wiki/addMPEventHandler}
+ * @sqfsyntaxtype binary
  */
 export function addMPEventHandler(object: GameObject, type: string, expression: string | Function): number
 
@@ -847,6 +909,7 @@ export function addMPEventHandler(object: GameObject, type: string, expression: 
  * totalLength]
  * @returns event handler id
  * @see {@link https://community.bistudio.com/wiki/addMusicEventHandler}
+ * @sqfsyntaxtype unary
  */
 export function addMusicEventHandler(type: string, fun: string | Function): number
 
@@ -860,6 +923,7 @@ export function addMusicEventHandler(type: string, fun: string | Function): numb
  * @param fileExtension - (Optional) file extension to filter results, for example ".paa"
  * @returns Array<string>
  * @see {@link https://community.bistudio.com/wiki/addonFiles}
+ * @sqfsyntaxtype unary
  */
 export function addonFiles(prefix: string, fileExtension: string): Array<string>
 
@@ -870,6 +934,7 @@ export function addonFiles(prefix: string, fileExtension: string): Array<string>
  *
  * @param mine - the mine object
  * @see {@link https://community.bistudio.com/wiki/addOwnedMine}
+ * @sqfsyntaxtype binary
  */
 export function addOwnedMine(unit: GameObject, mine: GameObject): void
 
@@ -879,6 +944,7 @@ export function addOwnedMine(unit: GameObject, mine: GameObject): void
  *
  * @param values - score values: [killsInfantry, killsSoft, killsArmor, killsAir, score]
  * @see {@link https://community.bistudio.com/wiki/addPlayerScores}
+ * @sqfsyntaxtype binary
  */
 export function addPlayerScores(unit: GameObject, values: [number, number, number, number, number]): void
 
@@ -888,6 +954,7 @@ export function addPlayerScores(unit: GameObject, values: [number, number, numbe
  *
  * @returns false is returned if item can not be added
  * @see {@link https://community.bistudio.com/wiki/addPrimaryWeaponItem}
+ * @sqfsyntaxtype binary
  */
 export function addPrimaryWeaponItem(unit: GameObject, item: string): void | boolean
 
@@ -907,6 +974,7 @@ export function addPrimaryWeaponItem(unit: GameObject, item: string): void | boo
  * @param varName - missionNamespace variable name
  * @param code - executed in missionNamespace; _this is [varName, value, target]
  * @see {@link https://community.bistudio.com/wiki/addPublicVariableEventHandler}
+ * @sqfsyntaxtype unary
  */
 export function addPublicVariableEventHandler(varName: string, code: Function): void
 
@@ -920,6 +988,7 @@ export function addPublicVariableEventHandler(varName: string, code: Function): 
  * HandleRating.
  *
  * @see {@link https://community.bistudio.com/wiki/addRating}
+ * @sqfsyntaxtype binary
  */
 export function addRating(unitName: GameObject, rating: number): void
 
@@ -927,6 +996,7 @@ export function addRating(unitName: GameObject, rating: number): void
  * Adds resources to a team member.
  *
  * @see {@link https://community.bistudio.com/wiki/addResources}
+ * @sqfsyntaxtype binary
  */
 export function addResources(teamMember: TeamMember, resourceN: string): void
 
@@ -935,6 +1005,7 @@ export function addResources(teamMember: TeamMember, resourceN: string): void
  * score.
  *
  * @see {@link https://community.bistudio.com/wiki/addScore}
+ * @sqfsyntaxtype binary
  */
 export function addScore(unit: GameObject, score: number): void
 
@@ -942,6 +1013,7 @@ export function addScore(unit: GameObject, score: number): void
  * Adds side score. This is shown in the MP score tab as the total score. MP only.
  *
  * @see {@link https://community.bistudio.com/wiki/addScoreSide}
+ * @sqfsyntaxtype binary
  */
 export function addScoreSide(side: Side, value: number): void
 
@@ -950,6 +1022,7 @@ export function addScoreSide(side: Side, value: number): void
  * used for infantry weapons.
  *
  * @see {@link https://community.bistudio.com/wiki/addSecondaryWeaponItem}
+ * @sqfsyntaxtype binary
  */
 export function addSecondaryWeaponItem(unit: GameObject, item: string): void
 
@@ -960,6 +1033,7 @@ export function addSecondaryWeaponItem(unit: GameObject, item: string): void
  * Singleplayer only!
  *
  * @see {@link https://community.bistudio.com/wiki/addSwitchableUnit}
+ * @sqfsyntaxtype unary
  */
 export function addSwitchableUnit(unit: GameObject): void
 
@@ -969,6 +1043,7 @@ export function addSwitchableUnit(unit: GameObject): void
  * Member can be member of several different teams at the same time.
  *
  * @see {@link https://community.bistudio.com/wiki/addTeamMember}
+ * @sqfsyntaxtype binary
  */
 export function addTeamMember(team: TeamMember, member: TeamMember): void
 
@@ -979,6 +1054,7 @@ export function addTeamMember(team: TeamMember, member: TeamMember): void
  *
  * @param remains - array of vehicles/units
  * @see {@link https://community.bistudio.com/wiki/addToRemainsCollector}
+ * @sqfsyntaxtype unary
  */
 export function addToRemainsCollector(remains: Array<GameObject>): void
 
@@ -998,6 +1074,7 @@ export function addToRemainsCollector(remains: Array<GameObject>): void
  * @param object - PhysX object
  * @param torque - world vector in format [x,y,z]
  * @see {@link https://community.bistudio.com/wiki/addTorque}
+ * @sqfsyntaxtype binary
  */
 export function addTorque(object: GameObject, torque: [number, number, number]): void
 
@@ -1008,6 +1085,7 @@ export function addTorque(object: GameObject, torque: [number, number, number]):
  * forceAddUniform.
  *
  * @see {@link https://community.bistudio.com/wiki/addUniform}
+ * @sqfsyntaxtype binary
  */
 export function addUniform(unit: GameObject, type: string): void
 
@@ -1020,6 +1098,7 @@ export function addUniform(unit: GameObject, type: string): void
  * @param expression - expression that will be executed in missionNamespace when event handler fires.
  * @returns the index of the currently added UserAction event handler is returned
  * @see {@link https://community.bistudio.com/wiki/addUserActionEventHandler}
+ * @sqfsyntaxtype unary
  */
 export function addUserActionEventHandler(keyName: string, event: string, expression: Function): number
 
@@ -1028,6 +1107,7 @@ export function addUserActionEventHandler(keyName: string, event: string, expres
  * Vehicle Management for more information.
  *
  * @see {@link https://community.bistudio.com/wiki/addVehicle}
+ * @sqfsyntaxtype binary
  */
 export function addVehicle(groupName: Group, vehicleName: GameObject): void
 
@@ -1035,6 +1115,7 @@ export function addVehicle(groupName: Group, vehicleName: GameObject): void
  * Create a new vest and try to link it into vest slot.
  *
  * @see {@link https://community.bistudio.com/wiki/addVest}
+ * @sqfsyntaxtype binary
  */
 export function addVest(unit: GameObject, type: string): void
 
@@ -1050,6 +1131,7 @@ export function addVest(unit: GameObject, type: string): void
  * @param name - (Optional, default "") waypointName
  * @returns Waypoint
  * @see {@link https://community.bistudio.com/wiki/addWaypoint}
+ * @sqfsyntaxtype binary
  */
 export function addWaypoint(groupName: Group, center: [number, number, number] | GameObject, radius: number, index: number, name: string): Waypoint
 

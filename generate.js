@@ -1,3 +1,4 @@
+import { cp } from "fs"
 import { readFile, writeFile } from "fs/promises"
 import { exit } from "process"
 
@@ -46,6 +47,7 @@ ${
 }${command.returnValue.type === undefined ? "" : ` * @returns ${command.returnValue.description ?? (typeof command.returnValue.type === "string" ? command.returnValue.type : "")}${typeof command.returnValue.type === "string" ? "" : command.returnValue.type.map(returnElement => {
 	return ` * ${returnElement.name ? ` - ${returnElement.name}` : ""} - ${returnElement.description ?? returnElement.type}`
 }).join("\n")}\n`} * @see {@link ${command.url}}
+ * @sqfsyntaxtype ${getCommandSyntaxType(command)}
  */
 export function ${command.name}(${
 	command.parameters.map(parameter => `${parameter.name}${parameter.optional ? "?" : ""}: ${parameter.type}`).join(", ")
@@ -94,4 +96,14 @@ function wrapText(text, maxWidth) {
 	}
 
 	return lines
+}
+
+function getCommandSyntaxType(command) {
+	if (command.syntax === command.name) {
+		return "nullary"
+	} else if (command.syntax.startsWith(command.name)) {
+		return "unary"
+	} else {
+		return "binary"
+	}
 }
