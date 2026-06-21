@@ -23,6 +23,12 @@ ${wrapText(dataType.description, 80).map(text => ` * ${text}`).join("\n")}
 ${dataType.type !== undefined ? `export type ${dataType.name} = ${dataType.type}` : `declare class ${dataType.name} {}`}
 `
 }).join("\n")}
+/**
+ * Gets a GameObject by the variableName it is configured with in the Mission Editor.
+ * 
+ * @see {@link https://community.bistudio.com/wiki/Object}
+ */
+export function getGameObjectByVariableName(variableName: string): GameObject
 
 ${
 	commands

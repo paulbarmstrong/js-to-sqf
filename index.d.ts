@@ -178,6 +178,12 @@ export type PositionConfig = [number, number, number]
  */
 export type AddActionScript = (target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void
 
+/**
+ * Gets a GameObject by the variableName it is configured with in the Mission Editor.
+ * 
+ * @see {@link https://community.bistudio.com/wiki/Object}
+ */
+export function getGameObjectByVariableName(variableName: string): GameObject
 
 /**
  * Returns absolute (positive) value of a real number.
