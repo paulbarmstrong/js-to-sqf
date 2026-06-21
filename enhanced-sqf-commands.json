@@ -479,9 +479,9 @@
       },
       {
         "name": "script",
-        "type": "string | AddActionScript",
+        "type": "AddActionScript",
         "optional": false,
-        "description": "path to script file relative to mission folder, or inline code to execute"
+        "description": "code to execute when the action is activated"
       },
       {
         "name": "arguments",
@@ -2048,7 +2048,7 @@
     "parameters": [
       {
         "name": "arguments",
-        "type": "any",
+        "type": "Array<any>",
         "optional": false,
         "description": "arguments passed to the script, available as _this inside the code"
       },

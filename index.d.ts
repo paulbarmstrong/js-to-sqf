@@ -441,7 +441,7 @@ export function add3DENLayer(parentLayerID: number, name: string): number
  *
  * @param object - unit, vehicle or static object; no agents
  * @param title - action name displayed in the action menu; may contain Structured Text
- * @param script - path to script file relative to mission folder, or inline code to execute
+ * @param script - code to execute when the action is activated
  * @param arguments - (Optional, default nil) arguments to pass to the script, accessible as _this
  * select 3
  * @param priority - (Optional, default 1.5) priority value; higher number = higher position in menu
@@ -564,7 +564,7 @@ export function addCuratorAddons(curatorObj: GameObject, addons: Array<string>):
  * @see {@link https://community.bistudio.com/wiki/addCuratorCameraArea}
  * @sqfsyntaxtype binary
  */
-export function addCuratorCameraArea(curatorObj: GameObject, cameraAreaID: number, position: [number, number, number], radius: number): void
+export function addCuratorCameraArea(curatorObj: GameObject, cameraAreaID: number, position: PositionAGL, radius: number): void
 
 /**
  * Register objects which can be edited by a curator.
@@ -582,7 +582,7 @@ export function addCuratorEditableObjects(curatorObj: GameObject, objects: Array
  * @see {@link https://community.bistudio.com/wiki/addCuratorEditingArea}
  * @sqfsyntaxtype binary
  */
-export function addCuratorEditingArea(curatorObj: GameObject, editAreaID: number, position: [number, number, number], radius: number): void
+export function addCuratorEditingArea(curatorObj: GameObject, editAreaID: number, position: PositionAGL, radius: number): void
 
 /**
  * Adds or removes curator points.
@@ -639,7 +639,7 @@ export function addEventHandler(target: GameObject | Group, type: string, code: 
  * @see {@link https://community.bistudio.com/wiki/addForce}
  * @sqfsyntaxtype binary
  */
-export function addForce(object: GameObject, force: [number, number, number], position: [number, number, number]): void
+export function addForce(object: GameObject, force: [number, number, number], position: PositionRelative): void
 
 /**
  * Adds force generator to world. For this command to have any effect, the Advanced
@@ -1162,7 +1162,7 @@ export function addVest(unit: GameObject, type: string): void
  * @see {@link https://community.bistudio.com/wiki/addWaypoint}
  * @sqfsyntaxtype binary
  */
-export function addWaypoint(groupName: Group, center: [number, number, number] | GameObject, radius: number, index?: number, name?: string): Waypoint
+export function addWaypoint(groupName: Group, center: PositionAGL | GameObject, radius: number, index?: number, name?: string): Waypoint
 
 /**
  * Remainder of a divided by b.
@@ -1182,7 +1182,7 @@ export function mod(a: number, b: number): number
  * @see {@link https://community.bistudio.com/wiki/moveTo}
  * @sqfsyntaxtype binary
  */
-export function moveTo(unit: GameObject, position: [number, number, number]): void
+export function moveTo(unit: GameObject, position: PositionATL): void
 
 /**
  * Returns Object with given id. Object's id can be checked in mission editor.
@@ -1217,6 +1217,26 @@ export function player(): GameObject
  * @sqfsyntaxtype binary
  */
 export function sideChat(unit: GameObject, chatText: string): void
+
+/**
+ * Adds given set of compiled instructions to the scheduler. Exactly when the code
+ * will be executed is unknown, it depends on how busy is the engine and how filled
+ * up is the scheduler. Therefore spawn does not wait for the supplied code to
+ * finish, instead, spawn returns a Script handle to the scheduler task. scriptDone
+ * command can be used to check the code completion. Additional arguments are
+ * passed to the code in local variable _this. Since 1.56 the script handle also
+ * exists inside the code in _thisScript variable. To see what spawned scripts are
+ * currently in the scheduler, use diag_activeSQFScripts command. ⚠When multiple
+ * Code is spawned in an order, there is no guarantee that the spawned Code will
+ * execute in the same order (see Example 2). If the order is important, use
+ * BIS_fnc_spawnOrdered.
+ *
+ * @param arguments - arguments passed to the script, available as _this inside the code
+ * @returns Script Handle — can be used with scriptDone to check when the spawned script has finished
+ * @see {@link https://community.bistudio.com/wiki/spawn}
+ * @sqfsyntaxtype binary
+ */
+export function spawn(arguments: Array<any>, code: Function): any
 
 /**
  * Types text to the system radio channel. The text will be visible only on the PC
