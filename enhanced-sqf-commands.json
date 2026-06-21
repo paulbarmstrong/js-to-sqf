@@ -479,7 +479,7 @@
       },
       {
         "name": "script",
-        "type": "AddActionScript",
+        "type": "string | AddActionScript",
         "optional": false,
         "description": "path to script file relative to mission folder, or inline code to execute"
       },
@@ -747,7 +747,7 @@
       },
       {
         "name": "position",
-        "type": "[number, number, number]",
+        "type": "PositionAGL",
         "optional": false
       },
       {
@@ -802,7 +802,7 @@
       },
       {
         "name": "position",
-        "type": "[number, number, number]",
+        "type": "PositionAGL",
         "optional": false
       },
       {
@@ -919,7 +919,7 @@
       },
       {
         "name": "position",
-        "type": "[number, number, number]",
+        "type": "PositionRelative",
         "optional": false,
         "description": "position relative to object"
       }
@@ -1926,7 +1926,7 @@
       },
       {
         "name": "center",
-        "type": "[number, number, number] | GameObject",
+        "type": "PositionAGL | GameObject",
         "optional": false,
         "description": "PositionAGL (PositionASL if radius is negative) or Object"
       },
@@ -1987,7 +1987,7 @@
       },
       {
         "name": "position",
-        "type": "[number, number, number]",
+        "type": "PositionATL",
         "optional": false
       }
     ],
@@ -2039,6 +2039,29 @@
       }
     ],
     "returnValue": {}
+  },
+  {
+    "name": "spawn",
+    "url": "https://community.bistudio.com/wiki/spawn",
+    "syntax": "arguments spawn code",
+    "description": "Adds given set of compiled instructions to the scheduler. Exactly when the code will be executed is unknown, it depends on how busy is the engine and how filled up is the scheduler. Therefore spawn does not wait for the supplied code to finish, instead, spawn returns a Script handle to the scheduler task. scriptDone command can be used to check the code completion. Additional arguments are passed to the code in local variable _this. Since 1.56 the script handle also exists inside the code in _thisScript variable. To see what spawned scripts are currently in the scheduler, use diag_activeSQFScripts command. ⚠When multiple Code is spawned in an order, there is no guarantee that the spawned Code will execute in the same order (see Example 2). If the order is important, use BIS_fnc_spawnOrdered.",
+    "parameters": [
+      {
+        "name": "arguments",
+        "type": "any",
+        "optional": false,
+        "description": "arguments passed to the script, available as _this inside the code"
+      },
+      {
+        "name": "code",
+        "type": "Function",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "any",
+      "description": "Script Handle — can be used with scriptDone to check when the spawned script has finished"
+    }
   },
   {
     "name": "systemChat",
