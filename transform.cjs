@@ -309,6 +309,61 @@ const OVERRIDES = {
     },
   },
 
+  'BIS_fnc_dynamicText': {
+    parameters: [
+      { name: 'text',       type: 'string',              optional: false, description: 'text to display' },
+      { name: 'x',          type: 'number | Array<any>', optional: true,  description: '(Optional, default -1) position in x, or array [x, width]' },
+      { name: 'y',          type: 'number | Array<any>', optional: true,  description: '(Optional, default -1) position in y, or array [y, height]' },
+      { name: 'duration',   type: 'number',              optional: true,  description: '(Optional, default 4) display duration' },
+      { name: 'fadeInTime', type: 'number',              optional: true,  description: '(Optional, default 1) fade-in time' },
+      { name: 'deltaY',     type: 'number',              optional: true,  description: '(Optional, default 0) Y position delta' },
+      { name: 'rscLayer',   type: 'number',              optional: true,  description: '(Optional) resource layer' },
+    ],
+  },
+
+  'BIS_fnc_crewCount': {
+    parameters: [
+      { name: 'classname', type: 'string', optional: false, description: 'classname of vehicle' },
+      { name: 'includeCargo', type: 'boolean', optional: false, description: 'true if cargo seats should be included' },
+    ],
+  },
+
+  // rename parameter "class" (JS reserved word) to "className"
+  'cutRsc': {
+    parameters: [
+      { name: 'className', type: 'string', optional: false, description: 'the class name of the resource; "Default" will remove the current resource' },
+      { name: 'effect',    type: 'string', optional: false, description: 'one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN", "WHITE OUT", "WHITE IN"' },
+      { name: 'speed',     type: 'number', optional: true,  description: '(Optional, default -1) time in seconds to fade in resource' },
+      { name: 'showInMap', type: 'boolean', optional: true, description: '(Optional, default true) false to hide the resource when the map is opened' },
+      { name: 'drawOverHUD', type: 'boolean', optional: true, description: '(Optional, default true) false to show the resource under in-game HUD' },
+    ],
+  },
+
+  'setVariable': {
+    parameters: [
+      { name: 'varspace', type: 'Namespace | GameObject | Group | Control | Display', optional: false, description: 'variable space in which variable can be set' },
+      { name: 'name',     type: 'string',                                            optional: false, description: 'variable name (Identifier)' },
+      { name: 'value',    type: 'any',                                              optional: false, description: 'variable value' },
+      { name: 'public',   type: 'boolean | number | Array<number>',                 optional: true,  description: '(Optional, default false) if true, variable is broadcast globally; if number, set on specific client; if array, set on listed clients' },
+    ],
+  },
+
+  'remoteExec': {
+    parameters: [
+      { name: 'params',  type: 'any',         optional: false, description: 'order\'s parameter; Structured Text is not meant to be sent over network' },
+      { name: 'order',   type: 'string',      optional: false, description: 'function or command name; only those allowed by CfgRemoteExec will be executed' },
+      { name: 'targets', type: 'number | GameObject | string | Side | Group | Array<any>', optional: true, description: '(Optional, default 0) target machines for execution' },
+      { name: 'JIP',     type: 'boolean | string | GameObject | Group | any', optional: true, description: '(Optional, default false) JIP (Join In Progress) ID or persistence mode' },
+    ],
+    returnValue: {
+      description: 'return value depends on the JIP parameter',
+      type: [
+        { name: 'error',    type: 'null', description: 'nil in case of error' },
+        { name: 'jipId',    type: 'string', description: 'string with the JIP ID (or "" if JIP is false/empty)' },
+      ],
+    },
+  },
+
   // spawn.code has no explicit typed I/O -> Function
   // Script Handle return type not yet in sqf-data-types.json -> any
   'spawn': {

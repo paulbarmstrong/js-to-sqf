@@ -17,12 +17,20 @@
 	"a less b",
 	"a less= b",
 	"a or b",
+	"if",
+	"then",
+	"else",
 	"switch",
+	"case",
 	"do",
 	"for",
 	"while",
 	"forEach",
 	"apply",
 	"select",
-	"call"
+	"call",
+	"exitWith",
+	"compileFinal",
+	"preprocessFile",
+	"disableSerialization"
 ]

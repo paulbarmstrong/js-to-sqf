@@ -405,8 +405,8 @@
     "parameters": [
       "object: Object - unit, vehicle or static object. No agents!",
       "title: String - the action name which is displayed in the action menu, may contain Structured Text. Because of that < and > symbols will be interpreted as opening and closing XML tags. To avoid this use &lt; for < and &gt; for >. The title text appearance can be changed with setUserActionText",
-      "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: Copyparams [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
-      "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with c_this select 3 inside the script. If Array is used as an argument for example, its first element reference would be c_this select 3 select 0",
+      "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: params [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
+      "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with _this select 3 inside the script. If Array is used as an argument for example, its first element reference would be _this select 3 select 0",
       "priority: Number - (Optional, default 1.5) priority value of the action. Actions will be arranged in descending order according to this value. Every game action has a preset priority value. Value can be negative or decimal fraction. Actions with same values will be arranged in order which they were made, newest at the bottom. The bigger the number the higher the action will be positioned on the menu. Typical range is 0 to 6",
       "showWindow: Boolean - (Optional, default true) if set to true, players see \"Titletext\" at mid-lower screen, as they approach the object. Only the title text for the action with highest priority and showWindow set to true will be shown",
       "hideOnUse: Boolean - (Optional, default true) if set to true, it will hide the action menu after selecting it. If set to false, it will leave the action menu open and visible after selecting the action, leaving the same action highlighted, for the purpose of allowing you to re-select that same action quickly, or to select another action",
@@ -415,8 +415,8 @@
       "positionInModel: String - (Optional, default \"\") name of the named selection in the model for positioning the action in 3D space; typically a memory point",
       "radius: Number - (Optional, default 50) maximum 3D distance in meters between the activating unit's eyePos and the object's memoryPoint, selection or position. -1 disables the radius",
       "radiusView: Number - (Optional, default unknown) maximum distance in meters the cursor can be away from the 3D action to activate it. -1 disables this radius",
-      "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. c2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
-      "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. c1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
+      "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. 2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
+      "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. 1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
       "textDefault: String - (Optional, default \"\") structured Text which is shown as the 3D action (so it can be an icon), or in the center of the screen when the action is highlighted in the action menu for a 2D action",
       "textToolTip: String - (Optional, default \"\") structured Text which is faded in under the textDefault when hovering over the action in 3D space"
     ],
@@ -580,7 +580,7 @@
     "parameters": [
       "target: Object or 2.10 Group",
       "type: String - see Event Handlers for the full list of available options",
-      "code: Code or String - code that should be executed when the Event Handler fires; executed in missionNamespace by default. Several Magic Variables are available:\n• Event Handler parameters are accessible via _this\n• The Event Handler type is available as _thisEvent\n• The Event Handler index is available as _thisEventHandler"
+      "code: Code or String - code that should be executed when the Event Handler fires; executed in missionNamespace by default. Several Magic Variables are available:\n• Event Handler parameters are accessible via c_this\n• The Event Handler type is available as c_thisEvent\n• The Event Handler index is available as c_thisEventHandler"
     ],
     "returnValue": "Number - the index of the added Event Handler. Indices start at 0 for each unit and increment with each added Event Handler.",
     "syntax": "target addEventHandler [type, code]",
@@ -881,7 +881,7 @@
     "parameters": [
       "event: String - event name",
       "expression: Code or String - expression that will be executed in missionNamespace when event handler fires.\n• If the event handler has some data to return upon activation they are stored in the _this variable\n• 1.64 the event handler's handle is stored in _thisEventHandler variable and is available during event handler code execution\n• 2.04 it is possible to pass additional arguments to the EH code via optional param. The args are stored in _thisArgs variable ⚠Only arguments of simple types get proper serialization. Objects, Groups etc will not serialize and appear as NULLs on game load.\n• 2.06 the event's name is available from _thisEvent variable",
-      "arguments: Array of Anything - (Optional, default []) additional arguments to be passed to the EH code. Available during code execution via _thisArgs variable."
+      "arguments: Array of Anything - (Optional, default c[]) additional arguments to be passed to the EH code. Available during code execution via _thisArgs variable."
     ],
     "returnValue": "Number - the index of the currently added mission event handler is returned",
     "syntax": "addMissionEventHandler [event, expression, arguments]",
@@ -1122,6 +1122,63 @@
     "url": "https://community.bistudio.com/wiki/addWaypoint"
   },
   {
+    "description": "Adds a weapon to the turret. Use turret path [-1] for driver's turret.",
+    "name": "addWeaponTurret",
+    "parameters": [
+      "vehicle: Object",
+      "weaponName: String",
+      "turretPath: Turret Path"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "vehicle addWeaponTurret [weaponName, turretPath]",
+    "url": "https://community.bistudio.com/wiki/addWeaponTurret"
+  },
+  {
+    "description": "Check if given vehicle/person/building is alive (i.e. not dead or destroyed).",
+    "name": "alive",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Boolean - true if alive, false if dead/destroyed",
+    "syntax": "alive object",
+    "url": "https://community.bistudio.com/wiki/alive"
+  },
+  {
+    "description": "Return a list of all groups created on the following sides east, west, resistance/independent and civilian only. Does not contain groups of sideLogic.",
+    "name": "allGroups",
+    "parameters": [],
+    "returnValue": "Array of Groups",
+    "syntax": "allGroups",
+    "url": "https://community.bistudio.com/wiki/allGroups"
+  },
+  {
+    "description": "Enables / disables an entity's ability to receive damage. This command does not prevent the entity from taking scripted damage from commands such as setDamage, setHit, setHitIndex or setHitPointDamage. ⓘThis command only supports entities (Entity is a child class of Object, i.e. all entities are objects, but not all objects are entities). Consequently, there are objects that are not affected by this command, for example terrain vegetation such as trees.",
+    "name": "allowDamage",
+    "parameters": [
+      "entity: Object",
+      "allow: Boolean"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "entity allowDamage allow",
+    "url": "https://community.bistudio.com/wiki/allowDamage"
+  },
+  {
+    "description": "Returns a list of all units controlled by connected clients. This includes:\n• Normal human players (including dead players)\n• Virtual Entities (see Systems → Logic Entities → Virtual Entities in the Eden Editor)\n◦ Headless Clients (HeadlessClient_F)\n◦ Virtual Curators (VirtualCurator_F, *_VirtualCurator_F)\n◦ Virtual Spectators (VirtualSpectator_F) Use BIS_fnc_listPlayers or see Example 1 to only get human players.",
+    "name": "allPlayers",
+    "parameters": [],
+    "returnValue": "Array of Objects",
+    "syntax": "allPlayers",
+    "url": "https://community.bistudio.com/wiki/allPlayers"
+  },
+  {
+    "description": "Returns a list of all units, except agents, dead units or units waiting for respawn, outside and inside vehicles that were created on the following sides east, west, independent and civilian. To get all units of given side, use units Side.",
+    "name": "allUnits",
+    "parameters": [],
+    "returnValue": "Array of objects",
+    "syntax": "allUnits",
+    "url": "https://community.bistudio.com/wiki/allUnits"
+  },
+  {
     "description": "Applies the given code to each element of the given data structure and collects the results in an array.",
     "name": "apply",
     "parameters": [
@@ -1131,6 +1188,118 @@
     "returnValue": "Array of Anything - resulting array",
     "syntax": "array apply code",
     "url": "https://community.bistudio.com/wiki/apply"
+  },
+  {
+    "description": "Assign a unit as cargo of a vehicle. Used together with orderGetIn to order a unit to get in as cargo into a specific vehicle. Before usage of this command a subordinate unit has not got the option to get into the cargo space of the vehicle. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "assignAsCargo",
+    "parameters": [
+      "unitName: Object",
+      "vehicleName: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitName assignAsCargo vehicleName",
+    "url": "https://community.bistudio.com/wiki/assignAsCargo"
+  },
+  {
+    "description": "Assign a unit as driver of a vehicle. Used together with orderGetIn to order subordinate units to get in as driver of a specific vehicle. Before usage of this command a subordinate unit has not got the option to get into the driver place of the vehicle. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "assignAsDriver",
+    "parameters": [
+      "unitName: Object",
+      "vehicleName: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitName assignAsDriver vehicleName",
+    "url": "https://community.bistudio.com/wiki/assignAsDriver"
+  },
+  {
+    "description": "Assign a unit as gunner of a vehicle. Used together with orderGetIn to order subordinate units to get in as gunner of a specific vehicle. Before usage of this command a subordinate unit has not got the option to get into the gunner place of the vehicle. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "assignAsGunner",
+    "parameters": [
+      "unitName: Object",
+      "vehicleName: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitName assignAsGunner vehicleName",
+    "url": "https://community.bistudio.com/wiki/assignAsGunner"
+  },
+  {
+    "description": "Returns the role a unit is assigned to within its assigned vehicle. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "assignedVehicleRole",
+    "parameters": [
+      "unitName: Object"
+    ],
+    "returnValue": "Array - the array which is returned contains:\n• [] - not assigned to any vehicle\n• [\"driver\"] - Assigned as driver\n• [\"cargo\"] or 1.32 [\"cargo\", [turret path]] - assigned as cargo\n• [\"turret\", turretPath] - assigned to a turret (turretPath format Turret Path)",
+    "syntax": "assignedVehicleRole unitName",
+    "url": "https://community.bistudio.com/wiki/assignedVehicleRole"
+  },
+  {
+    "description": "Attaches an object to another object.\n• The offset is applied to the object center unless a memory point is provided, in which case the offset will be applied to the memory point position.\n• If no offset is specified, the current offset between the two objects will be used. ⓘ\n• All direction commands, such as setDir, setVectorDirAndUp, etc. for an attached object should be used relative to the reference object's direction (i.e. in model space), e.g c_attachedObj setDir 0 will make it face the same direction as the reference object, 90 face to the right, 180 face to the back, etc.\n• Attached triggers only follow the direction of the object to which they are attached, not pitch or roll.",
+    "name": "attachTo",
+    "parameters": [
+      "object1: Object - object to attach",
+      "object2: Object or Group - object to attach to; if a group is provided, its leader is used",
+      "offset: PositionRelative - (Optional) the position relative to object2's position",
+      "memPoint: String - (Optional) see Selection Translations for czech selections names",
+      "followBoneRotation: Boolean - (Optional) follows the memory point's rotation (if attached to one)"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object1 attachTo [object2, offset, memPoint, followBoneRotation]",
+    "url": "https://community.bistudio.com/wiki/attachTo"
+  },
+  {
+    "description": "Function that counts amount of seats, both for crew and cargo seats.",
+    "name": "BIS_fnc_crewCount",
+    "parameters": [
+      "String - classname of vehicle.",
+      "Boolean - true if cargo seats should be included (see notes)"
+    ],
+    "returnValue": "Number - amount of seats in vehicle.",
+    "syntax": "param call BIS_fnc_crewCount",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_crewCount"
+  },
+  {
+    "description": "Shows dynamic opening credits or any type of text.",
+    "name": "BIS_fnc_dynamicText",
+    "parameters": [
+      "text: String - text to display",
+      "x: Number or Array - (Optional, default -1)\n• Number - Position in x\n• Array\n◦ 0: Position in x\n◦ 1: Width of the control",
+      "y: Number or Array - (Optional, default -1)\n• Number - Position in y\n• Array\n◦ 0: Position in y\n◦ 1: Height of the control",
+      "duration: Number - (Optional, default 4) display duration",
+      "fadeInTime: Number - (Optional, default 1) fade-in time",
+      "deltaY: Number - (Optional, default 0) Y position delta:\n• = 0: Text will not move\n• > 0: Text will move down\n• < 0: Text will move up duration and the absolute deltaY value will influence the movement speed.",
+      "rscLayer: Number - resource layer"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "[text, x, y, duration, fadeInTime, deltaY, rscLayer] spawn BIS_fnc_dynamicText",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_dynamicText"
+  },
+  {
+    "description": "Ends the mission properly for all players in a multiplayer environment. ⓘThis function is somewhat deprecated for custom endings since 1.50 as remote-executing BIS_fnc_endMission allows for more options: Copy[\"MyEnding\", true, 3] remoteExec [\"BIS_fnc_endMission\", 0, true];",
+    "name": "BIS_fnc_endMissionServer",
+    "parameters": [
+      "endType: String - class name of ending defined in CfgDebriefing. Can be custom or one of dynamically calculated ones:\n• \"EveryoneWon\" - Show \"MISSION COMPLETED\" to everyone\n• \"EveryoneLost\" - Show \"MISSION FAILED\" to everyone\n• \"SideTickets\" - Show \"YOUR SIDE WON\" to side/s with most tickets and \"YOUR SIDE LOST\" to everyone else\n• \"SideScore\" - Show \"YOUR SIDE WON\" to side with largest score\n• \"GroupScore\" - Show \"YOUR GROUP WON\" to group with largest score\n• \"PlayerScore\" - Show \"YOU WON\" to player with largest score"
+    ],
+    "returnValue": "Boolean",
+    "syntax": "endType call BIS_fnc_endMissionServer",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_endMissionServer"
+  },
+  {
+    "description": "This function generates position on a map according to several given parameters (see diagram). Diagram The position pos will be generated inside an area which resides between minDist and maxDist from the given center. If objDist is also specified, the position will be selected objDist away from nearest terrain object. If maxGrad > 0 then the position will be also checked for how flat the area around is within objDist radius. The function can additionally be instructed to generate position specifically on water or land (waterMode) or on a shoreline (shoreMode). The shoreLine param will be ignored if position is not requested specifically on land. Additionally, generated position could be checked against the list of blacklisted positions blacklistPos. If search for suitable position failed, defaultPos position will be used. The format for defaultPos is array with 2 positions: [posOnLand, posOnWater].",
+    "name": "BIS_fnc_findSafePos",
+    "parameters": [
+      "center: (Optional, default c[]) center position. Can be one of:\n• Array - position in format Position2D or Position3D\n• Object - object which position will be used\n• Nothing - when passing empty array [] or nothing, the world's \"safePositionAnchor\" entry will be used",
+      "minDist: Number - (Optional, default 0) minimum distance from the center position",
+      "maxDist: Number - (Optional, default -1) maximum distance from the center position. If -1, the world's \"safePositionRadius\" entry will be used",
+      "objDist: Number - (Optional, default 0) minimum distance from the resulting position to the center of nearest object. Specifying quite large distance here will slow the function and might often fail to find suitable position. Recommended value: 0..10",
+      "waterMode: Number - (Optional, default 0) water mode. Can be one of:\n• 0 - cannot be in water\n• 1 - can either be in water or not\n• 2 - must be in water",
+      "maxGrad: Number - (Optional, default 0) maximum terrain gradient (hill steepness). A quite small non-zero value could result in failure to find suitable position. Recommended: 0.1+",
+      "shoreMode: Number - (Optional, default 0) shore mode. Can be one of:\n• 0 - does not have to be at a shore\n• 1 - must be at a shore",
+      "blacklistPos: Array - (Optional, default c[]) list of blacklisted areas in format [area1, area2, area3... areaN]. Can be one of:\n• Array - in format [topLeftCorner, bottomRightCorner] - top and bottom coordinates of blacklisted area\n• Object - trigger area\n• String - marker area\n• Location - location\n• Array - array in format [center, distance] or [center, a, b, angle, rect] or [center, a, b, angle, rect, height]",
+      "defaultPos: Array - (Optional, default c[]) default position when no position is found. Array format is [landPosition, seaPosition], where:\n• landPosition: Array - in format [x,y] or [x,y,z] - default position on land\n• seaPosition: Array - in format [x,y] or [x,y,z] - default position on water"
+    ],
+    "returnValue": "Array - in format [x,y] on success. When position cannot be found at all, default map center position is returned, which will be in format [x,y,0]",
+    "syntax": "[center, minDist, maxDist, objDist, waterMode, maxGrad, shoreMode, blacklistPos, defaultPos] call BIS_fnc_findSafePos",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_findSafePos"
   },
   {
     "description": "Returns the value of the named mission parameter. This function is global and will return selected param value on any PC including JIP. For backward compatibility it also supports \"param1\" and \"param2\".",
@@ -1154,6 +1323,53 @@
     "url": "https://community.bistudio.com/wiki/BIS_fnc_getPitchBank"
   },
   {
+    "description": "Returns a random integer between the two passed numbers (inclusive). The order of parameters doesn't matter: it can be [min, max] or [max, min].",
+    "name": "BIS_fnc_randomInt",
+    "parameters": [
+      "min: Number - minimum value, included",
+      "max: Number - maximum value, included"
+    ],
+    "returnValue": "Number",
+    "syntax": "[min, max] call BIS_fnc_randomInt",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_randomInt"
+  },
+  {
+    "description": "Returns a position that is a specified distance and compass direction from the passed position or object. In Arma 3 use getPos' alternative syntax instead.",
+    "name": "BIS_fnc_relPos",
+    "parameters": [
+      "origin: Object or Position - object or position which should be used as initial point.",
+      "distance: Number - distance from initial point",
+      "direction: Number - direction from the intial position"
+    ],
+    "returnValue": "Position",
+    "syntax": "[origin, distance, direction] call BIS_fnc_relPos",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_relPos"
+  },
+  {
+    "description": "Returns list of all parent classes.",
+    "name": "BIS_fnc_returnParents",
+    "parameters": [
+      "config: Config - starting config class",
+      "onlyClassNames: Boolean - (Optional, default false) true to return only class names"
+    ],
+    "returnValue": "Array - list of all classes (including starting one)",
+    "syntax": "[config, onlyClassNames] call BIS_fnc_returnParents",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_returnParents"
+  },
+  {
+    "description": "Function to spawn a certain vehicle type with all crew (including turrets). The vehicle can either become part of an existing group or create a new group. ⚠Before Arma 3 (Arma 2, Take On Helicopters):\n• a Functions Module must be placed in order to use this function\n• a side's center has to exist (by already having a unit of said side on the map)/be created via createCenter or the vehicle will spawn empty.",
+    "name": "BIS_fnc_spawnVehicle",
+    "parameters": [
+      "position: Array format Position - desired position",
+      "direction: Number - desired azimuth/direction",
+      "type: String - type of the vehicle",
+      "sideOrGroup: Side or Group - side or existing group"
+    ],
+    "returnValue": "Array format [createdVehicle, crew, group]:\n• createdVehicle: Object - the created vehicle\n• crew: Array of Objects - the vehicle's crew members\n• group: Group - created or passed group",
+    "syntax": "[position, direction, type, sideOrGroup] call BIS_fnc_spawnVehicle",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_spawnVehicle"
+  },
+  {
     "description": "Adds given set of compiled instructions to the current stack and waits for it to finish and return, provides an option to pass arguments to the executed Code. See Scheduler to learn more about how the code is executed and behaves.",
     "name": "call",
     "parameters": [
@@ -1162,6 +1378,193 @@
     "returnValue": "Anything - the last value given in the function is returned - see the topic Function for more information",
     "syntax": "call code",
     "url": "https://community.bistudio.com/wiki/call"
+  },
+  {
+    "description": "This command is used as a keyword inside a switch structure to define a value case. ⚠This command must be written and used inside a switch construct, never stored in a variable, otherwise its behaviour is not guaranteed - see https://foxhound.international/arma-3-sqf-grammar.html for further explanation.",
+    "name": "case",
+    "parameters": [
+      "b: Anything"
+    ],
+    "returnValue": "Switch Type",
+    "syntax": "case b",
+    "url": "https://community.bistudio.com/wiki/case"
+  },
+  {
+    "description": "Closes the currently active dialog with exit code. It does not instantly close the dialog but does it on next simulation cycle. Most common exit codes are: #define IDC_OK 1 // emulate \"OK\" button #define IDC_CANCEL 2 // emulate \"Cancel\" button",
+    "name": "closeDialog",
+    "parameters": [
+      "exitcode: Number"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "closeDialog exitcode",
+    "url": "https://community.bistudio.com/wiki/closeDialog"
+  },
+  {
+    "description": "Compiles an expression / takes an existing HashMap and makes it final, preventing it from being modified or overwritten (by = assignation, publicVariable, set or any other command). ⓘThis feature is only available in the retail version of Arma 3.",
+    "name": "compileFinal",
+    "parameters": [
+      "expression: String, 2.14 Code or HashMap"
+    ],
+    "returnValue": "Code or HashMap",
+    "syntax": "compileFinal expression",
+    "url": "https://community.bistudio.com/wiki/compileFinal"
+  },
+  {
+    "description": "Returns an array of config entries which meet criteria in condition code. Command iterates through all available config sub classes of the given config class. Current looked at config is stored in _x variable (similar to alternative count command implementation). Condition has to return true in order for the looked at config to be added to the resulting array. Slightly faster than configProperties, but doesn't account for config properties or inherited entries. ⚠\n• The condition code passed to configClasses should only be used for simple filter expressions and nothing more\n• Do not use \"isClass _x\" in the condition. The engine does this check already\n• Arma 3 v2.02 brought specific engine optimisations for the following conditions:\n◦ \"true\"\n◦ \"getNumber (_x >> 'scope') > 0\"",
+    "name": "configClasses",
+    "parameters": [
+      "condition: String",
+      "config: Config"
+    ],
+    "returnValue": "Array of Configs",
+    "syntax": "condition configClasses config",
+    "url": "https://community.bistudio.com/wiki/configClasses"
+  },
+  {
+    "description": "Return root of config entries hierarchy.",
+    "name": "configFile",
+    "parameters": [],
+    "returnValue": "Config",
+    "syntax": "configFile",
+    "url": "https://community.bistudio.com/wiki/configFile"
+  },
+  {
+    "description": "Returns name of config entry.",
+    "name": "configName",
+    "parameters": [
+      "config: Config"
+    ],
+    "returnValue": "String",
+    "syntax": "configName config",
+    "url": "https://community.bistudio.com/wiki/configName"
+  },
+  {
+    "description": "Copies ANSI text string to the clipboard. If Unicode support is desired, see forceUnicode.",
+    "name": "copyToClipboard",
+    "parameters": [
+      "text: String"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "copyToClipboard text",
+    "url": "https://community.bistudio.com/wiki/copyToClipboard"
+  },
+  {
+    "description": "Can be used to count:\n• The number of elements in an array (returns the already internally known array size)\n• The number of elements in an array matching the condition\n• The number of sub-entries in a config entry\n• 1.28 The number of characters in an ANSI string ⓘIf Unicode support is desired, see forceUnicode.",
+    "name": "count",
+    "parameters": [
+      "value: String, Config, HashMap or Array of Anything"
+    ],
+    "returnValue": "Number",
+    "syntax": "count value",
+    "url": "https://community.bistudio.com/wiki/count"
+  },
+  {
+    "description": "Creates a dialog which is defined either in the mission's description.ext, in the campaign's description.ext or in the global resource.cpp. The given name has to be the class name used in one of these files. If another dialog is already opened, the desired dialog is created as a child dialog of the one already opened. ⓘBy default, displays created with createDisplay are rendered on top of dialogs created with createDialog. If forceOnTop is set to true, the dialog will be rendered on top of displays.",
+    "name": "createDialog",
+    "parameters": [
+      "dialogName: String - class name used in the description.ext, resource.cpp or config.cpp"
+    ],
+    "returnValue": "Boolean - true when the dialog was created successfully",
+    "syntax": "createDialog dialogName",
+    "url": "https://community.bistudio.com/wiki/createDialog"
+  },
+  {
+    "description": "Creates a new Group for the given Side. Using this command if the group limit is reached will return grpNull. The new Group exists globally, but it's locality is where this command was executed. Game 1.00 1.00 1.00 1.00 1.50 1.00 1.00 1.68 Group auto-deletion Group limit per side 63 144 288 ⚠\n• Groups can only be created for the west/blufor, opfor/east, independent/resistance, civilian and sideLogic sides - any other side will return grpNull\n• Before Arma 3, a Side center must exist before group creation (either by having editor-placed units or createCenter usage)\n• createCenter usage is not needed anymore as all centers are automatically created.\n• When the last unit leaves its group, the group usually gets immediately auto-deleted, regardless of its auto-deletion setting.",
+    "name": "createGroup",
+    "parameters": [
+      "side: Side"
+    ],
+    "returnValue": "Group - grpNull if the group limit is reached",
+    "syntax": "createGroup side",
+    "url": "https://community.bistudio.com/wiki/createGroup"
+  },
+  {
+    "description": "Creates a new map marker at the given position. The marker will be created for every connected player as well as all JIP players. The marker name has to be unique; the command will be ignored if a marker with the given name already exists. ⚠The marker will be visible only once at least markerType has been defined: _marker = createMarker [\"markername\", player]; // Not visible yet. _marker setMarkerType \"hd_dot\"; // Visible. ⓘIf the marker position is given in 3D format, the z-coordinate is stored with the marker and will be used when the marker is passed to commands such as createVehicle, createUnit, createAgent, createMine or setVehiclePosition.When a marker is manually placed in the editor, z is always 0, which means the marker is placed on the ground. But when the player places a marker on the map in game, it is placed at sea level, so the z-coordinate of that marker is -getTerrainHeightASL markerPos \"userMarker\";.",
+    "name": "createMarker",
+    "parameters": [
+      "name: String - the marker's name, used to reference the marker in scripts.",
+      "position: Position2D, PositionAGL or Object - In case of an object, the object's model [0,0,0] is used.",
+      "channel: Number - (Optional, default -1) the marker channel - see Channel IDs (for multiplayer)",
+      "creator: Object - (Optional, default objNull) the marker creator (for multiplayer)"
+    ],
+    "returnValue": "String - the marker's name or empty string if the marker name is not unique.",
+    "syntax": "createMarker [name, position, channel, creator]",
+    "url": "https://community.bistudio.com/wiki/createMarker"
+  },
+  {
+    "description": "Creates an empty object of given classname type. See Arma 3: Assets / Arma 3: createVehicle/vehicles, or Category:CfgVehicles for earlier games. ⓘ\n• To create objects of type \"Logic\", use createUnit.\n• To create an editable Eden Editor entity, see create3DENEntity. To avoid vehicle randomisation in Arma 3, set the BIS_enableRandomization variable immediately after creating the vehicle: private \"_vehicle\"; isNil { // run unscheduled _vehicle = \"C_Offroad_01_F\" createVehicle getPosATL player; _vehicle setVariable [\"BIS_enableRandomization\", false]; }; // the _vehicle variable is available after that See the Arma 3: Vehicle Customisation page for more information and settings.",
+    "name": "createVehicle",
+    "parameters": [
+      "type: String - vehicle/object className",
+      "position: Position - desired placement position. If the exact position is occupied, nearest empty position is used."
+    ],
+    "returnValue": "Object",
+    "syntax": "type createVehicle position",
+    "url": "https://community.bistudio.com/wiki/createVehicle"
+  },
+  {
+    "description": "Creates vehicle crew corresponding to the provided vehicle's faction. If the vehicle is already occupied, the command will only create missing crew in the existing vehicle's group. To find out which crew will be created, use BIS_fnc_vehicleCrewTurrets. This command: Does Does not\n• 1.26 create a group if one is needed (otherwise uses group _vehicle)\n• create a driver if the vehicle needs one (hasDriver = 1; in config)\n• create all non-FFV turrets gunners (if the turret needs one - config {hasGunner without dontCreateAI)\n• create crew with ranks - with the driver as \"LIEUTENANT\" and all turret units as \"SERGEANT\", unlike a crewed vehicle placed in Eden Editor where all units are \"PRIVATE\".\n• add vehicle to the group, unlike a crewed vehicle placed in Eden Editor. See BIS_fnc_spawnVehicle to spawn a crew-full vehicle with group addition\n• create cargo units.",
+    "name": "createVehicleCrew",
+    "parameters": [
+      "vehicle: Object - vehicle to populate with crew"
+    ],
+    "returnValue": "Group - the group of the created crew (since 1.94; before that returned Nothing)",
+    "syntax": "createVehicleCrew vehicle",
+    "url": "https://community.bistudio.com/wiki/createVehicleCrew"
+  },
+  {
+    "description": "Creates an object of the given type. The Created object is not transferred through network in MP games. netId of such vehicle in multiplayer will be \"0:0\". To disable local vehicle creation, use CfgDisabledCommands to blacklist this command. Alternatively, you can use createSimpleObject with local option enabled where applicable.",
+    "name": "createVehicleLocal",
+    "parameters": [
+      "type: String - vehicle/object className",
+      "position: PositionAGL"
+    ],
+    "returnValue": "Object",
+    "syntax": "type createVehicleLocal position",
+    "url": "https://community.bistudio.com/wiki/createVehicleLocal"
+  },
+  {
+    "description": "Returns the crew (both dead and alive) of the given vehicle.",
+    "name": "crew",
+    "parameters": [
+      "vehicleName: Object"
+    ],
+    "returnValue": "Array - an array with all units in the vehicle is returned.",
+    "syntax": "crew vehicleName",
+    "url": "https://community.bistudio.com/wiki/crew"
+  },
+  {
+    "description": "Set the Structured Text which will be displayed in structured text control.",
+    "name": "ctrlSetStructuredText",
+    "parameters": [
+      "control: Control",
+      "structuredText: Structured Text"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "control ctrlSetStructuredText structuredText",
+    "url": "https://community.bistudio.com/wiki/ctrlSetStructuredText"
+  },
+  {
+    "description": "Sets the text of a control of the currently active user dialog or display. This command can be used for static texts, buttons, edit lines and active texts as well as for images, where you can use it to set the image path. Read Arma: GUI Configuration for more information about user dialogs and controls. Use endl to insert line breaks. Since 2.06 supported control types are:\n• CT_STATIC\n• CT_EDIT\n• CT_XKEYDESC\n• CT_XBUTTON\n• CT_SHORTCUTBUTTON\n• CT_STRUCTURED_TEXT\n• CT_BUTTON\n• CT_ACTIVETEXT Since 2.22 CT_PROGRESS is also supported.",
+    "name": "ctrlSetText",
+    "parameters": [
+      "idc: Number - control IDC",
+      "text: String - text or image path or texture, depending on the control type"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "ctrlSetText [idc, text]",
+    "url": "https://community.bistudio.com/wiki/ctrlSetText"
+  },
+  {
+    "description": "Sets text color of given control. As of Arma 3 v1.40 this command can also be used to change fill-color of a CT_PROGRESS control. ⓘAlso try ctrlSetForegroundColor, if this command doesn't have the desired effect.",
+    "name": "ctrlSetTextColor",
+    "parameters": [
+      "control: Control",
+      "color: Color (RGBA)"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "control ctrlSetTextColor color",
+    "url": "https://community.bistudio.com/wiki/ctrlSetTextColor"
   },
   {
     "description": "Returns current coeficient setting.",
@@ -1175,6 +1578,170 @@
     "url": "https://community.bistudio.com/wiki/curatorCoef"
   },
   {
+    "description": "Returns the index of the current waypoint (not the waypoint in Waypoint Array format).\n• To determine the validity of the index, compare it to the waypoints count.\n• If all waypoints are completed, then the index is 1 greater than the last valid index.\n• If there are no waypoints, then the index is 0. By default, a group has one already-completed waypoint at their starting position, making the first waypoint number one, not zero.",
+    "name": "currentWaypoint",
+    "parameters": [
+      "groupName: Group"
+    ],
+    "returnValue": "Number - index of the current waypoint",
+    "syntax": "currentWaypoint groupName",
+    "url": "https://community.bistudio.com/wiki/currentWaypoint"
+  },
+  {
+    "description": "Display a resource defined in RscTitles of the mission's Description.ext, the campaign's description.ext or the global config. For greater efficiency and ease of modability, it is recommended to use named layers available with String and Syntax 2. ⚠To avoid conflicts with existing layers it is recommended to register a layer with BIS_fnc_rscLayer and to start the name with a TAG: Copy(\"TAG_myLayer\" call BIS_fnc_rscLayer) cutRsc [\"myRsc\", \"PLAIN\"]; \"TAG_myLayer\" cutRsc [\"myRsc\", \"PLAIN\"];",
+    "name": "cutRsc",
+    "parameters": [
+      "class: String - the class name of the resource. (\"Default\" will remove the current resource.)",
+      "effect: String - one of \"PLAIN\", \"PLAIN DOWN\", \"BLACK\", \"BLACK FADED\", \"BLACK OUT\", \"BLACK IN\", \"WHITE OUT\" and \"WHITE IN\". See Title Effect Types for more information about these values.",
+      "speed: Number - (Optional, default -1) time in seconds to fade in resource.",
+      "showInMap: Boolean - (Optional, default true) false to hide the text when the map is opened.",
+      "drawOverHUD: Boolean - (Optional, default true) false to show the resource under in-game HUD (for example, a binocular effect)"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "cutRsc [class, effect, speed, showInMap, drawOverHUD]",
+    "url": "https://community.bistudio.com/wiki/cutRsc"
+  },
+  {
+    "description": "Displays a text message in the center of the screen. The text can be displayed on multiple lines by using \"\\n\" new line characters: cutText [\"line1\\nline2\\nline3\", \"PLAIN\"]; For greater efficiency and ease of modability it is recommended to use named layers through the alternative syntax.",
+    "name": "cutText",
+    "parameters": [
+      "text: String - text to be displayed",
+      "type: String - one of \"PLAIN\", \"PLAIN DOWN\", \"BLACK\", \"BLACK FADED\", \"BLACK OUT\", \"BLACK IN\", \"WHITE OUT\" and \"WHITE IN\". See Title Effect Types for more information about these values.",
+      "speed: Number - (Optional, default 1) time in seconds to fade in resource. If 0 or less, default value is used",
+      "showInMap: Boolean - (Optional, default true) false to hide the text when the map is opened",
+      "isStructuredText: Boolean - (Optional, default false) true to switch support for Structured Text formatting - see Example 4",
+      "drawOverHUD: Boolean - (Optional, default true) false to show the text under in-game HUD"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "cutText [text, type, speed, showInMap, isStructuredText, drawOverHUD]",
+    "url": "https://community.bistudio.com/wiki/cutText"
+  },
+  {
+    "description": "Return the damage value of an object.",
+    "name": "damage",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Number - the returned number in range (healthy) 0..1 (dead).",
+    "syntax": "damage object",
+    "url": "https://community.bistudio.com/wiki/damage"
+  },
+  {
+    "description": "Destroys the given group - the group must be empty and local to the machine executing this command. ⓘIn Arma 3 you can find out locality of the group with local command, unlike with previous games. However owner and setOwner don't work with groups anywhere. The group will always be local to the client that created it, until the client disconnects, then the group becomes local to the server. So if you need to delete a group, delete all members first then execute deleteGroup where is it local. In Arma 3 when the last unit leaves a group, the group gets automatically deleted. Manually deleting all units from a group, however, does not automatically delete the empty group. To force the group to get auto-deleted when empty, use deleteGroupWhenEmpty.",
+    "name": "deleteGroup",
+    "parameters": [
+      "group: Group"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "deleteGroup group",
+    "url": "https://community.bistudio.com/wiki/deleteGroup"
+  },
+  {
+    "description": "Destroys the given marker.",
+    "name": "deleteMarker",
+    "parameters": [
+      "name: String"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "deleteMarker name",
+    "url": "https://community.bistudio.com/wiki/deleteMarker"
+  },
+  {
+    "description": "Deletes an object. Only objects inserted in the mission editor and objects created during the game's progress can be deleted by this command. Terrain objects and players cannot be deleted. ⓘThe actual object deletion, when the object becomes objNull, happens on the next frame after command execution, but there are some object modifications that happen immediately. For example if the object is a unit in a group, it immediately becomes groupless (isNull group _unit; // true).",
+    "name": "deleteVehicle",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "deleteVehicle object",
+    "url": "https://community.bistudio.com/wiki/deleteVehicle"
+  },
+  {
+    "description": "Removes the specified waypoint. ⓘ\n• When a waypoint is deleted, all other group waypoints are immediately re-indexed. See Example 2 for a deletion of all group's waypoints.\n• Deleting a group's current waypoint will not stop the group on its tracks.",
+    "name": "deleteWaypoint",
+    "parameters": [
+      "group: Group",
+      "index: Number"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "deleteWaypoint [group, index]",
+    "url": "https://community.bistudio.com/wiki/deleteWaypoint"
+  },
+  {
+    "description": "Detaches previously attached with attachTo object.",
+    "name": "detach",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "detach object",
+    "url": "https://community.bistudio.com/wiki/detach"
+  },
+  {
+    "description": "Dumps the argument's value to the report file. Each call creates a new line in the file.",
+    "name": "diag_log",
+    "parameters": [
+      "output: Anything"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "diag_log output",
+    "url": "https://community.bistudio.com/wiki/diag_log"
+  },
+  {
+    "description": "Disable saving of script containing this command. After this, the script can work with data types which do not support serialization (UI types). ⓘSee Namespace serialization for more information. ⚠In Arma 2 and up to a certain version of Arma 3, giving a Display or Control to spawned code would raise an error due to the usage of the then non-serializable _this variable. Using disableSerialization or uiNamespace wouldn't help; the trick here is to pass the argument inside an array: _display = findDisplay 46; _display spawn { hint str _this; }; // would raise a serialization error [_display] spawn { hint str (_this select 0); }; // OK",
+    "name": "disableSerialization",
+    "parameters": [],
+    "returnValue": "Nothing",
+    "syntax": "disableSerialization",
+    "url": "https://community.bistudio.com/wiki/disableSerialization"
+  },
+  {
+    "description": "Adds an event handler to the given display. See User Interface Event Handlers for the full list of event names. If applicable, see DIK_KeyCodes for a list of key code constants, which are relevant to key related user interface events like: KeyDown & KeyUp. ⚠Display EHs are processed from last to first added; an input override should be set up in the first added EH. ⓘThe event handler ID can be accessed inside the event handler code using the c_thisEventHandler magic variable.",
+    "name": "displayAddEventHandler",
+    "parameters": [
+      "display: Display",
+      "eventName: String - event name ⚠When using the event names listed here with the ctrlAddEventHandler, ctrlSetEventHandler, displayAddEventHandler or displaySetEventHandler commands, the prefix \"on\" in the event name must be removed (e.g. 'ButtonDown' instead of 'onButtonDown').",
+      "code: String or 1.06 Code - the code which gets executed when event is triggered. Returning true in event handler code will override default engine handling for keyboard events. Several Magic Variables are available:\n• Event Handler parameters are accessible via _this\n• The Event Handler type is available as _thisEvent\n• The Event Handler index is available as _thisEventHandler"
+    ],
+    "returnValue": "Number - index of the newly added event handler or -1 if creation failed",
+    "syntax": "display displayAddEventHandler [eventName, code]",
+    "url": "https://community.bistudio.com/wiki/displayAddEventHandler"
+  },
+  {
+    "description": "Return child control with specified idc.",
+    "name": "displayCtrl",
+    "parameters": [
+      "display: Display",
+      "idc: Number"
+    ],
+    "returnValue": "Control",
+    "syntax": "display displayCtrl idc",
+    "url": "https://community.bistudio.com/wiki/displayCtrl"
+  },
+  {
+    "description": "Remove a given event handler from the given display.",
+    "name": "displayRemoveEventHandler",
+    "parameters": [
+      "display: Display",
+      "handlerType: String - type of the event handler",
+      "id: Number - index of the event handler"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "display displayRemoveEventHandler [handlerType, id]",
+    "url": "https://community.bistudio.com/wiki/displayRemoveEventHandler"
+  },
+  {
+    "description": "Returns a distance in meters between Objects, Positions or Locations. ⚠If positions are supplied as arguments, the coordinates are treated as PositionAGL. If Position2D is supplied, z is assumed 0. If you need distance between two Position3D coordinates, use vectorDistance.",
+    "name": "distance",
+    "parameters": [
+      "param1: Object or PositionAGL or Position2D",
+      "param2: Object or PositionAGL or Position2D"
+    ],
+    "returnValue": "Number - distance in meters or 1e10 if distance cannot be calculated",
+    "syntax": "param1 distance param2",
+    "url": "https://community.bistudio.com/wiki/distance"
+  },
+  {
     "description": "Executes code. Used as part of a construct, such as while, with, for and switch. The code is always executed in missionNamespace unless do is used with with as an argument.",
     "name": "do",
     "parameters": [
@@ -1186,7 +1753,71 @@
     "url": "https://community.bistudio.com/wiki/do"
   },
   {
-    "description": "This operator creates a For Type which is used in the for-constructs. ⚠The alternative syntax cfor _array do _code is slower than the first syntax because the condition is checked in every iteration, and it has a few bugs. It is only kept for backward compatibility; always use the first syntax cfor \"_i\" from 0 to _end do _code.",
+    "description": "Returns the driver of a vehicle.",
+    "name": "driver",
+    "parameters": [
+      "vehicle: Object"
+    ],
+    "returnValue": "Object - The unit sitting in the driver place is returned. If vehicle is not a vehicle but a person, the person is returned.",
+    "syntax": "driver vehicle",
+    "url": "https://community.bistudio.com/wiki/driver"
+  },
+  {
+    "description": "Executes else code when if condition returns false.",
+    "name": "else",
+    "parameters": [
+      "thenCode: Code",
+      "elseCode: Code"
+    ],
+    "returnValue": "Array with [thenCode, elseCode]\n• thenCode: Code\n• elseCode: Code",
+    "syntax": "thenCode else elseCode",
+    "url": "https://community.bistudio.com/wiki/else"
+  },
+  {
+    "description": "Enables or disables the ability to be attached to a rope end for the given entity.",
+    "name": "enableRopeAttach",
+    "parameters": [
+      "entity: Object - given entity",
+      "enable: Boolean - false to disable rope attachment"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "entity enableRopeAttach enable",
+    "url": "https://community.bistudio.com/wiki/enableRopeAttach"
+  },
+  {
+    "description": "Exits the current code scope. Often used for exiting do, for, count, forEach or the whole script. ⓘSee Variables - Local Variables Scope for more information.",
+    "name": "exitWith",
+    "parameters": [
+      "ifType: If Type",
+      "code: Code"
+    ],
+    "returnValue": "Anything",
+    "syntax": "ifType exitWith code",
+    "url": "https://community.bistudio.com/wiki/exitWith"
+  },
+  {
+    "description": "Searches for an array element within an array or an ANSI string within an ANSI string. If Unicode support is desired, see forceUnicode. ⚠Search is cASe-seNsItiVE!",
+    "name": "find",
+    "parameters": [
+      "array: Array - array to search in",
+      "element: Anything - array element to find"
+    ],
+    "returnValue": "Number - zero-based position of the first array element that matches x, -1 if not found",
+    "syntax": "array find element",
+    "url": "https://community.bistudio.com/wiki/find"
+  },
+  {
+    "description": "Finds a display by its IDD which can either be defined in missionConfigFile (description.ext) or configFile (config.cpp) or by its UI On Texture's unique name (see displayUniqueName). If the specified display cannot be found, displayNull is returned. ⚠Dedicated servers and headless clients do not have a primary display (e.g findDisplay 46 will return displayNull). Detect both with the hasInterface command. ⓘFor a list of (almost) all Arma 3's IDDs, see Arma 3: IDD List.",
+    "name": "findDisplay",
+    "parameters": [
+      "idd: Number"
+    ],
+    "returnValue": "Display",
+    "syntax": "findDisplay idd",
+    "url": "https://community.bistudio.com/wiki/findDisplay"
+  },
+  {
+    "description": "This operator creates a For Type which is used in the for-constructs. ⚠The alternative syntax for _array do _code is slower than the first syntax because the condition is checked in every iteration, and it has a few bugs. It is only kept for backward compatibility; always use the first syntax for \"_i\" from 0 to _end do _code.",
     "name": "for",
     "parameters": [
       "arguments: String - declares the index variable name like \"_myVar\". from and to are required, step is optional."
@@ -1194,6 +1825,283 @@
     "returnValue": "For Type",
     "syntax": "for arguments",
     "url": "https://community.bistudio.com/wiki/for"
+  },
+  {
+    "description": "Executes the given command(s) on every item of an Array or a HashMap. Since Arma 2, the variable _x is always private to the forEach block so it is safe to nest them (see Example 8).",
+    "name": "forEach",
+    "parameters": [
+      "Game 1.00 1.85 1.00 1.00 1.50 1.00 1.00 String support Code support code: String only in Operation Flashpoint until v1.85 or 1.85 Code - available variables:\n• _x: iterated item\n• 1.55 _forEachIndex: item's index",
+      "array: Array - the array to iterate over"
+    ],
+    "returnValue": "Anything - will return the value of last executed statement",
+    "syntax": "code forEach array",
+    "url": "https://community.bistudio.com/wiki/forEach"
+  },
+  {
+    "description": "Composes a string containing other variables or other variable types. Converts any variable type to a string. ⚠\n• To convert a string back to a number, see parseNumber.\n• joinString can be a bit faster, without string length limitation. ⓘ\n• the maximum length of the string is 8,388,608 characters (was 8191 before)\n• two consecutive percent symbols will be formatted to a single percent symbol in the final string (see Example 3) Since 2.18",
+    "name": "format",
+    "parameters": [
+      "formatString: String - a string containing text and/or references to the variables listed below in the array. The references appear in the form of %1, %2 etc.",
+      "varN: Anything - variable referenced by %N"
+    ],
+    "returnValue": "String - the full string (up to 8kb, see above) is returned.",
+    "syntax": "format [formatString, var1, var2, ...]",
+    "url": "https://community.bistudio.com/wiki/format"
+  },
+  {
+    "description": "Returns an array with all crew inside given vehicle, with or without empty seats. ⚠With the introduction of person turrets (FFV), the returned cargoIndex works with moveInCargo but does not with actions such as \"GetInCargo\" and \"MoveToCargo\". To find out indexes for actions, use the \"cargo\" filter (See Example 3).",
+    "name": "fullCrew",
+    "parameters": [
+      "vehicle: Object"
+    ],
+    "returnValue": "Array - list of arrays in format [unit, role, cargoIndex, turretPath, personTurret, assignedUnit, positionName]:\n• unit: Object\n• role: String - not always lowercase before 2.04\n• cargoIndex: Number\n• turretPath: Turret Path\n• personTurret: Boolean\n• 2.12 assignedUnit: Object - see assignAsXXX commands, assignAsDriver for example\n• 2.12 positionName: String - unlocalized entry for turret's `gunnerName`, for example \"$STR_A3_TURRETS_CARGOTURRET_R2\"",
+    "syntax": "fullCrew vehicle",
+    "url": "https://community.bistudio.com/wiki/fullCrew"
+  },
+  {
+    "description": "Get provided object's hit points damage.",
+    "name": "getAllHitPointsDamage",
+    "parameters": [
+      "entity: Object - object to be queried"
+    ],
+    "returnValue": "Array - [] if entity is null or has no shape, otherwise [hitpointNames, selectionNames, damageValues]:\n• hitpointNames: Array of Strings\n• selectionNames: Array of Strings\n• damageValues: Array of Numbers in range 0..1 - where 0 = no damage, 1 = full damage All values in all arrays are ordered accordingly to hit part index for convenience and for use in setHitIndex and getHitIndex.",
+    "syntax": "getAllHitPointsDamage entity",
+    "url": "https://community.bistudio.com/wiki/getAllHitPointsDamage"
+  },
+  {
+    "description": "Returns the object damage.",
+    "name": "getDammage",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Number in range 0..1",
+    "syntax": "getDammage object",
+    "url": "https://community.bistudio.com/wiki/getDammage"
+  },
+  {
+    "description": "Returns the object heading in the range 0..360. The alternative syntax gets heading from one object or position to another object or position, and should be used instead of BIS_fnc_dirTo.",
+    "name": "getDir",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Number",
+    "syntax": "getDir object",
+    "url": "https://community.bistudio.com/wiki/getDir"
+  },
+  {
+    "description": "Returns object or location position. If the argument is an object, the return value is in format PositionAGLS. The alternative syntax gets the position given distance and heading away from provided object or position - the command equivalent of BIS_fnc_relPos. ⚠Do not use this command's first syntax to get an object's position in 3D format:\n• the Z value from this command is relative to the surface underneath, and there is no compatible setter command to use it with;the commonly misused code: _obj1 setPos getPos _obj2 is absolutely wrong\n• this command is significantly slower than other position commands because it has to calculate the surface below a position from objects in the (2D) area; its performance therefore suffers from areas with a high density of objects such as cities, and can easily be ~20x slower than other, simpler position commands - see this benchmark. The only correct usage of this command is to determine the altitude of an object from the surface below it (see Example 4).",
+    "name": "getPos",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "PositionAGLS - where Z is the height over the surface underneath",
+    "syntax": "getPos object",
+    "url": "https://community.bistudio.com/wiki/getPos"
+  },
+  {
+    "description": "Returns the object position height above sea level.",
+    "name": "getPosASL",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "PositionASL",
+    "syntax": "getPosASL object",
+    "url": "https://community.bistudio.com/wiki/getPosASL"
+  },
+  {
+    "description": "Returns the position of an object relative to the terrain.",
+    "name": "getPosATL",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "PositionATL",
+    "syntax": "getPosATL object",
+    "url": "https://community.bistudio.com/wiki/getPosATL"
+  },
+  {
+    "description": "Return object which is sling loaded by vehicle",
+    "name": "getSlingLoad",
+    "parameters": [
+      "vehicle: Object"
+    ],
+    "returnValue": "Object - the sling loaded vehicle. objNull if nothing is sling loaded.",
+    "syntax": "getSlingLoad vehicle",
+    "url": "https://community.bistudio.com/wiki/getSlingLoad"
+  },
+  {
+    "description": "Extracts localized text from config entry, if entry is subject to localization, otherwise returns text value. To obtain the translation key itself, see getTextRaw.",
+    "name": "getText",
+    "parameters": [
+      "config: Config"
+    ],
+    "returnValue": "String - text value",
+    "syntax": "getText config",
+    "url": "https://community.bistudio.com/wiki/getText"
+  },
+  {
+    "description": "Returns the value of variable in the variable space assigned to various data types. All available data types combinations: Primary syntax (String) Alternative syntax (Array) Code Since Code Since Namespace getVariable String - Namespace getVariable Array Arma 2: Operation Arrowhead v1.60 Object getVariable String - Object getVariable Array - Group getVariable String - Group getVariable Array - Team Member getVariable String - Team Member getVariable Array - Task getVariable String - Task getVariable Array Arma 3 v1.68 Location getVariable String - Location getVariable Array Arma 3 v1.68 Control getVariable String - Control getVariable Array Arma 3 v1.56 Display getVariable String Arma 3 v1.56 Display getVariable Array Arma 3 v1.56 ⚠When variable is set on a Task, it is not actually set on the task itself, but on the FSM attached to the task. If there is no FSM, getVariable will not work. In the case of Alt Syntax usage in Arma 3, defaultValue will be returned if:\n• Requested variable is either undefined or nil\n• Variable namespace is null (objNull, grpNull, etc.)",
+    "name": "getVariable",
+    "parameters": [
+      "varspace: Namespace, Object, Display, Control, Group, Location, Task, Team Member, Display, Control",
+      "name: String - variable name in given namespace"
+    ],
+    "returnValue": "Anything or Nothing if the variable doesn't exist",
+    "syntax": "varspace getVariable name",
+    "url": "https://community.bistudio.com/wiki/getVariable"
+  },
+  {
+    "description": "Types text to the global radio channel. The text will be visible only on the PC where command was executed. If you need the message to show on all computers, you have to execute it globally (see remoteExec). Use clearRadio to clear chat history",
+    "name": "globalChat",
+    "parameters": [
+      "unit: Object - unit transmitting message",
+      "chatText: String - message to transmit"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit globalChat chatText",
+    "url": "https://community.bistudio.com/wiki/globalChat"
+  },
+  {
+    "description": "Returns the group a unit is assigned to.",
+    "name": "group",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Group - for dead units, the returned group equals grpNull.",
+    "syntax": "group object",
+    "url": "https://community.bistudio.com/wiki/group"
+  },
+  {
+    "description": "Types text to the group radio channel. The text will be visible only on the PC where command was executed. If you need the message to show on all computers, you have to execute it globally (see remoteExec). Use clearRadio to clear chat history ⚠The unit must have an assigned radio item (such as \"ItemRadio\") to see or transmit the messages. A radio item must have the property simulation = \"ItemRadio\"; in its CfgWeapons config.",
+    "name": "groupChat",
+    "parameters": [
+      "unit: Object - unit transmitting message",
+      "chatText: String - message to transmit"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit groupChat chatText",
+    "url": "https://community.bistudio.com/wiki/groupChat"
+  },
+  {
+    "description": "Returns a group's name or a unit's group ID number.",
+    "name": "groupId",
+    "parameters": [
+      "group: Group"
+    ],
+    "returnValue": "String - the group's name (e.g \"Alpha Red\")",
+    "syntax": "groupId group",
+    "url": "https://community.bistudio.com/wiki/groupID"
+  },
+  {
+    "description": "Returns the gunner of a vehicle.",
+    "name": "gunner",
+    "parameters": [
+      "vehicle: Object"
+    ],
+    "returnValue": "Object - the person sitting in the gunner place is returned. If vehicle is not a vehicle but a person, the person is returned.",
+    "syntax": "gunner vehicle",
+    "url": "https://community.bistudio.com/wiki/gunner"
+  },
+  {
+    "description": "Hide entity. Can be used on soldiers and vehicles, also on static objects.",
+    "name": "hideObject",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "hideObject object",
+    "url": "https://community.bistudio.com/wiki/hideObject"
+  },
+  {
+    "description": "Outputs a hint message to the right of the screen (left of the screen in Operation Flashpoint) with a sound (except in Armed Assault). To split message in multiple lines either use Structured Text or \\n (in lower case). Armed Assault hints are silent. For later titles, see hintSilent.",
+    "name": "hint",
+    "parameters": [
+      "message: String or Structured Text - the message to display."
+    ],
+    "returnValue": "Nothing",
+    "syntax": "hint message",
+    "url": "https://community.bistudio.com/wiki/hint"
+  },
+  {
+    "description": "This operator creates a If Type which is used in the if-construct as described here.",
+    "name": "if",
+    "parameters": [
+      "condition: Boolean - if it evaluates as true, the then clause is executed. Otherwise, the else clause (if present) is executed"
+    ],
+    "returnValue": "If Type - predicate which will execute 1st or 2nd option when used. This predicate is used in then or exitWith commands",
+    "syntax": "if condition",
+    "url": "https://community.bistudio.com/wiki/if"
+  },
+  {
+    "description": "Checks whether the given object or type is (a subtype) of the given type. While Syntax 1 and Syntax 2 only support CfgVehicles, 1.00CfgAmmo and CfgNonAIVehicles, Syntax 3 can be used with any config, including the mission config.",
+    "name": "isKindOf",
+    "parameters": [
+      "object: Object",
+      "typeName: String"
+    ],
+    "returnValue": "Boolean",
+    "syntax": "object isKindOf typeName",
+    "url": "https://community.bistudio.com/wiki/isKindOf"
+  },
+  {
+    "description": "Tests whether a variable is nil or undefined from its identifier, or whether the given expression evaluates to nil or Nothing. This command does not exist in Operation Flashpoint/Arma: Cold War Assault but can be emulated (see Example 5).",
+    "name": "isNil",
+    "parameters": [
+      "variableName: String - missionNamespace's or local variable's identifier (e.g \"globalVariable\", \"_localVariable\")"
+    ],
+    "returnValue": "Boolean - true if variable is nil or undefined",
+    "syntax": "isNil variableName",
+    "url": "https://community.bistudio.com/wiki/isNil"
+  },
+  {
+    "description": "Checks whether the tested item is null. Which null type the item has to be equal to depends on the type of game entity tested: Type Object Group Control Display Location Task Script Config Diary Record Team Member Null value objNull grpNull controlNull displayNull locationNull taskNull scriptNull configNull diaryRecordNull teamMemberNull Since 1.00 1.00 1.00 1.30 1.54 2.00 2.10 ⚠A test via == does not work because a null value is not equal to anything, not even itself (configNull being the exception). See also isEqualTo.",
+    "name": "isNull",
+    "parameters": [
+      "entity: Object, Control, Display, Group, Location, Task, Script Handle, Config or Diary Record"
+    ],
+    "returnValue": "Boolean",
+    "syntax": "isNull entity",
+    "url": "https://community.bistudio.com/wiki/isNull"
+  },
+  {
+    "description": "Checks visibility of a given object on the local machine.",
+    "name": "isObjectHidden",
+    "parameters": [
+      "object: Object - object to test"
+    ],
+    "returnValue": "Boolean - true if hidden, false if visible",
+    "syntax": "isObjectHidden object",
+    "url": "https://community.bistudio.com/wiki/isObjectHidden"
+  },
+  {
+    "description": "Checks if given person is a player. Returns true for headless clients as well. ⓘPrior to Arma 3 v2.02, in some cases the identity of certain player units could fail to propagate to other clients and the server, which caused isPlayer and getPlayerUID to incorrectly return false and \"\" respectively, where the affected units were not local. See this GitHub bug report for more info. Remain vigilant toward potential false negatives. ⚠When used on vehicles, this command will return true if effectiveCommander of the vehicle is player. Just because it returns true does not automatically mean we have a player unit. Unlike main syntax, alternative syntax always returns false when used on vehicles, even if they're controlled by a player.",
+    "name": "isPlayer",
+    "parameters": [
+      "unit: Object"
+    ],
+    "returnValue": "Boolean",
+    "syntax": "isPlayer unit",
+    "url": "https://community.bistudio.com/wiki/isPlayer"
+  },
+  {
+    "description": "Join all units in the array to given group silently (without radio message). To have a group member leave a group, join him with the grpNull group (e.g. [guy1] joinSilent grpNull), but beware, as brand new group is created for the leaving unit and this could result in the number of groups in a mission growing out of control.",
+    "name": "joinSilent",
+    "parameters": [
+      "unitArray: Array of Objects - units to join group",
+      "group: Object or Group"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitArray joinSilent group",
+    "url": "https://community.bistudio.com/wiki/joinSilent"
+  },
+  {
+    "description": "Returns the group leader for the given unit or group. For dead units, objNull is returned.",
+    "name": "leader",
+    "parameters": [
+      "unitOrGroup: Object or Group"
+    ],
+    "returnValue": "Object",
+    "syntax": "leader unitOrGroup",
+    "url": "https://community.bistudio.com/wiki/leader"
   },
   {
     "description": "Remainder of a divided by b.",
@@ -1207,6 +2115,49 @@
     "url": "https://community.bistudio.com/wiki/mod"
   },
   {
+    "description": "Moves a unit into a vehicle cargo position (immediately and without animation). ⓘSee AI Group Vehicle Management for more information. ⚠If the unit is already in a vehicle, nothing will happen. You should use moveOut to move the unit out of his vehicle before trying to move him into a new (or same) vehicle.",
+    "name": "moveInCargo",
+    "parameters": [
+      "unit: Object",
+      "vehicle: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit moveInCargo vehicle",
+    "url": "https://community.bistudio.com/wiki/moveInCargo"
+  },
+  {
+    "description": "Moves soldier into vehicle driver position (immediate, no animation). ⓘSee AI Group Vehicle Management for more information. ⚠If the unit is already in a vehicle, nothing will happen unless moveOut (since Arma 2) is used first to move the unit out of their vehicle (see Example 2).",
+    "name": "moveInDriver",
+    "parameters": [
+      "unit: Object",
+      "vehicle: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit moveInDriver vehicle",
+    "url": "https://community.bistudio.com/wiki/moveInDriver"
+  },
+  {
+    "description": "Move the unit into vehicle gunner position (immediate, no animation). ⓘSee AI Group Vehicle Management for more information. ⚠If the unit is already in a vehicle, nothing will happen. You should use moveOut to move the unit out of his vehicle before trying to move him into a new (or same) vehicle.",
+    "name": "moveInGunner",
+    "parameters": [
+      "unitName: Object",
+      "vehicle: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitName moveInGunner vehicle",
+    "url": "https://community.bistudio.com/wiki/moveInGunner"
+  },
+  {
+    "description": "Moves the soldier out of the vehicle. Notes:\n• Works for both AI and player entities\n• AI unit gets back in - unless is under player command or combined with other sqf commands (orderGetIn false, allowGetIn false or leaveVehicle)\n• Respects the vehicle's lock state (same as action \"Eject\") - unlike doGetOut, commandGetOut. It will work for player entities regardless though\n• Still executes when the vehicle is moving/flying (same as action \"Eject\") - unlike doGetOut, commandGetOut\n• Without vehicle's position's get out animation - unlike action eject, doGetOut, commandGetOut\n• Immediately - unlike action eject, doGetOut, commandGetOut\n• Works also on dead units (same as action \"Eject\" (but one after another)) - unlike doGetOut, commandGetOut\n• Does not work for UAV crew\n• Does not work for remoteControlled units\n• Works on unconscious (same as action \"Eject\" (but one after another)) - unlike doGetOut, commandGetOut (unless AI under player command)",
+    "name": "moveOut",
+    "parameters": [
+      "soldier: Object - unit (only a living unit before 2.06)"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "moveOut soldier",
+    "url": "https://community.bistudio.com/wiki/moveOut"
+  },
+  {
     "description": "Low level command to person to move to given position. It is good to check first if AI pilot unit state is COMPLETED moveToCompleted first as this command will set unit into WAIT state waiting for instruction, but only if the unit has COMPLETED.",
     "name": "moveTo",
     "parameters": [
@@ -1216,6 +2167,16 @@
     "returnValue": "Nothing",
     "syntax": "unit moveTo position",
     "url": "https://community.bistudio.com/wiki/moveTo"
+  },
+  {
+    "description": "When argument is Object, the command returns the name given to a unit using the setIdentity instruction or selected randomly by the game engine if setIdentity has not been used on the unit. If used on vehicle, name of first crew member (in order commander, driver, gunner). If used on an object, \"Error: No unit\" is being returned.",
+    "name": "name",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "String",
+    "syntax": "name object",
+    "url": "https://community.bistudio.com/wiki/name"
   },
   {
     "description": "Returns Object with given id. Object's id can be checked in mission editor. ⚠This command was removed as of Armed Assault v1.08; for later versions and titles, use nearestObject command family instead.",
@@ -1228,12 +2189,125 @@
     "url": "https://community.bistudio.com/wiki/object"
   },
   {
+    "description": "Force all units in the array to get in or out of their assigned vehicles. Units must be assigned to a vehicle before this command will do anything. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "orderGetIn",
+    "parameters": [
+      "unitArray: Array of Objects",
+      "order: Boolean"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unitArray orderGetIn order",
+    "url": "https://community.bistudio.com/wiki/orderGetIn"
+  },
+  {
+    "description": "Returns a list of playable units in a multiplayer game (occupied by both AI or players), created on the following sides east/opfor, west/blufor, resistance/independent and civilian only. Does not contain units of sideLogic. ⓘThis command returns an empty array in Singleplayer; use switchableUnits instead. ⚠This command does not include dead players awaiting for respawn.",
+    "name": "playableUnits",
+    "parameters": [],
+    "returnValue": "Array of Objects",
+    "syntax": "playableUnits",
+    "url": "https://community.bistudio.com/wiki/playableUnits"
+  },
+  {
     "description": "A person object controlled by user. In Intros and Outros this isn't set by default and must be assigned.",
     "name": "player",
     "parameters": [],
     "returnValue": "Object",
     "syntax": "player",
     "url": "https://community.bistudio.com/wiki/player"
+  },
+  {
+    "description": "Plays a sound from CfgSounds. Sound can be defined in missionConfigFile, configFile or campaignConfigFile.",
+    "name": "playSound",
+    "parameters": [
+      "soundName: String"
+    ],
+    "returnValue": "Object - the speaker object (Nothing before 2.00)",
+    "syntax": "playSound soundName",
+    "url": "https://community.bistudio.com/wiki/playSound"
+  },
+  {
+    "description": "Returns position of an object (alias of getPos) or location (alias of locationPosition). ⚠Do not use this command to get an object's position in 3D. See getPos for an explanation and alternatives.",
+    "name": "position",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "PositionAGLS",
+    "syntax": "position object",
+    "url": "https://community.bistudio.com/wiki/position"
+  },
+  {
+    "description": "Reads and processes the content of the specified file. Preprocessor is C-like, supports comments using // or /* and */ and PreProcessor Commands. Due to the hard-drive access this command executes and the lack of caching this command should not be used in time-critical script loops. ⚠If the file you are loading is not prepared using UTF-8 encoding and contains some characters with codes > 127, they might convert incorrectly.",
+    "name": "preprocessFile",
+    "parameters": [
+      "fileName: String - path to the file and name of the file"
+    ],
+    "returnValue": "String",
+    "syntax": "preprocessFile fileName",
+    "url": "https://community.bistudio.com/wiki/preprocessFile"
+  },
+  {
+    "description": "Returns the global namespace attached to the active user profile. Use setVariable and getVariable to save and load data to and from this Namespace. A variable can be deleted by setting its value to nil. By default the variables set in this namespace will exist while the game is running, and variables are saved persistently when the game is closed. Saving can also be forced by using saveProfileNamespace to prevent data loss on e.g game crash. The variables are stored next to the user profile in a file named myUsername.vars.GAMENAME.",
+    "name": "profileNamespace",
+    "parameters": [],
+    "returnValue": "Namespace",
+    "syntax": "profileNamespace",
+    "url": "https://community.bistudio.com/wiki/profileNamespace"
+  },
+  {
+    "description": "Reliably broadcasts missionNamespace variable and its current value to all computers (server/client). Variables broadcast with publicVariable during a mission will be available to JIP clients with the value they held at the time. Such variables are persistent and sent to the JIP client before the first batch of client-side Event Scripts (such as init.sqf) is run. ⚠Using publicVariable too frequently and/or with a lot of data can cause other aspects of the game to experience bandwidth problems. The following Data Types are supported: Type Number Boolean Object Group String Text Array Code Nothing (nil) HashMap Since 1.34 1.00 1.09 1.26 2.02 ⚠It is not possible (and illogical) to transfer a local entity reference, such as scripts, displays or local objects. Also, note that Team Member is not supported.",
+    "name": "publicVariable",
+    "parameters": [
+      "varName: String - the global variable's Identifier"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "publicVariable varName",
+    "url": "https://community.bistudio.com/wiki/publicVariable"
+  },
+  {
+    "description": "Asks the server to execute the given function or script command on the given target machine(s).\n• Functions are executed in the scheduled environment; suspension is allowed.\n• Script commands are executed in the unscheduled environment; suspension is not allowed (see Example 7). Read Arma 3: Remote Execution for more information about remote execution, security features and JIP techniques. ⓘremoteExec/remoteExecCall can be used in single player as well, as it is considered as player-hosted multiplayer. ⚠The direct execution of call or spawn via remoteExec (or remoteExecCall) should be avoided to prevent issues in cases where the remote execution of call or spawn is blocked by CfgRemoteExec. It is instead recommended to create a function to be itself remote-executed. ⚠The order of persistent remote execution for JIP players is not guaranteed, i.e. the order in which multiple calls are added is not necessarily the order they will be executed for joining player.",
+    "name": "remoteExec",
+    "parameters": [
+      "params: Anything but Structured Text - order's parameter ⚠Structured Text is not meant to be sent over network.",
+      "order: String - function or command name; while any function or command can be used here, only those allowed by CfgRemoteExec will actually be executed",
+      "targets - (Optional, default 0):\n• Number (See also Machine network ID):\n◦ 0: the order will be executed globally, i.e. on the server and every connected client, including the machine where remoteExec originated\n◦ 2: the order will only be executed on the server - is both dedicated and hosted server. See for more info\n◦ Other number: the order will be executed on the machine where clientOwner matches the given number\n◦ Negative number: the effect is inverted: -2 means every client but not the server, -12 means the server and every client, except for the client where clientOwner returns 12\n• Object - the order will be executed where the given object is local\n• String - interpreted as an Identifier (variable name); the function / command will be executed where the object or group identified by the variable with the provided name is local\n• Side - the order will be executed on machines where the player is on the specified side\n• Group - the order will be executed on machines where the player is in the specified group (not where said group is local!)\n• Array - array of any combination of the types listed above",
+      "JIP - (Optional, default false):\n• Boolean - if true, a unique JIP ID is generated and the remoteExec statement is added to the JIP queue from which it will be executed for every JIP\n• String:\n◦ if the string is empty, it is interpreted as false\n◦ if the string is in format \"Number:Number\" (e.g. \"0:0\"), it is interpreted as a netId (see below)\n◦ else the string is treated as a custom JIP ID and the remoteExec statement is added to the JIP queue, replacing statements that have the same JIP ID\n• Object, Group or netId - the persistent execution of the remoteExec statement is attached to the given object or group, replacing any previous statement that has the same JIP ID.When the object / group is deleted, the remoteExec statement is automatically removed from the JIP queue The JIP parameter can only be used if the targets parameter is 0 or a negative number. See also Example 3 on how to remove statements from the JIP queue."
+    ],
+    "returnValue": "• nil - In case of error.\n• String - In case of success (see remoteExecutedJIPID).\n◦ If the JIP parameter was false or an empty string, the return value is \"\".\n◦ If the JIP parameter was true or a custom JIP ID, the JIP ID is returned.\n◦ If the JIP parameter was an Object, a Group or a netId, the (corresponding) netId is returned.",
+    "syntax": "params remoteExec [order, targets, JIP]",
+    "url": "https://community.bistudio.com/wiki/remoteExec"
+  },
+  {
+    "description": "Removes user added action with given ID. This only removes actions added with the addAction command. You cannot remove default game actions, such as reload.",
+    "name": "removeAction",
+    "parameters": [
+      "unit: Object - unit, vehicle or static object",
+      "actionID: Number - action ID returned by addAction"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unit removeAction actionID",
+    "url": "https://community.bistudio.com/wiki/removeAction"
+  },
+  {
+    "description": "Removes all unit's user added actions. ⓘThis command's syntax was cunit removeAllActions number from Arma 3 v0.50 to v1.06. ⚠Usage of this command is usually a bad practice unless justified by the situation; removing all actions in order to remove all actions that one added is not a good method as a mod or another script could have added its own actions as well and see them removed. Instead, store the action id returned by addAction either in a script variable or using setVariable.",
+    "name": "removeAllActions",
+    "parameters": [
+      "obj: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "removeAllActions obj",
+    "url": "https://community.bistudio.com/wiki/removeAllActions"
+  },
+  {
+    "description": "Removes weapon from the turret. Use turret path [-1] for driver's turret.",
+    "name": "removeWeaponTurret",
+    "parameters": [
+      "vehicle: Object",
+      "weaponName: String",
+      "turretPath: Turret Path"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "vehicle removeWeaponTurret [weaponName, turretPath]",
+    "url": "https://community.bistudio.com/wiki/removeWeaponTurret"
   },
   {
     "description": "Selects an element from an array, config entry from Config or substring from a string or a range from an array.",
@@ -1247,6 +2321,205 @@
     "url": "https://community.bistudio.com/wiki/select"
   },
   {
+    "description": "Event Handler Triggered Hit HandleDamage Killed MPKilled Sets the damage (or lack thereof) of an object/unit. The alternative syntax allows to skip destruction effects for vehicles and buildings and set a tree/pole/wall fall direction (away from killer).",
+    "name": "setDamage",
+    "parameters": [
+      "object: Object",
+      "damage: Number - range 0..1, 0 = pristine/healthy condition, 1 = entirely destroyed/killed"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setDamage damage",
+    "url": "https://community.bistudio.com/wiki/setDamage"
+  },
+  {
+    "description": "Sets object heading. Angles are measured in degrees clockwise from north; the regular range goes from 0 to 360 (0° = N, 90° = E, 180° = S, 270° = W). Negative angles represent counter-clockwise angles. ⚠This command resets the object's velocity and vectorUp! ⓘIn some earlier titles (Operation Flashpoint?), this command was LELocal.",
+    "name": "setDir",
+    "parameters": [
+      "object: Object",
+      "heading: Number"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setDir heading",
+    "url": "https://community.bistudio.com/wiki/setDir"
+  },
+  {
+    "description": "Sets fuel level.",
+    "name": "setFuel",
+    "parameters": [
+      "vehicle: Object",
+      "amount: Number in range 0..1"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "vehicle setFuel amount",
+    "url": "https://community.bistudio.com/wiki/setFuel"
+  },
+  {
+    "description": "Changes the ownership of a group (and all its units) to a given client. The group leader must not be a player. This command only works when called from the server. Returns true if locality was changed. For agents use setOwner command.",
+    "name": "setGroupOwner",
+    "parameters": [
+      "group: Group",
+      "clientID: Number - the machine network ID of the new owner."
+    ],
+    "returnValue": "Boolean",
+    "syntax": "group setGroupOwner clientID",
+    "url": "https://community.bistudio.com/wiki/setGroupOwner"
+  },
+  {
+    "description": "Sets the current level of damage for a specific Hit Point. All hit points can be obtained with getAllHitPointsDamage command.",
+    "name": "setHitIndex",
+    "parameters": [
+      "vehicle : Object - vehicle to be damaged",
+      "hitPartIndex: Number - hit part index of the Hit Point",
+      "damage: Number in range 0..1 - level of damage, 0 = no damage, 1 = full damage",
+      "useEffects: Boolean - (Optional, default true) false to skip destruction effects",
+      "killer: Object - (Optional, default objNull) the entity that caused the damage. If the damage leads to the death of the unit, the killer will be used as the object that caused the kill.\n• It can be used to show \"killed by player\" in debriefing statistics and kill messages in the chat (if death messages are enabled).\n• It will alter the killer's rating as if the killer directly killed the unit.\n• It will be listed as _killer parameter in the Killed event handler.",
+      "instigator: Object - (Optional, default objNull) the person that instigated the damage.\n• if a tank is a killer, the tank gunner that pulled the trigger is instigator\n• it will be listed as _instigator parameter in the Killed event handler.",
+      "breakRotor: Boolean - (Optional, default false) if the hitpoint is rotor on a helicopter, true will break the rotor as well as play corresponding sound if 'useEffects' is also true."
+    ],
+    "returnValue": "Nothing",
+    "syntax": "vehicle setHitIndex [hitPartIndex, damage, useEffects, killer, instigator, breakRotor]",
+    "url": "https://community.bistudio.com/wiki/setHitIndex"
+  },
+  {
+    "description": "Applies given texture to object's selection. See also Procedural Textures and Retexturing with setObjectTexture. ⓘ\n• Not all objects can be textured this way. To find out, run getObjectTextures command on an object. Empty array [] usually indicates it cannot be textured.\n• All textures must have a resolution of 2a × 2b (e.g. 16×16, 16×32, 64×256, 512×512, ...). The largest texture size supported by the RV engine is 4096×4096.\n• Supported formats: .pac, .paa, .jpg, .jpeg, .ogg, .ogv",
+    "name": "setObjectTexture",
+    "parameters": [
+      "object: Object",
+      "selection: Number or 2.10 String - index of the selection. It is defined in the hiddenSelections array in the vehicle's config (starting with 0). If a string is given, it referes to a hiddenSelection name or clan selection instead of an index.",
+      "texture: String - path to texture. Since 2.20 using \"#reset\" would reset to default texture."
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setObjectTexture [selection, texture]",
+    "url": "https://community.bistudio.com/wiki/setObjectTexture"
+  },
+  {
+    "description": "Set the texture of the given selection on all computers in a network session. ⓘ\n• Not all objects can be textured this way. To find out, run getObjectTextures command on an object. Empty array c[] usually indicates it cannot be textured.\n• All textures must have a resolution of 2a × 2b (e.g. 16×16, 16×32, 64×256, 512×512, ...). The largest texture size supported by the RV engine is 4096×4096.\n• Supported formats: .pac, .paa, .jpg, .jpeg, .ogg, .ogv",
+    "name": "setObjectTextureGlobal",
+    "parameters": [
+      "object: Object",
+      "selection: Number or 2.10 String - index of the selection. It is defined in the hiddenSelections array in the vehicle's config (starting with 0). If a string is given, it referes to a hiddenSelection name or clan selection instead of an index.",
+      "texture: String - path to texture. Since 2.20 using \"#reset\" would reset to default texture."
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setObjectTextureGlobal [selection, texture]",
+    "url": "https://community.bistudio.com/wiki/setObjectTextureGlobal"
+  },
+  {
+    "description": "Sets object position to format PositionAGLS (over surface). The Z value is used to calculate the nearest surface below the provided position. If the surface is close, it uses the Z position of the surface. Otherwise, Z value becomes the offset from that surface. ⚠It is recommended to avoid this command when placing objects above other objects, due to the unpredictable behavior described above.",
+    "name": "setPos",
+    "parameters": [
+      "object: Object",
+      "pos: PositionAGL or Position2D - if Position2D, Z will be set to 0"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setPos pos",
+    "url": "https://community.bistudio.com/wiki/setPos"
+  },
+  {
+    "description": "Sets the object position above sea level. Given position must be in PositionASL format.",
+    "name": "setPosASL",
+    "parameters": [
+      "object: Object",
+      "pos: PositionASL"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setPosASL pos",
+    "url": "https://community.bistudio.com/wiki/setPosASL"
+  },
+  {
+    "description": "Adds/overrides loadout to a vehicle pylon. TransportPylonsComponent in vehicle config and pylonWeapon in the magazine config are required to run. ⓘThis command also adds the corresponding weapon if the vehicle does not have one, but will not remove one that is no longer used.",
+    "name": "setPylonLoadout",
+    "parameters": [
+      "vehicle: Object",
+      "pylon: Number or String - pylon index (index starts from 1) or pylon name (see Example 1)",
+      "magazine: String - magazine name",
+      "forced: Boolean - (Optional, default false) true to force an incompatible magazine",
+      "turret: Turret Path - (Optional, default []) turret path"
+    ],
+    "returnValue": "Boolean - true on success",
+    "syntax": "vehicle setPylonLoadout [pylon, magazine, forced, turret]",
+    "url": "https://community.bistudio.com/wiki/setPylonLoadout"
+  },
+  {
+    "description": "Creates a sling loading from a helicopter to an entity if possible. To unload cargo, pass objNull as second param. ⓘFROM object has to be a helicoper, alive with rope attachment enabled, TO object has to be an entity, alive with rope attachment enabled.",
+    "name": "setSlingLoad",
+    "parameters": [
+      "heli: Object - the helicopter slinging the load",
+      "cargo: Object - the cargo load entity"
+    ],
+    "returnValue": "Boolean - true on success",
+    "syntax": "heli setSlingLoad cargo",
+    "url": "https://community.bistudio.com/wiki/setSlingLoad"
+  },
+  {
+    "description": "Set variable to given value in the variable space of given element. Can be used to broadcast variables over the network. To remove a variable, set it to nil (see Example 5) - note that this does not work on Object and scripted Location namespaces (the variable will be set to nil but will remain listed by allVariables). ⚠missionNamespace, uiNamespace, parsingNamespace and profileNamespace variables cannot be named as commands - e.g missionNamespace setVariable [\"west\", 123]; conflicts with the west command and will result in a Reserved variable in expression error, west being a scripting command (other namespaces do not have such limitation). See also all available script commands.",
+    "name": "setVariable",
+    "parameters": [
+      "varspace: variable space in which variable can be set. Can be one of:\n• Namespace\n• Object\n◦ 2.10 CfgAmmo Objects (bullets, mines etc)\n◦ CfgNonAIVehicles Objects (butterflies, proxies etc - EmptyDetectors (triggers) work)\n◦ #local Objects (#lightpoint, #soundsource etc - see createVehicleLocal)\n• Group\n• Location ( 2.10 scripted ones only)\n• 1.00 Team Member\n• 1.00 Task - value will actually be set on the Task's FSM if it exists.\n• 0.50 Control\n• 0.50 Display",
+      "name: String - variable name (Identifier)",
+      "value: Anything - variable value",
+      "public - (Optional, default false) can be one of:\n• Boolean - if set to true, the variable is broadcast globally and is persistent (JIP compatible) GEGlobal\n• Number - the variable is only set on the client with the given Machine network ID. If the number is negative, the variable is set on every client except for the one with the given ID.\n• Array of Numbers - array of Machine network IDs This parameter is only available if the varspace parameter is a Namespace, Object or Group. Furthermore, only the following Data Types can be broadcast: Type Number Boolean Object Group String Text Array Code Nothing (nil) HashMap Since 1.00 1.09 1.26 2.02"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "varspace setVariable [name, value, public]",
+    "url": "https://community.bistudio.com/wiki/setVariable"
+  },
+  {
+    "description": "Set object's direction vector. Up vector will remain unchanged.",
+    "name": "setVectorDir",
+    "parameters": [
+      "object: Object",
+      "vectorDir: Vector3D"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "object setVectorDir vectorDir",
+    "url": "https://community.bistudio.com/wiki/setVectorDir"
+  },
+  {
+    "description": "Sets how much ammunition (compared to a full state defined by the vehicle type) the vehicle has. Note that the ammo will be added only to local turrets. To check locality of turret use turretLocal.",
+    "name": "setVehicleAmmo",
+    "parameters": [
+      "vehicleName: Object",
+      "value: Number in range 0..1 - 0: empty, 1: full"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "vehicleName setVehicleAmmo value",
+    "url": "https://community.bistudio.com/wiki/setVehicleAmmo"
+  },
+  {
+    "description": "The waypoint is done only when the condition is fulfilled. When the waypoint is done, the statement expression is executed. Within the Condition & Statement code string:\n• this refers to the group leader\n• thisList refers to the group's units ⚠The Condition code is evaluated on the group owner's machine. When condition returns true, for some strange reason, the condition is evaluated one more time. The OnActivation code is executed globally, a.k.a on every client! See Waypoints.",
+    "name": "setWaypointStatements",
+    "parameters": [
+      "waypoint: Waypoint",
+      "condition: String",
+      "statement: String"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "waypoint setWaypointStatements [condition, statement]",
+    "url": "https://community.bistudio.com/wiki/setWaypointStatements"
+  },
+  {
+    "description": "Sets the waypoint type of given waypoint. More details at Waypoints.",
+    "name": "setWaypointType",
+    "parameters": [
+      "waypoint: Waypoint",
+      "type: String - waypoint type. Can be:\n• \"MOVE\"\n• \"DESTROY\"\n• \"GETIN\"\n• \"SAD\" (Seek And Destroy)\n• \"JOIN\"\n• \"LEADER\"\n• \"GETOUT\"\n• \"CYCLE\"\n• \"LOAD\"\n• \"UNLOAD\"\n• \"TR UNLOAD\"\n• \"HOLD\"\n• \"SENTRY\"\n• \"GUARD\" (used with GUARDED BY trigger or createGuardedPoint)\n• \"TALK\"\n• \"SCRIPTED\"\n• \"SUPPORT\"\n• \"GETIN NEAREST\"\n• \"DISMISS\"\n• \"LOITER\" (Arma 3)\n• 1.34 \"HOOK\" (slingload object)\n• 1.34 \"UNHOOK\" (slingload drop)\n• \"AND\" (only for game logics)\n• \"OR\" (only for game logics)"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "waypoint setWaypointType type",
+    "url": "https://community.bistudio.com/wiki/setWaypointType"
+  },
+  {
+    "description": "Returns the side of a unit, vehicle, object or location.\n• side of a renegade soldier is sideEnemy\n• side of an empty vehicle is civilian\n• side of a crewed vehicle is, if present, commander's > gunner's > driver's or > cargo's side, in this order\n• side of a captive or dead unit is civilian. Use side group _unit to get the underlying side (see Example 2)\n• you can use playerSide to know the real player's side ⓘConverting a side to string will not always return the side command text: e.g str resistance; // returns \"GUER\". See Side page to see the return value of all side commands.",
+    "name": "side",
+    "parameters": [
+      "target: Object, Group or Location"
+    ],
+    "returnValue": "Side",
+    "syntax": "side target",
+    "url": "https://community.bistudio.com/wiki/side"
+  },
+  {
     "description": "Types text to the side radio channel by the specified unit. Use clearRadio to clear chat history ⚠The unit must have an assigned radio item (such as \"ItemRadio\") to see or transmit the messages. A radio item must have the property simulation = \"ItemRadio\"; in its CfgWeapons config.",
     "name": "sideChat",
     "parameters": [
@@ -1256,6 +2529,17 @@
     "returnValue": "Nothing",
     "syntax": "unit sideChat chatText",
     "url": "https://community.bistudio.com/wiki/sideChat"
+  },
+  {
+    "description": "Attempts to sort given array either in ascending (true) or descending (false) order. ⚠This will modify the original array!",
+    "name": "sort",
+    "parameters": [
+      "array: Array of Anything - array to be sorted, can also be a nested array. All array elements should be one of the following types:\n• String - Array of strings [\"a\",\"b\",\"c\"...]\n• Number - Array of numbers [1,2,3...]\n• Array - Array of subarrays [[\"a\",1,2],[\"b\",3,4],[\"c\",5,6]...]. Subarrays should be of the same structure. Subarray elements other than String or Number will be ignored during sorting. Mixed arrays [\"a\",1,[true], ...] are not supported and results are undefined.",
+      "order: Boolean - sorting order.\n• true: ascending\n• false: descending"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "array sort order",
+    "url": "https://community.bistudio.com/wiki/sort"
   },
   {
     "description": "Adds given set of compiled instructions to the scheduler. Exactly when the code will be executed is unknown, it depends on how busy is the engine and how filled up is the scheduler. Therefore spawn does not wait for the supplied code to finish, instead, spawn returns a Script handle to the scheduler task. scriptDone command can be used to check the code completion. Additional arguments are passed to the code in local variable _this. Since 1.56 the script handle also exists inside the code in _thisScript variable. To see what spawned scripts are currently in the scheduler, use diag_activeSQFScripts command. ⚠When multiple Code is spawned in an order, there is no guarantee that the spawned Code will execute in the same order (see Example 2). If the order is important, use BIS_fnc_spawnOrdered.",
@@ -1269,6 +2553,26 @@
     "url": "https://community.bistudio.com/wiki/spawn"
   },
   {
+    "description": "Converts any value into a string, depending on its type. If an Object has a vehicleVarName, it is returned (see Example 4).",
+    "name": "str",
+    "parameters": [
+      "value: Anything"
+    ],
+    "returnValue": "String - if value is a String, double quotes \"\" will surround it (see Example 3)",
+    "syntax": "str value",
+    "url": "https://community.bistudio.com/wiki/str"
+  },
+  {
+    "description": "Checks if the given parameter matches any case. If so, the code block of that case will be executed. After that the switch ends so no further cases will be checked. If a case has no code block the code of the next case will automatically be executed, making it possible to formulate a logical \"or\" for cases which would otherwise contain the exact same code (see Example 2). The default block will be executed only if no case matches, no matter its position inside the code block. It is not a case, and will never be entered by fallthrough. ⓘ\n• String comparison is case-sensitive. Use toUpper, toLower, toLowerANSI or toUpperANSI to force all strings to the same case.\n• if no default block is provided and no case is matched, the switch block returns the default value true, otherwise it returns what the valid case block returns.",
+    "name": "switch",
+    "parameters": [
+      "value: Anything"
+    ],
+    "returnValue": "Switch Type",
+    "syntax": "switch value",
+    "url": "https://community.bistudio.com/wiki/switch"
+  },
+  {
     "description": "Types text to the system radio channel. The text will be visible only on the PC where command was executed. If you need the message to show on all computers, you have to execute it globally (see remoteExec). Use clearRadio to clear chat history",
     "name": "systemChat",
     "parameters": [
@@ -1279,6 +2583,55 @@
     "url": "https://community.bistudio.com/wiki/systemChat"
   },
   {
+    "description": "Links an If Type with Code to be executed if said If Type's condition is true; otherwise, \"else\" code is executed if provided. The alternative syntax allows to set \"then\" code and \"else\" code in one array. ⓘVariables declared inside thenCode are private to that code block - see Variables - Local Variables Scope.",
+    "name": "then",
+    "parameters": [
+      "ifType: If Type",
+      "thenCode: Code or Array of Code:\n• Code - code block to execute if ifType's condition is true\n• Array of Code - array of two Code elements in format [thenCode, elseCode]; see Example 3"
+    ],
+    "returnValue": "Anything - result of the executed code",
+    "syntax": "ifType then thenCode",
+    "url": "https://community.bistudio.com/wiki/then"
+  },
+  {
+    "description": "Returns the class name of given target.",
+    "name": "typeOf",
+    "parameters": [
+      "target: Object, since 2.22 Control, Display"
+    ],
+    "returnValue": "String - config class name, or empty string if target does not have a class",
+    "syntax": "typeOf target",
+    "url": "https://community.bistudio.com/wiki/typeOf"
+  },
+  {
+    "description": "Returns the global namespace attached to user interface.",
+    "name": "uiNamespace",
+    "parameters": [],
+    "returnValue": "Namespace",
+    "syntax": "uiNamespace",
+    "url": "https://community.bistudio.com/wiki/uiNamespace"
+  },
+  {
+    "description": "Unassigns individual unit from a vehicle, usually previously assigned with assignAsXXX command, i.e removes assignedVehicleRole of the unit. If the unit is currently in that vehicle, the group leader will issue an order to disembark. ⓘSee AI Group Vehicle Management for more information.",
+    "name": "unassignVehicle",
+    "parameters": [
+      "unitName: Object"
+    ],
+    "returnValue": "Nothing",
+    "syntax": "unassignVehicle unitName",
+    "url": "https://community.bistudio.com/wiki/unassignVehicle"
+  },
+  {
+    "description": "Returns an array with all the units in the group or unit's group, or all units belonging to a certain side.",
+    "name": "units",
+    "parameters": [
+      "type: Group, Object or 2.02 Side"
+    ],
+    "returnValue": "Array of Objects - if type is a destroyed object, an empty array is returned",
+    "syntax": "units type",
+    "url": "https://community.bistudio.com/wiki/units"
+  },
+  {
     "description": "Vehicle in which given unit is mounted. If none, unit is returned. Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit is in for alive units, for dead units which are groupless, this command returns the unit itself - use objectParent instead.",
     "name": "vehicle",
     "parameters": [
@@ -1287,6 +2640,48 @@
     "returnValue": "Object",
     "syntax": "vehicle unitName",
     "url": "https://community.bistudio.com/wiki/vehicle"
+  },
+  {
+    "description": "Suspends execution of scheduled script until the given condition satisfied.\n• This command will loop and call the code inside {} mostly every frame, depends on complexity of the condition and the overall engine load, until the code returns true\n• If the very first execution of the code returns true the command will exit immediately, therefore it will not produce any \"Suspending not allowed in this context\" error when used inside non-scheduled script. For all other uses it must be executed in environment that allows suspension (canSuspend), such as spawned or execVMed code\n• Avoid doing waitUntil { time > 20 }; and use sleep 20; instead!\n• If you can, add a sleep to the condition to save some cpu cycles waitUntil { sleep 1; !alive player }; Since Arma 3 v1.94, a condition returning anything other than true or false will result in an appropriate type error.",
+    "name": "waitUntil",
+    "parameters": [
+      "condition: Code - the expression that must return a Boolean, true to finish waiting or false to continue waiting"
+    ],
+    "returnValue": "Anything - the value the condition evaluates to when the wait is over (normally true)",
+    "syntax": "waitUntil condition",
+    "url": "https://community.bistudio.com/wiki/waitUntil"
+  },
+  {
+    "description": "Get provided waypoint's position.",
+    "name": "waypointPosition",
+    "parameters": [
+      "groupOrUnit: Group or Object",
+      "index: Number"
+    ],
+    "returnValue": "PositionAGL",
+    "syntax": "waypointPosition [groupOrUnit, index]",
+    "url": "https://community.bistudio.com/wiki/waypointPosition"
+  },
+  {
+    "description": "Returns an array of waypoints for the specified unit/group.",
+    "name": "waypoints",
+    "parameters": [
+      "groupName: Group or Object"
+    ],
+    "returnValue": "Array of Waypoints",
+    "syntax": "waypoints groupName",
+    "url": "https://community.bistudio.com/wiki/waypoints"
+  },
+  {
+    "description": "Returns all weapons of a given turret. Use turret path [-1] for driver's turret.",
+    "name": "weaponsTurret",
+    "parameters": [
+      "vehicle: Object",
+      "turretPath: Turret Path"
+    ],
+    "returnValue": "Array of Strings",
+    "syntax": "vehicle weaponsTurret turretPath",
+    "url": "https://community.bistudio.com/wiki/weaponsTurret"
   },
   {
     "description": "Repeats Code while the given condition is true. A part of while-do construct. ⚠\n• A while loop does not have any suspension, meaning that if used in scheduled environment without any suspension (sleep or uiSleep) the code will run multiple times per frame and consumes the 3 ms per frame scheduler execution limit. This should be avoided if not intended (see Example 3).\n• In non-scheduled environment, while do loop is limited to 10,000 iterations, after which it exits even if condition is still true.",
