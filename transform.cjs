@@ -301,12 +301,20 @@ const OVERRIDES = {
     ],
   },
 
+  // BIS_fnc_getPitchBank returns a fixed [pitch, bank] tuple, not a generic Array<number>
+  'BIS_fnc_getPitchBank': {
+    returnValue: {
+      type: '[number, number]',
+      description: 'pitch and bank of the object in degrees, format [pitch, bank]',
+    },
+  },
+
   // spawn.code has no explicit typed I/O -> Function
   // Script Handle return type not yet in sqf-data-types.json -> any
   'spawn': {
     parameters: [
-      { name: 'arguments', type: 'any',      optional: false, description: 'arguments passed to the script, available as _this inside the code' },
-      { name: 'code',      type: 'Function', optional: false },
+      { name: 'arguments', type: 'Array<any>', optional: false, description: 'arguments passed to the script, available as _this inside the code' },
+      { name: 'code',      type: 'Function',   optional: false },
     ],
     returnValue: {
       type: 'any',

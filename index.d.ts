@@ -178,13 +178,6 @@ export type PositionConfig = [number, number, number]
  */
 export type AddActionScript = (target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void
 
-export namespace bis {
-	export function crewCount(className: string, includeCargoSeats: boolean): number
-}
-
-export namespace diag {
-	export function log(output: any): void
-}
 
 /**
  * Returns absolute (positive) value of a real number.
@@ -1165,6 +1158,16 @@ export function addVest(unit: GameObject, type: string): void
 export function addWaypoint(groupName: Group, center: PositionAGL | GameObject, radius: number, index?: number, name?: string): Waypoint
 
 /**
+ * Returns current coeficient setting.
+ *
+ * @param curatorObj - curator module.
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/curatorCoef}
+ * @sqfsyntaxtype binary
+ */
+export function curatorCoef(curatorObj: GameObject, action: string): number
+
+/**
  * Remainder of a divided by b.
  *
  * @returns number
@@ -1263,3 +1266,33 @@ export function systemChat(text: string): void
  */
 export function vehicle(unitName: GameObject): GameObject
 
+
+export namespace bis {
+/**
+ * Returns the value of the named mission parameter. This function is global and
+ * will return selected param value on any PC including JIP. For backward
+ * compatibility it also supports "param1" and "param2".
+ *
+ * @param paramClass - class name of one of Mission Parameters
+ * @param defalutValue - (Optional, default 0) default value to return if paramClass does not exist
+ * @returns param value
+ * @see {@link https://community.bistudio.com/wiki/BIS_fnc_getParamValue}
+ * @sqfsyntaxtype unary
+ */
+export function getParamValue(paramClass: string, defalutValue?: number): number
+
+/**
+ * Returns the pitch and bank of an object, in degrees. Yaw can be found using the
+ * getDir command. Pitch is 0 when the object is level; 90 when pointing straight
+ * up; and -90 when pointing straight down. Bank is 0 when level; 90 when the
+ * object is rolled to the right, -90 when rolled to the left, and 180 when rolled
+ * upside down. ⚠The bank returned by this command is not fully accurate, it can be
+ * off by up to 5% or so (depending on pitch) due to an unknown bug.
+ *
+ * @returns pitch and bank of the object in degrees, format [pitch, bank]
+ * @see {@link https://community.bistudio.com/wiki/BIS_fnc_getPitchBank}
+ * @sqfsyntaxtype unary
+ */
+export function getPitchBank(object: GameObject): [number, number]
+
+}

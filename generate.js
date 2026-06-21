@@ -23,18 +23,28 @@ ${wrapText(dataType.description, 80).map(text => ` * ${text}`).join("\n")}
 ${dataType.type !== undefined ? `export type ${dataType.name} = ${dataType.type}` : `declare class ${dataType.name} {}`}
 `
 }).join("\n")}
-export namespace bis {
-	export function crewCount(className: string, includeCargoSeats: boolean): number
-}
-
-export namespace diag {
-	export function log(output: any): void
-}
 
 ${
 	commands
-		.map(command => {
-			return `/**
+		.filter(command => !command.name.includes("_fnc_"))
+		.map(command => renderCommand(command))
+		.join("\n")
+}
+
+export namespace bis {
+${
+	commands
+		.filter(command => command.name.startsWith("BIS_fnc_"))
+		.map(command => renderCommand(command))
+		.join("\n")
+}
+}
+`
+
+await writeFile("index.d.ts", output)
+
+function renderCommand(command) {
+	return `/**
 ${wrapText(command.description ?? `Represents the SQF \`${command.name}\` command.`, 80).map(text => ` * ${text}`).join("\n")}
  *
 ${
@@ -49,7 +59,7 @@ ${
 }).join("\n")}\n`} * @see {@link ${command.url}}
  * @sqfsyntaxtype ${getCommandSyntaxType(command)}
  */
-export function ${command.name}(${
+export function ${getCommandDisplayName(command)}(${
 	command.parameters.map(parameter => `${parameter.name}${parameter.optional ? "?" : ""}: ${parameter.type}`).join(", ")
 }): ${(() => {
 		if (command.returnValue.type === undefined) {
@@ -66,12 +76,8 @@ export function ${command.name}(${
 			}).join(", ")}]`
 		}
 	})()}
-`})
-		.join("\n")
-}
 `
-
-await writeFile("index.d.ts", output)
+}
 
 function wrapText(text, maxWidth) {
 	const lines = []
@@ -101,9 +107,18 @@ function wrapText(text, maxWidth) {
 function getCommandSyntaxType(command) {
 	if (command.syntax === command.name) {
 		return "nullary"
-	} else if (command.syntax.startsWith(command.name)) {
+	} else if (command.name.includes("_fnc_") || command.syntax.startsWith(command.name)) {
 		return "unary"
 	} else {
 		return "binary"
+	}
+}
+
+function getCommandDisplayName(command) {
+	const indexOfFnc = command.name.indexOf("_fnc_")
+	if (indexOfFnc > -1) {
+		return command.name.substring(indexOfFnc + "_fnc_".length)
+	} else {
+		return command.name
 	}
 }

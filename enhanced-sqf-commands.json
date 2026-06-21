@@ -1954,6 +1954,69 @@
     }
   },
   {
+    "name": "BIS_fnc_getParamValue",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_getParamValue",
+    "syntax": "paramClass call BIS_fnc_getParamValue",
+    "description": "Returns the value of the named mission parameter. This function is global and will return selected param value on any PC including JIP. For backward compatibility it also supports \"param1\" and \"param2\".",
+    "parameters": [
+      {
+        "name": "paramClass",
+        "type": "string",
+        "optional": false,
+        "description": "class name of one of Mission Parameters"
+      },
+      {
+        "name": "defalutValue",
+        "type": "number",
+        "optional": true,
+        "description": "(Optional, default 0) default value to return if paramClass does not exist"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "param value"
+    }
+  },
+  {
+    "name": "BIS_fnc_getPitchBank",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_getPitchBank",
+    "syntax": "object call BIS_fnc_getPitchBank",
+    "description": "Returns the pitch and bank of an object, in degrees. Yaw can be found using the getDir command. Pitch is 0 when the object is level; 90 when pointing straight up; and -90 when pointing straight down. Bank is 0 when level; 90 when the object is rolled to the right, -90 when rolled to the left, and 180 when rolled upside down. ⚠The bank returned by this command is not fully accurate, it can be off by up to 5% or so (depending on pitch) due to an unknown bug.",
+    "parameters": [
+      {
+        "name": "object",
+        "type": "GameObject",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "[number, number]",
+      "description": "pitch and bank of the object in degrees, format [pitch, bank]"
+    }
+  },
+  {
+    "name": "curatorCoef",
+    "url": "https://community.bistudio.com/wiki/curatorCoef",
+    "syntax": "curatorObj curatorCoef action",
+    "description": "Returns current coeficient setting.",
+    "parameters": [
+      {
+        "name": "curatorObj",
+        "type": "GameObject",
+        "optional": false,
+        "description": "curator module."
+      },
+      {
+        "name": "action",
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "number"
+    }
+  },
+  {
     "name": "mod",
     "url": "https://community.bistudio.com/wiki/mod",
     "syntax": "a mod b",

@@ -405,8 +405,8 @@
     "parameters": [
       "object: Object - unit, vehicle or static object. No agents!",
       "title: String - the action name which is displayed in the action menu, may contain Structured Text. Because of that < and > symbols will be interpreted as opening and closing XML tags. To avoid this use &lt; for < and &gt; for >. The title text appearance can be changed with setUserActionText",
-      "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: params [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
-      "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with _this select 3 inside the script. If Array is used as an argument for example, its first element reference would be _this select 3 select 0",
+      "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: Copyparams [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
+      "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with c_this select 3 inside the script. If Array is used as an argument for example, its first element reference would be c_this select 3 select 0",
       "priority: Number - (Optional, default 1.5) priority value of the action. Actions will be arranged in descending order according to this value. Every game action has a preset priority value. Value can be negative or decimal fraction. Actions with same values will be arranged in order which they were made, newest at the bottom. The bigger the number the higher the action will be positioned on the menu. Typical range is 0 to 6",
       "showWindow: Boolean - (Optional, default true) if set to true, players see \"Titletext\" at mid-lower screen, as they approach the object. Only the title text for the action with highest priority and showWindow set to true will be shown",
       "hideOnUse: Boolean - (Optional, default true) if set to true, it will hide the action menu after selecting it. If set to false, it will leave the action menu open and visible after selecting the action, leaving the same action highlighted, for the purpose of allowing you to re-select that same action quickly, or to select another action",
@@ -415,8 +415,8 @@
       "positionInModel: String - (Optional, default \"\") name of the named selection in the model for positioning the action in 3D space; typically a memory point",
       "radius: Number - (Optional, default 50) maximum 3D distance in meters between the activating unit's eyePos and the object's memoryPoint, selection or position. -1 disables the radius",
       "radiusView: Number - (Optional, default unknown) maximum distance in meters the cursor can be away from the 3D action to activate it. -1 disables this radius",
-      "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. 2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
-      "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. 1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
+      "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. c2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
+      "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. c1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
       "textDefault: String - (Optional, default \"\") structured Text which is shown as the 3D action (so it can be an icon), or in the center of the screen when the action is highlighted in the action menu for a 2D action",
       "textToolTip: String - (Optional, default \"\") structured Text which is faded in under the textDefault when hovering over the action in 3D space"
     ],
@@ -1122,6 +1122,80 @@
     "url": "https://community.bistudio.com/wiki/addWaypoint"
   },
   {
+    "description": "Applies the given code to each element of the given data structure and collects the results in an array.",
+    "name": "apply",
+    "parameters": [
+      "array: Array of Anything",
+      "code: Code - code to be executed on each element of the array. The current element value is stored in the magic variable _x."
+    ],
+    "returnValue": "Array of Anything - resulting array",
+    "syntax": "array apply code",
+    "url": "https://community.bistudio.com/wiki/apply"
+  },
+  {
+    "description": "Returns the value of the named mission parameter. This function is global and will return selected param value on any PC including JIP. For backward compatibility it also supports \"param1\" and \"param2\".",
+    "name": "BIS_fnc_getParamValue",
+    "parameters": [
+      "paramClass: String - class name of one of Mission Parameters",
+      "defalutValue: Number - (Optional, default 0) default value to return if paramClass does not exist"
+    ],
+    "returnValue": "Number - param value",
+    "syntax": "paramClass call BIS_fnc_getParamValue",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_getParamValue"
+  },
+  {
+    "description": "Returns the pitch and bank of an object, in degrees. Yaw can be found using the getDir command. Pitch is 0 when the object is level; 90 when pointing straight up; and -90 when pointing straight down. Bank is 0 when level; 90 when the object is rolled to the right, -90 when rolled to the left, and 180 when rolled upside down. ⚠The bank returned by this command is not fully accurate, it can be off by up to 5% or so (depending on pitch) due to an unknown bug.",
+    "name": "BIS_fnc_getPitchBank",
+    "parameters": [
+      "object: Object"
+    ],
+    "returnValue": "Array of Numbers - format [pitch, bank]",
+    "syntax": "object call BIS_fnc_getPitchBank",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_getPitchBank"
+  },
+  {
+    "description": "Adds given set of compiled instructions to the current stack and waits for it to finish and return, provides an option to pass arguments to the executed Code. See Scheduler to learn more about how the code is executed and behaves.",
+    "name": "call",
+    "parameters": [
+      "code: Code - compiled instructions Operation Flashpoint takes String. ⓘThis way of calling has access to its parent scope's _this, as all it does is creating a scope."
+    ],
+    "returnValue": "Anything - the last value given in the function is returned - see the topic Function for more information",
+    "syntax": "call code",
+    "url": "https://community.bistudio.com/wiki/call"
+  },
+  {
+    "description": "Returns current coeficient setting.",
+    "name": "curatorCoef",
+    "parameters": [
+      "curatorObj: Object - curator module.",
+      "action: String"
+    ],
+    "returnValue": "Number",
+    "syntax": "curatorObj curatorCoef action",
+    "url": "https://community.bistudio.com/wiki/curatorCoef"
+  },
+  {
+    "description": "Executes code. Used as part of a construct, such as while, with, for and switch. The code is always executed in missionNamespace unless do is used with with as an argument.",
+    "name": "do",
+    "parameters": [
+      "construct: While Type (while), With Type (with), For Type (for), Switch Type (switch)",
+      "code: Code"
+    ],
+    "returnValue": "Anything",
+    "syntax": "construct do code",
+    "url": "https://community.bistudio.com/wiki/do"
+  },
+  {
+    "description": "This operator creates a For Type which is used in the for-constructs. ⚠The alternative syntax cfor _array do _code is slower than the first syntax because the condition is checked in every iteration, and it has a few bugs. It is only kept for backward compatibility; always use the first syntax cfor \"_i\" from 0 to _end do _code.",
+    "name": "for",
+    "parameters": [
+      "arguments: String - declares the index variable name like \"_myVar\". from and to are required, step is optional."
+    ],
+    "returnValue": "For Type",
+    "syntax": "for arguments",
+    "url": "https://community.bistudio.com/wiki/for"
+  },
+  {
     "description": "Remainder of a divided by b.",
     "name": "mod",
     "parameters": [
@@ -1160,6 +1234,17 @@
     "returnValue": "Object",
     "syntax": "player",
     "url": "https://community.bistudio.com/wiki/player"
+  },
+  {
+    "description": "Selects an element from an array, config entry from Config or substring from a string or a range from an array.",
+    "name": "select",
+    "parameters": [
+      "array: Array of Anything",
+      "index: Number - index 0 denotes the first element, 1 the second, etc. If index has decimal places it gets rounded down for fractions less than or equal .5, otherwise it gets rounded up. 2.12 negative index can be used to select from the end of the array, i.e. -1 means last array element."
+    ],
+    "returnValue": "Anything - a reference to the array element given by its index ⚠When the index equals the size of the array, there is no error for out of range selection and nil is returned - see Example 8.",
+    "syntax": "array select index",
+    "url": "https://community.bistudio.com/wiki/select"
   },
   {
     "description": "Types text to the side radio channel by the specified unit. Use clearRadio to clear chat history ⚠The unit must have an assigned radio item (such as \"ItemRadio\") to see or transmit the messages. A radio item must have the property simulation = \"ItemRadio\"; in its CfgWeapons config.",
@@ -1202,5 +1287,15 @@
     "returnValue": "Object",
     "syntax": "vehicle unitName",
     "url": "https://community.bistudio.com/wiki/vehicle"
+  },
+  {
+    "description": "Repeats Code while the given condition is true. A part of while-do construct. ⚠\n• A while loop does not have any suspension, meaning that if used in scheduled environment without any suspension (sleep or uiSleep) the code will run multiple times per frame and consumes the 3 ms per frame scheduler execution limit. This should be avoided if not intended (see Example 3).\n• In non-scheduled environment, while do loop is limited to 10,000 iterations, after which it exits even if condition is still true.",
+    "name": "while",
+    "parameters": [
+      "condition: Code"
+    ],
+    "returnValue": "While Type",
+    "syntax": "while condition",
+    "url": "https://community.bistudio.com/wiki/while"
   }
 ]
