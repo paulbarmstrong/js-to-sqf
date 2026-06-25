@@ -39,6 +39,8 @@ const TYPE_MAP = {
   'vector3d': '[number, number, number]',
   'code': 'Function',
   'array': 'Array<any>',
+  // Note: ConfigFile is only for *configFile commands; all other Config types use Config from sqf-data-types.json
+  'config': 'Config',
 };
 
 function mapBaseType(t) {
@@ -307,6 +309,22 @@ const OVERRIDES = {
       type: '[number, number]',
       description: 'pitch and bank of the object in degrees, format [pitch, bank]',
     },
+  },
+
+  'configFile': {
+    returnValue: {
+      type: 'ConfigFile',
+    },
+  },
+
+  // rename "2Dmode" parameter (starts with digit) to "mode2D"
+  'nearestObjects': {
+    parameters: [
+      { name: 'position', type: 'GameObject | PositionAGL', optional: false },
+      { name: 'types',    type: 'Array<any>',             optional: false, description: 'array of class names to search for' },
+      { name: 'radius',   type: 'number',                 optional: false, description: 'search radius' },
+      { name: 'mode2D',   type: 'boolean',                optional: true,  description: '(Optional, default false) if true, search in 2D space only' },
+    ],
   },
 
   'BIS_fnc_dynamicText': {

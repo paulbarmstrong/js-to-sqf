@@ -2235,7 +2235,7 @@
     "name": "BIS_fnc_endMissionServer",
     "url": "https://community.bistudio.com/wiki/BIS_fnc_endMissionServer",
     "syntax": "endType call BIS_fnc_endMissionServer",
-    "description": "Ends the mission properly for all players in a multiplayer environment. ⓘThis function is somewhat deprecated for custom endings since 1.50 as remote-executing BIS_fnc_endMission allows for more options: Copy[\"MyEnding\", true, 3] remoteExec [\"BIS_fnc_endMission\", 0, true];",
+    "description": "Ends the mission properly for all players in a multiplayer environment. ⓘThis function is somewhat deprecated for custom endings since 1.50 as remote-executing BIS_fnc_endMission allows for more options: [\"MyEnding\", true, 3] remoteExec [\"BIS_fnc_endMission\", 0, true];",
     "parameters": [
       {
         "name": "endType",
@@ -2414,7 +2414,7 @@
     "parameters": [
       {
         "name": "config",
-        "type": "any",
+        "type": "Config",
         "optional": false,
         "description": "starting config class"
       },
@@ -2466,6 +2466,47 @@
     }
   },
   {
+    "name": "BIS_fnc_stringToMarker",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_stringToMarker",
+    "syntax": "data call BIS_fnc_stringToMarker",
+    "description": "Converts serialized data from BIS_fnc_markerToString into a global map marker",
+    "parameters": [
+      {
+        "name": "data",
+        "type": "string",
+        "optional": false,
+        "description": "serialized data"
+      }
+    ],
+    "returnValue": {
+      "type": "string",
+      "description": "created global marker"
+    }
+  },
+  {
+    "name": "BIS_fnc_triggerToMarker",
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_triggerToMarker",
+    "syntax": "[trigger, markerName] call BIS_fnc_triggerToMarker",
+    "description": "Makes an existing or new trigger cover a marker area.",
+    "parameters": [
+      {
+        "name": "trigger",
+        "type": "GameObject",
+        "optional": false,
+        "description": "trigger that will be used to cover the marker. objNull to create a new trigger"
+      },
+      {
+        "name": "markerName",
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "GameObject",
+      "description": "the (created) trigger. objNull if marker is not rectangular or elliptical."
+    }
+  },
+  {
     "name": "closeDialog",
     "url": "https://community.bistudio.com/wiki/closeDialog",
     "syntax": "closeDialog exitcode",
@@ -2492,12 +2533,12 @@
       },
       {
         "name": "config",
-        "type": "any",
+        "type": "Config",
         "optional": false
       }
     ],
     "returnValue": {
-      "type": "Array<any>"
+      "type": "Array<Config>"
     }
   },
   {
@@ -2507,7 +2548,7 @@
     "description": "Return root of config entries hierarchy.",
     "parameters": [],
     "returnValue": {
-      "type": "any"
+      "type": "ConfigFile"
     }
   },
   {
@@ -2518,7 +2559,7 @@
     "parameters": [
       {
         "name": "config",
-        "type": "any",
+        "type": "Config",
         "optional": false
       }
     ],
@@ -2809,7 +2850,7 @@
     "name": "cutRsc",
     "url": "https://community.bistudio.com/wiki/cutRsc",
     "syntax": "cutRsc [class, effect, speed, showInMap, drawOverHUD]",
-    "description": "Display a resource defined in RscTitles of the mission's Description.ext, the campaign's description.ext or the global config. For greater efficiency and ease of modability, it is recommended to use named layers available with String and Syntax 2. ⚠To avoid conflicts with existing layers it is recommended to register a layer with BIS_fnc_rscLayer and to start the name with a TAG: Copy(\"TAG_myLayer\" call BIS_fnc_rscLayer) cutRsc [\"myRsc\", \"PLAIN\"]; \"TAG_myLayer\" cutRsc [\"myRsc\", \"PLAIN\"];",
+    "description": "Display a resource defined in RscTitles of the mission's Description.ext, the campaign's description.ext or the global config. For greater efficiency and ease of modability, it is recommended to use named layers available with String and Syntax 2. ⚠To avoid conflicts with existing layers it is recommended to register a layer with BIS_fnc_rscLayer and to start the name with a TAG: (\"TAG_myLayer\" call BIS_fnc_rscLayer) cutRsc [\"myRsc\", \"PLAIN\"]; \"TAG_myLayer\" cutRsc [\"myRsc\", \"PLAIN\"];",
     "parameters": [
       {
         "name": "className",
@@ -3094,6 +3135,28 @@
     }
   },
   {
+    "name": "distance2D",
+    "url": "https://community.bistudio.com/wiki/distance2D",
+    "syntax": "from distance2D to",
+    "description": "Returns a 2D distance (distance projected to X,Y plane) in meters between Objects and/or Positions.",
+    "parameters": [
+      {
+        "name": "from",
+        "type": "any",
+        "optional": false
+      },
+      {
+        "name": "to",
+        "type": "any",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "distance in meters or 1e10 if distance cannot be calculated"
+    }
+  },
+  {
     "name": "driver",
     "url": "https://community.bistudio.com/wiki/driver",
     "syntax": "driver vehicle",
@@ -3108,6 +3171,16 @@
     "returnValue": {
       "type": "GameObject",
       "description": "The unit sitting in the driver place is returned. If vehicle is not a vehicle but a person, the person is returned."
+    }
+  },
+  {
+    "name": "east",
+    "url": "https://community.bistudio.com/wiki/east",
+    "syntax": "east",
+    "description": "Pre-defined variable for the eastern side.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Side"
     }
   },
   {
@@ -3130,6 +3203,44 @@
       }
     ],
     "returnValue": {}
+  },
+  {
+    "name": "enableSaving",
+    "url": "https://community.bistudio.com/wiki/enableSaving",
+    "syntax": "enableSaving enable",
+    "description": "Enable / disable saving of the game with an optional autosave.",
+    "parameters": [
+      {
+        "name": "enable",
+        "type": "boolean",
+        "optional": false
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "execFSM",
+    "url": "https://community.bistudio.com/wiki/execFSM",
+    "syntax": "arguments execFSM fsmFilePath",
+    "description": "Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is first searched in the mission folder, then in the campaign scripts folder and finally in the global scripts folder. Argument (if any) are available in _this variable inside FSM. Variables set inside FSMs can be read/modified externally, using setFSMVariable and getFSMVariable commands. The return value is the FSM handle; it can be used to determine (via completedFSM) when the FSM has finished. In Arma 3, the FSM handle is also available within the FSM through the _thisFSM variable. Scripted FSMs are added into the scheduler just like exec scripts, execVM scripts and spawn scripts. To see what FSMs are currently in the scheduler, use diag_activeMissionFSMs command. ⚠While the code placed into any of the sections of FSM cannot be suspended (canSuspend is false), the FSM itself is suspended every simulation between the state's init and precondition (exception is the init state). This is the only place where scripted FSM is suspended/resumed. The usual difference between the state's init and precondition is 1 frame but if the scheduler is busy it can take longer. See FSM for more information about FSM's structure.",
+    "parameters": [
+      {
+        "name": "arguments",
+        "type": "any",
+        "optional": false,
+        "description": "arguments accessible as _this in the FSM"
+      },
+      {
+        "name": "fsmFilePath",
+        "type": "string",
+        "optional": false,
+        "description": "file with FSM code"
+      }
+    ],
+    "returnValue": {
+      "type": "number",
+      "description": "FSM handle (also available as _thisFSM in the FSM)"
+    }
   },
   {
     "name": "find",
@@ -3263,6 +3374,45 @@
     }
   },
   {
+    "name": "getFSMVariable",
+    "url": "https://community.bistudio.com/wiki/getFSMVariable",
+    "syntax": "FSMhandle getFSMVariable name",
+    "description": "Return the value of variable in the variable space of given FSM. The FSM handle is the number returned by the execFSM command.",
+    "parameters": [
+      {
+        "name": "FSMhandle",
+        "type": "number",
+        "optional": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "optional": false,
+        "description": "name of the variable"
+      }
+    ],
+    "returnValue": {
+      "type": "any"
+    }
+  },
+  {
+    "name": "getMarkerPos",
+    "url": "https://community.bistudio.com/wiki/getMarkerPos",
+    "syntax": "getMarkerPos markerName",
+    "description": "Returns marker position.",
+    "parameters": [
+      {
+        "name": "markerName",
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "PositionAGL",
+      "description": "format [x,y,0]"
+    }
+  },
+  {
     "name": "getPos",
     "url": "https://community.bistudio.com/wiki/getPos",
     "syntax": "getPos object",
@@ -3336,7 +3486,7 @@
     "parameters": [
       {
         "name": "config",
-        "type": "any",
+        "type": "Config",
         "optional": false
       }
     ],
@@ -3444,6 +3594,16 @@
     }
   },
   {
+    "name": "grpNull",
+    "url": "https://community.bistudio.com/wiki/grpNull",
+    "syntax": "grpNull",
+    "description": "A non-existing Group. To compare non-existent groups use isNull or isEqualTo: grpNull == grpNull; // false isNull grpNull; // true grpNull isEqualTo grpNull; // true",
+    "parameters": [],
+    "returnValue": {
+      "type": "Group"
+    }
+  },
+  {
     "name": "gunner",
     "url": "https://community.bistudio.com/wiki/gunner",
     "syntax": "gunner vehicle",
@@ -3488,6 +3648,37 @@
       }
     ],
     "returnValue": {}
+  },
+  {
+    "name": "independent",
+    "url": "https://community.bistudio.com/wiki/independent",
+    "syntax": "independent",
+    "description": "Pre-defined variable for the independent side.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Side"
+    }
+  },
+  {
+    "name": "isEqualTo",
+    "url": "https://community.bistudio.com/wiki/isEqualTo",
+    "syntax": "val1 isEqualTo val2",
+    "description": "Performs strict comparison between var1 and var2 and returns true if equal, otherwise false. Strict means that it would check that both arguments are of the same data type and then compare the values. Some differences between isEqualTo and ==:\n• It performs case sensitive comparison on Strings\n• It doesn't throw error when comparing different types, i.e. (\"eleven\" isEqualTo 11)\n• It can compare Arrays, Script Handles and Booleans (alive player isEqualTo true)\n• It can compare non-existent game objects (grpNull isEqualTo grpNull)\n• It is slightly faster than ==, especially when comparing Strings\n• 1.48 It can compare Namespaces ⓘA compiled code is not equal to the same compiled code made final: _a = compile \"123\"; _b = compileFinal \"123\"; _a isEqualTo _b; // false ⚠When comparing Arrays, if an array contains nil element, the comparison will return false. For example: private _array1 = [1, nil, 2]; private _array2 = [1, nil, 2]; _array1 isEqualTo _array2; // false UNLESS the compared arrays are the same array: private _array1 = [1, nil, 2]; private _array2 = _array1; _array1 isEqualTo _array2; // true See: isEqualRef and BIS_fnc_areEqual vs BIS_fnc_areEqualNotNil",
+    "parameters": [
+      {
+        "name": "val1",
+        "type": "any",
+        "optional": false
+      },
+      {
+        "name": "val2",
+        "type": "any",
+        "optional": false
+      }
+    ],
+    "returnValue": {
+      "type": "boolean"
+    }
   },
   {
     "name": "isKindOf",
@@ -3612,6 +3803,26 @@
     ],
     "returnValue": {
       "type": "GameObject"
+    }
+  },
+  {
+    "name": "localNamespace",
+    "url": "https://community.bistudio.com/wiki/localNamespace",
+    "syntax": "localNamespace",
+    "description": "Returns local Namespace attached to the mission. Has the same lifetime as missionNamespace but variables cannot be broadcasted out of or into this namespace in multiplayer and will not be serialized when game is saved. UI variables can be safely stored in this namespace. Use allVariables command to save the variables elsewhere if required.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Namespace"
+    }
+  },
+  {
+    "name": "missionNamespace",
+    "url": "https://community.bistudio.com/wiki/missionNamespace",
+    "syntax": "missionNamespace",
+    "description": "Returns the global namespace attached to mission.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Namespace"
     }
   },
   {
@@ -3740,6 +3951,40 @@
     ],
     "returnValue": {
       "type": "string"
+    }
+  },
+  {
+    "name": "nearestObjects",
+    "url": "https://community.bistudio.com/wiki/nearestObjects",
+    "syntax": "nearestObjects [position, types, radius, 2Dmode]",
+    "description": "Returns a list of nearest objects of the given types to the given position or object, within the specified distance. If more than one object is found they will be ordered by proximity, the closest one will be first in the array. If an object is given as the center and the filter criteria applies to it, it will be the first result in the list. Alternatively, you can use nearObjects command, which doesn't sort results. A list of ClassName types (e.g Tank) can be found in CfgVehicles. ⚠This command matches objects using isKindOf comparison instead of direct class name == comparison. As a result, if a class type is a parent, the search will return all objects that inherit from the parent as well as parent itself. This command also only finds objects that are entities. If you are looking for non-entity objects, see nearObjects, nearestObject. ⚠Because of map object streaming, using nearestObjects or similar object finding commands over long distance from player camera may not find what you are looking for, as some objects might not exist at the time of command execution. Use nearestTerrainObjects instead.",
+    "parameters": [
+      {
+        "name": "position",
+        "type": "GameObject | PositionAGL",
+        "optional": false
+      },
+      {
+        "name": "types",
+        "type": "Array<any>",
+        "optional": false,
+        "description": "array of class names to search for"
+      },
+      {
+        "name": "radius",
+        "type": "number",
+        "optional": false,
+        "description": "search radius"
+      },
+      {
+        "name": "mode2D",
+        "type": "boolean",
+        "optional": true,
+        "description": "(Optional, default false) if true, search in 2D space only"
+      }
+    ],
+    "returnValue": {
+      "type": "Array<GameObject>"
     }
   },
   {
@@ -3962,6 +4207,16 @@
     "returnValue": {}
   },
   {
+    "name": "serverNamespace",
+    "url": "https://community.bistudio.com/wiki/serverNamespace",
+    "syntax": "serverNamespace",
+    "description": "Returns server's namespace. This namespace is only available on the server for the server's uptime duration (same as uiNamespace). All server event handlers, which are available in server config, use this namespace.",
+    "parameters": [],
+    "returnValue": {
+      "type": "any"
+    }
+  },
+  {
     "name": "setDamage",
     "url": "https://community.bistudio.com/wiki/setDamage",
     "syntax": "object setDamage damage",
@@ -4088,6 +4343,64 @@
         "type": "boolean",
         "optional": true,
         "description": "(Optional, default false) if the hitpoint is rotor on a helicopter, true will break the rotor as well as play corresponding sound if 'useEffects' is also true."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "setMarkerColor",
+    "url": "https://community.bistudio.com/wiki/setMarkerColor",
+    "syntax": "markerName setMarkerColor colour",
+    "description": "Set marker's colour. Arma 3's marker colour names and their corresponding RGBA values can be found here: Arma 3: CfgMarkerColors. ⓘMultiplayer optimisation: Global marker commands always broadcast the entire marker state over the network. As such, the number of network messages exchanged when creating or editing a marker can be reduced by performing all but the last operation using local marker commands, then using a global marker command for the last change (and subsequent global broadcast of all changes applied to the marker).",
+    "parameters": [
+      {
+        "name": "markerName",
+        "type": "string",
+        "optional": false
+      },
+      {
+        "name": "colour",
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "setMarkerText",
+    "url": "https://community.bistudio.com/wiki/setMarkerText",
+    "syntax": "markerName setMarkerText text",
+    "description": "Sets the text label of an existing marker. ⓘMultiplayer optimisation: Global marker commands always broadcast the entire marker state over the network. As such, the number of network messages exchanged when creating or editing a marker can be reduced by performing all but the last operation using local marker commands, then using a global marker command for the last change (and subsequent global broadcast of all changes applied to the marker).",
+    "parameters": [
+      {
+        "name": "markerName",
+        "type": "string",
+        "optional": false
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "optional": false
+      }
+    ],
+    "returnValue": {}
+  },
+  {
+    "name": "setMarkerType",
+    "url": "https://community.bistudio.com/wiki/setMarkerType",
+    "syntax": "markerName setMarkerType type",
+    "description": "Sets marker type. Marker type is a class name from CfgMarkers. ⓘMultiplayer optimisation: Global marker commands always broadcast the entire marker state over the network. As such, the number of network messages exchanged when creating or editing a marker can be reduced by performing all but the last operation using local marker commands, then using a global marker command for the last change (and subsequent global broadcast of all changes applied to the marker).",
+    "parameters": [
+      {
+        "name": "markerName",
+        "type": "string",
+        "optional": false
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "optional": false,
+        "description": "see CfgMarkers"
       }
     ],
     "returnValue": {}
@@ -4402,6 +4715,21 @@
     "returnValue": {}
   },
   {
+    "name": "sleep",
+    "url": "https://community.bistudio.com/wiki/sleep",
+    "syntax": "sleep delay",
+    "description": "Suspends code execution for given time in seconds. The sleep precision is given by a framerate, the delay given is the minimal delay expected. Must be called inside of a context which is interruptible, i.e. a script executed by execVM or spawn. ⓘ\n• this command will suspend the code for at least the given amount of time, and can be way more if the script scheduler is busy.\n• this command will suspend the script as the game gets paused in single player (and will resume with it). To avoid this, use uiSleep.",
+    "parameters": [
+      {
+        "name": "delay",
+        "type": "number",
+        "optional": false,
+        "description": "in seconds. Negative values will not be considered."
+      }
+    ],
+    "returnValue": {}
+  },
+  {
     "name": "sort",
     "url": "https://community.bistudio.com/wiki/sort",
     "syntax": "array sort order",
@@ -4536,6 +4864,29 @@
     }
   },
   {
+    "name": "vectorAdd",
+    "url": "https://community.bistudio.com/wiki/vectorAdd",
+    "syntax": "vector1 vectorAdd vector2",
+    "description": "Adds two arrays of numbers. Replaces BIS_fnc_vectorAdd. 2.14Since 2.14 any count of numbers is valid, if one array is larger than the other, the remaining elements are inserted without change. Before 2.14, the first argument had to be vector 3D, or 2.00 2D (Which still returned 3D result, with z coordinate defaulted to 0)",
+    "parameters": [
+      {
+        "name": "vector1",
+        "type": "Array<number>",
+        "optional": false,
+        "description": "can be any size"
+      },
+      {
+        "name": "vector2",
+        "type": "Array<number>",
+        "optional": false,
+        "description": "can be any size"
+      }
+    ],
+    "returnValue": {
+      "type": "Array<number>"
+    }
+  },
+  {
     "name": "vehicle",
     "url": "https://community.bistudio.com/wiki/vehicle",
     "syntax": "vehicle unitName",
@@ -4626,6 +4977,16 @@
     ],
     "returnValue": {
       "type": "Array<string>"
+    }
+  },
+  {
+    "name": "west",
+    "url": "https://community.bistudio.com/wiki/west",
+    "syntax": "west",
+    "description": "West (BLUFOR) side.",
+    "parameters": [],
+    "returnValue": {
+      "type": "Side"
     }
   }
 ]

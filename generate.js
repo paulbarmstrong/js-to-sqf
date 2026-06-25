@@ -20,7 +20,9 @@ ${dataTypes.map(dataType => {
 ${wrapText(dataType.description, 80).map(text => ` * ${text}`).join("\n")}
  * @see {@link ${dataType.url}}
  */
-${dataType.type !== undefined ? `export type ${dataType.name} = ${dataType.type}` : `declare class ${dataType.name} {}`}
+${dataType.type !== undefined ? `export type ${dataType.name} = ${dataType.type}` : `declare class ${dataType.name} {${
+	dataType.classConstructor !== undefined ? `\n\tconstructor${dataType.classConstructor}\n` : ""
+}}`}
 `
 }).join("\n")}
 /**

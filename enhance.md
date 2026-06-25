@@ -52,6 +52,7 @@ Type Strategy:
 	g. The types under `sqf-data-types.json`
 	  * Note that `GameObject` is mean to represent the SQL `Object` data type
 	  * Any "script" parameters that have explicit input and/or output (like in `addAction`) should have their own pre-existing type in `sqf-data-types.json`, like `AddActionScript`. "script" parameters that are not given explicit input and/or output should have type as `Function`
+	  * Please make the return type of commands name like `*configFile` be `ConfigFile` instead of `Config`
 	h. any (native ts/js type. use this if something tries to specify a huge amount of different types)
 	  * Please put the `spawn` command's arguments parameter to `Array<any>` instead of `any`
   2. If it is a mixed-type array returnValue then have the type be an actual JSON array where elements have:

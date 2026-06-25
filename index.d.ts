@@ -179,6 +179,20 @@ export type PositionConfig = [number, number, number]
 export type AddActionScript = (target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void
 
 /**
+ * Root of config entries hierarchy.
+ * @see {@link https://community.bistudio.com/wiki/configFile}
+ */
+declare class ConfigFile {}
+
+/**
+ * Config file entry.
+ * @see {@link https://community.bistudio.com/wiki/Config}
+ */
+declare class Config {
+	constructor(configFile: ConfigFile, ...path: Array<string>)
+}
+
+/**
  * Gets a GameObject by the variableName it is configured with in the Mission Editor.
  * 
  * @see {@link https://community.bistudio.com/wiki/Object}
@@ -1325,20 +1339,20 @@ export function closeDialog(exitcode: number): void
  * ◦ "true"
  * ◦ "getNumber (_x >> 'scope') > 0"
  *
- * @returns Array<any>
+ * @returns Array<Config>
  * @see {@link https://community.bistudio.com/wiki/configClasses}
  * @sqfsyntaxtype binary
  */
-export function configClasses(condition: string, config: any): Array<any>
+export function configClasses(condition: string, config: Config): Array<Config>
 
 /**
  * Return root of config entries hierarchy.
  *
- * @returns any
+ * @returns ConfigFile
  * @see {@link https://community.bistudio.com/wiki/configFile}
  * @sqfsyntaxtype nullary
  */
-export function configFile(): any
+export function configFile(): ConfigFile
 
 /**
  * Returns name of config entry.
@@ -1347,7 +1361,7 @@ export function configFile(): any
  * @see {@link https://community.bistudio.com/wiki/configName}
  * @sqfsyntaxtype unary
  */
-export function configName(config: any): string
+export function configName(config: Config): string
 
 /**
  * Copies ANSI text string to the clipboard. If Unicode support is desired, see
@@ -1572,9 +1586,9 @@ export function currentWaypoint(groupName: Group): number
  * campaign's description.ext or the global config. For greater efficiency and ease
  * of modability, it is recommended to use named layers available with String and
  * Syntax 2. ⚠To avoid conflicts with existing layers it is recommended to register
- * a layer with BIS_fnc_rscLayer and to start the name with a TAG:
- * Copy("TAG_myLayer" call BIS_fnc_rscLayer) cutRsc ["myRsc", "PLAIN"];
- * "TAG_myLayer" cutRsc ["myRsc", "PLAIN"];
+ * a layer with BIS_fnc_rscLayer and to start the name with a TAG: ("TAG_myLayer"
+ * call BIS_fnc_rscLayer) cutRsc ["myRsc", "PLAIN"]; "TAG_myLayer" cutRsc ["myRsc",
+ * "PLAIN"];
  *
  * @param className - the class name of the resource; "Default" will remove the current resource
  * @param effect - one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN",
@@ -1738,6 +1752,16 @@ export function displayRemoveEventHandler(display: Display, handlerType: string,
 export function distance(param1: GameObject | PositionAGL | any, param2: GameObject | PositionAGL | any): number
 
 /**
+ * Returns a 2D distance (distance projected to X,Y plane) in meters between
+ * Objects and/or Positions.
+ *
+ * @returns distance in meters or 1e10 if distance cannot be calculated
+ * @see {@link https://community.bistudio.com/wiki/distance2D}
+ * @sqfsyntaxtype binary
+ */
+export function distance2D(from: any, to: any): number
+
+/**
  * Returns the driver of a vehicle.
  *
  * @returns The unit sitting in the driver place is returned. If vehicle is not a vehicle but a person, the person is returned.
@@ -1745,6 +1769,15 @@ export function distance(param1: GameObject | PositionAGL | any, param2: GameObj
  * @sqfsyntaxtype unary
  */
 export function driver(vehicle: GameObject): GameObject
+
+/**
+ * Pre-defined variable for the eastern side.
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/east}
+ * @sqfsyntaxtype nullary
+ */
+export function east(): Side
 
 /**
  * Enables or disables the ability to be attached to a rope end for the given
@@ -1756,6 +1789,40 @@ export function driver(vehicle: GameObject): GameObject
  * @sqfsyntaxtype binary
  */
 export function enableRopeAttach(entity: GameObject, enable: boolean): void
+
+/**
+ * Enable / disable saving of the game with an optional autosave.
+ *
+ * @see {@link https://community.bistudio.com/wiki/enableSaving}
+ * @sqfsyntaxtype unary
+ */
+export function enableSaving(enable: boolean): void
+
+/**
+ * Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is
+ * first searched in the mission folder, then in the campaign scripts folder and
+ * finally in the global scripts folder. Argument (if any) are available in _this
+ * variable inside FSM. Variables set inside FSMs can be read/modified externally,
+ * using setFSMVariable and getFSMVariable commands. The return value is the FSM
+ * handle; it can be used to determine (via completedFSM) when the FSM has
+ * finished. In Arma 3, the FSM handle is also available within the FSM through the
+ * _thisFSM variable. Scripted FSMs are added into the scheduler just like exec
+ * scripts, execVM scripts and spawn scripts. To see what FSMs are currently in the
+ * scheduler, use diag_activeMissionFSMs command. ⚠While the code placed into any
+ * of the sections of FSM cannot be suspended (canSuspend is false), the FSM itself
+ * is suspended every simulation between the state's init and precondition
+ * (exception is the init state). This is the only place where scripted FSM is
+ * suspended/resumed. The usual difference between the state's init and
+ * precondition is 1 frame but if the scheduler is busy it can take longer. See FSM
+ * for more information about FSM's structure.
+ *
+ * @param arguments - arguments accessible as _this in the FSM
+ * @param fsmFilePath - file with FSM code
+ * @returns FSM handle (also available as _thisFSM in the FSM)
+ * @see {@link https://community.bistudio.com/wiki/execFSM}
+ * @sqfsyntaxtype binary
+ */
+export function execFSM(arguments: any, fsmFilePath: string): number
 
 /**
  * Searches for an array element within an array or an ANSI string within an ANSI
@@ -1847,6 +1914,26 @@ export function getDammage(object: GameObject): number
 export function getDir(object: GameObject): number
 
 /**
+ * Return the value of variable in the variable space of given FSM. The FSM handle
+ * is the number returned by the execFSM command.
+ *
+ * @param name - name of the variable
+ * @returns any
+ * @see {@link https://community.bistudio.com/wiki/getFSMVariable}
+ * @sqfsyntaxtype binary
+ */
+export function getFSMVariable(FSMhandle: number, name: string): any
+
+/**
+ * Returns marker position.
+ *
+ * @returns format [x,y,0]
+ * @see {@link https://community.bistudio.com/wiki/getMarkerPos}
+ * @sqfsyntaxtype unary
+ */
+export function getMarkerPos(markerName: string): PositionAGL
+
+/**
  * Returns object or location position. If the argument is an object, the return
  * value is in format PositionAGLS. The alternative syntax gets the position given
  * distance and heading away from provided object or position - the command
@@ -1904,7 +1991,7 @@ export function getSlingLoad(vehicle: GameObject): GameObject
  * @see {@link https://community.bistudio.com/wiki/getText}
  * @sqfsyntaxtype unary
  */
-export function getText(config: any): string
+export function getText(config: Config): string
 
 /**
  * Returns the value of variable in the variable space assigned to various data
@@ -1977,6 +2064,17 @@ export function groupChat(unit: GameObject, chatText: string): void
 export function groupId(group: Group): string
 
 /**
+ * A non-existing Group. To compare non-existent groups use isNull or isEqualTo:
+ * grpNull == grpNull; // false isNull grpNull; // true grpNull isEqualTo grpNull;
+ * // true
+ *
+ * @returns Group
+ * @see {@link https://community.bistudio.com/wiki/grpNull}
+ * @sqfsyntaxtype nullary
+ */
+export function grpNull(): Group
+
+/**
  * Returns the gunner of a vehicle.
  *
  * @returns the person sitting in the gunner place is returned. If vehicle is not a vehicle but a person, the person is returned.
@@ -2004,6 +2102,42 @@ export function hideObject(object: GameObject): void
  * @sqfsyntaxtype unary
  */
 export function hint(message: string | StructuredText): void
+
+/**
+ * Pre-defined variable for the independent side.
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/independent}
+ * @sqfsyntaxtype nullary
+ */
+export function independent(): Side
+
+/**
+ * Performs strict comparison between var1 and var2 and returns true if equal,
+ * otherwise false. Strict means that it would check that both arguments are of the
+ * same data type and then compare the values. Some differences between isEqualTo
+ * and ==:
+ * • It performs case sensitive comparison on Strings
+ * • It doesn't throw error when comparing different types, i.e. ("eleven"
+ * isEqualTo 11)
+ * • It can compare Arrays, Script Handles and Booleans (alive player isEqualTo
+ * true)
+ * • It can compare non-existent game objects (grpNull isEqualTo grpNull)
+ * • It is slightly faster than ==, especially when comparing Strings
+ * • 1.48 It can compare Namespaces ⓘA compiled code is not equal to the same
+ * compiled code made final: _a = compile "123"; _b = compileFinal "123"; _a
+ * isEqualTo _b; // false ⚠When comparing Arrays, if an array contains nil element,
+ * the comparison will return false. For example: private _array1 = [1, nil, 2];
+ * private _array2 = [1, nil, 2]; _array1 isEqualTo _array2; // false UNLESS the
+ * compared arrays are the same array: private _array1 = [1, nil, 2]; private
+ * _array2 = _array1; _array1 isEqualTo _array2; // true See: isEqualRef and
+ * BIS_fnc_areEqual vs BIS_fnc_areEqualNotNil
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/isEqualTo}
+ * @sqfsyntaxtype binary
+ */
+export function isEqualTo(val1: any, val2: any): boolean
 
 /**
  * Checks whether the given object or type is (a subtype) of the given type. While
@@ -2097,6 +2231,28 @@ export function joinSilent(unitArray: Array<GameObject>, group: GameObject | Gro
 export function leader(unitOrGroup: GameObject | Group): GameObject
 
 /**
+ * Returns local Namespace attached to the mission. Has the same lifetime as
+ * missionNamespace but variables cannot be broadcasted out of or into this
+ * namespace in multiplayer and will not be serialized when game is saved. UI
+ * variables can be safely stored in this namespace. Use allVariables command to
+ * save the variables elsewhere if required.
+ *
+ * @returns Namespace
+ * @see {@link https://community.bistudio.com/wiki/localNamespace}
+ * @sqfsyntaxtype nullary
+ */
+export function localNamespace(): Namespace
+
+/**
+ * Returns the global namespace attached to mission.
+ *
+ * @returns Namespace
+ * @see {@link https://community.bistudio.com/wiki/missionNamespace}
+ * @sqfsyntaxtype nullary
+ */
+export function missionNamespace(): Namespace
+
+/**
  * Remainder of a divided by b.
  *
  * @returns number
@@ -2186,6 +2342,32 @@ export function moveTo(unit: GameObject, position: PositionATL): void
  * @sqfsyntaxtype unary
  */
 export function name(object: GameObject): string
+
+/**
+ * Returns a list of nearest objects of the given types to the given position or
+ * object, within the specified distance. If more than one object is found they
+ * will be ordered by proximity, the closest one will be first in the array. If an
+ * object is given as the center and the filter criteria applies to it, it will be
+ * the first result in the list. Alternatively, you can use nearObjects command,
+ * which doesn't sort results. A list of ClassName types (e.g Tank) can be found in
+ * CfgVehicles. ⚠This command matches objects using isKindOf comparison instead of
+ * direct class name == comparison. As a result, if a class type is a parent, the
+ * search will return all objects that inherit from the parent as well as parent
+ * itself. This command also only finds objects that are entities. If you are
+ * looking for non-entity objects, see nearObjects, nearestObject. ⚠Because of map
+ * object streaming, using nearestObjects or similar object finding commands over
+ * long distance from player camera may not find what you are looking for, as some
+ * objects might not exist at the time of command execution. Use
+ * nearestTerrainObjects instead.
+ *
+ * @param types - array of class names to search for
+ * @param radius - search radius
+ * @param mode2D - (Optional, default false) if true, search in 2D space only
+ * @returns Array<GameObject>
+ * @see {@link https://community.bistudio.com/wiki/nearestObjects}
+ * @sqfsyntaxtype unary
+ */
+export function nearestObjects(position: GameObject | PositionAGL, types: Array<any>, radius: number, mode2D?: boolean): Array<GameObject>
 
 /**
  * Returns Object with given id. Object's id can be checked in mission editor.
@@ -2347,6 +2529,17 @@ export function removeAllActions(obj: GameObject): void
 export function removeWeaponTurret(vehicle: GameObject, weaponName: string, turretPath: TurretPath): void
 
 /**
+ * Returns server's namespace. This namespace is only available on the server for
+ * the server's uptime duration (same as uiNamespace). All server event handlers,
+ * which are available in server config, use this namespace.
+ *
+ * @returns any
+ * @see {@link https://community.bistudio.com/wiki/serverNamespace}
+ * @sqfsyntaxtype nullary
+ */
+export function serverNamespace(): any
+
+/**
  * Event Handler Triggered Hit HandleDamage Killed MPKilled Sets the damage (or
  * lack thereof) of an object/unit. The alternative syntax allows to skip
  * destruction effects for vehicles and buildings and set a tree/pole/wall fall
@@ -2409,6 +2602,48 @@ export function setGroupOwner(group: Group, clientID: number): boolean
  * @sqfsyntaxtype binary
  */
 export function setHitIndex(vehicle: GameObject, hitPartIndex: number, damage: number, useEffects?: boolean, killer?: GameObject, instigator?: GameObject, breakRotor?: boolean): void
+
+/**
+ * Set marker's colour. Arma 3's marker colour names and their corresponding RGBA
+ * values can be found here: Arma 3: CfgMarkerColors. ⓘMultiplayer optimisation:
+ * Global marker commands always broadcast the entire marker state over the
+ * network. As such, the number of network messages exchanged when creating or
+ * editing a marker can be reduced by performing all but the last operation using
+ * local marker commands, then using a global marker command for the last change
+ * (and subsequent global broadcast of all changes applied to the marker).
+ *
+ * @see {@link https://community.bistudio.com/wiki/setMarkerColor}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerColor(markerName: string, colour: string): void
+
+/**
+ * Sets the text label of an existing marker. ⓘMultiplayer optimisation: Global
+ * marker commands always broadcast the entire marker state over the network. As
+ * such, the number of network messages exchanged when creating or editing a marker
+ * can be reduced by performing all but the last operation using local marker
+ * commands, then using a global marker command for the last change (and subsequent
+ * global broadcast of all changes applied to the marker).
+ *
+ * @see {@link https://community.bistudio.com/wiki/setMarkerText}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerText(markerName: string, text: string): void
+
+/**
+ * Sets marker type. Marker type is a class name from CfgMarkers. ⓘMultiplayer
+ * optimisation: Global marker commands always broadcast the entire marker state
+ * over the network. As such, the number of network messages exchanged when
+ * creating or editing a marker can be reduced by performing all but the last
+ * operation using local marker commands, then using a global marker command for
+ * the last change (and subsequent global broadcast of all changes applied to the
+ * marker).
+ *
+ * @param type - see CfgMarkers
+ * @see {@link https://community.bistudio.com/wiki/setMarkerType}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerType(markerName: string, type: string): void
 
 /**
  * Applies given texture to object's selection. See also Procedural Textures and
@@ -2593,6 +2828,22 @@ export function side(target: any): Side
 export function sideChat(unit: GameObject, chatText: string): void
 
 /**
+ * Suspends code execution for given time in seconds. The sleep precision is given
+ * by a framerate, the delay given is the minimal delay expected. Must be called
+ * inside of a context which is interruptible, i.e. a script executed by execVM or
+ * spawn. ⓘ
+ * • this command will suspend the code for at least the given amount of time, and
+ * can be way more if the script scheduler is busy.
+ * • this command will suspend the script as the game gets paused in single player
+ * (and will resume with it). To avoid this, use uiSleep.
+ *
+ * @param delay - in seconds. Negative values will not be considered.
+ * @see {@link https://community.bistudio.com/wiki/sleep}
+ * @sqfsyntaxtype unary
+ */
+export function sleep(delay: number): void
+
+/**
  * Attempts to sort given array either in ascending (true) or descending (false)
  * order. ⚠This will modify the original array!
  *
@@ -2686,6 +2937,21 @@ export function unassignVehicle(unitName: GameObject): void
 export function units(type: any | Side): Array<GameObject>
 
 /**
+ * Adds two arrays of numbers. Replaces BIS_fnc_vectorAdd. 2.14Since 2.14 any count
+ * of numbers is valid, if one array is larger than the other, the remaining
+ * elements are inserted without change. Before 2.14, the first argument had to be
+ * vector 3D, or 2.00 2D (Which still returned 3D result, with z coordinate
+ * defaulted to 0)
+ *
+ * @param vector1 - can be any size
+ * @param vector2 - can be any size
+ * @returns Array<number>
+ * @see {@link https://community.bistudio.com/wiki/vectorAdd}
+ * @sqfsyntaxtype binary
+ */
+export function vectorAdd(vector1: Array<number>, vector2: Array<number>): Array<number>
+
+/**
  * Vehicle in which given unit is mounted. If none, unit is returned.
  * Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit
  * is in for alive units, for dead units which are groupless, this command returns
@@ -2748,6 +3014,15 @@ export function waypoints(groupName: Group | GameObject): Array<Waypoint>
  */
 export function weaponsTurret(vehicle: GameObject, turretPath: TurretPath): Array<string>
 
+/**
+ * West (BLUFOR) side.
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/west}
+ * @sqfsyntaxtype nullary
+ */
+export function west(): Side
+
 
 export namespace bis {
 /**
@@ -2779,8 +3054,8 @@ export function dynamicText(text: string, x?: number | Array<any>, y?: number | 
 /**
  * Ends the mission properly for all players in a multiplayer environment. ⓘThis
  * function is somewhat deprecated for custom endings since 1.50 as
- * remote-executing BIS_fnc_endMission allows for more options: Copy["MyEnding",
- * true, 3] remoteExec ["BIS_fnc_endMission", 0, true];
+ * remote-executing BIS_fnc_endMission allows for more options: ["MyEnding", true,
+ * 3] remoteExec ["BIS_fnc_endMission", 0, true];
  *
  * @param endType - class name of ending defined in CfgDebriefing. Can be custom or one of
  * dynamically calculated ones:
@@ -2885,7 +3160,7 @@ export function relPos(origin: GameObject | PositionAGL, distance: number, direc
  * @see {@link https://community.bistudio.com/wiki/BIS_fnc_returnParents}
  * @sqfsyntaxtype unary
  */
-export function returnParents(config: any, onlyClassNames?: boolean): Array<any>
+export function returnParents(config: Config, onlyClassNames?: boolean): Array<any>
 
 /**
  * Function to spawn a certain vehicle type with all crew (including turrets). The
@@ -2904,5 +3179,25 @@ export function returnParents(config: any, onlyClassNames?: boolean): Array<any>
  * @sqfsyntaxtype unary
  */
 export function spawnVehicle(position: any, direction: number, type: string, sideOrGroup: Side | Group): any
+
+/**
+ * Converts serialized data from BIS_fnc_markerToString into a global map marker
+ *
+ * @param data - serialized data
+ * @returns created global marker
+ * @see {@link https://community.bistudio.com/wiki/BIS_fnc_stringToMarker}
+ * @sqfsyntaxtype unary
+ */
+export function stringToMarker(data: string): string
+
+/**
+ * Makes an existing or new trigger cover a marker area.
+ *
+ * @param trigger - trigger that will be used to cover the marker. objNull to create a new trigger
+ * @returns the (created) trigger. objNull if marker is not rectangular or elliptical.
+ * @see {@link https://community.bistudio.com/wiki/BIS_fnc_triggerToMarker}
+ * @sqfsyntaxtype unary
+ */
+export function triggerToMarker(trigger: GameObject, markerName: string): GameObject
 
 }

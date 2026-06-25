@@ -124,5 +124,14 @@
 		"description": "Function that can be provided as the script for addAction.",
 		"url": "https://community.bistudio.com/wiki/addAction",
 		"type": "(target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void"
+	}, {
+		"name": "ConfigFile",
+		"description": "Root of config entries hierarchy.",
+		"url": "https://community.bistudio.com/wiki/configFile"
+	}, {
+		"name": "Config",
+		"description": "Config file entry.",
+		"url": "https://community.bistudio.com/wiki/Config",
+		"classConstructor": "(configFile: ConfigFile, ...path: Array<string>)"
 	}
 ]
