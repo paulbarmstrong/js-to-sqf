@@ -52,30 +52,31 @@ ${
 await writeFile("index.d.ts", output)
 
 function renderCommand(command) {
-	return `/**
+	return command.syntaxes.map((syntax, syntaxIndex) => {
+		return `/**
 ${wrapText(command.description ?? `Represents the SQF \`${command.name}\` command.`, 80).map(text => ` * ${text}`).join("\n")}
  *
 ${
-	command.parameters.filter(parameter => parameter.description !== undefined).map(parameter => {
+	syntax.parameters.filter(parameter => parameter.description !== undefined).map(parameter => {
 		const wrappedDescription = wrapText(parameter.description, 80)
 			.map((line, index) => index === 0 ? line : ` * ${line}`)
 			.join("\n")
 		return ` * @param ${parameter.name} - ${wrappedDescription}\n`
 	}).join("")
-}${command.returnValue.type === undefined ? "" : ` * @returns ${command.returnValue.description ?? (typeof command.returnValue.type === "string" ? command.returnValue.type : "")}${typeof command.returnValue.type === "string" ? "" : command.returnValue.type.map(returnElement => {
+}${syntax.returnValue.type === undefined ? "" : ` * @returns ${syntax.returnValue.description ?? (typeof syntax.returnValue.type === "string" ? syntax.returnValue.type : "")}${typeof syntax.returnValue.type === "string" ? "" : syntax.returnValue.type.map(returnElement => {
 	return ` * ${returnElement.name ? ` - ${returnElement.name}` : ""} - ${returnElement.description ?? returnElement.type}`
 }).join("\n")}\n`} * @see {@link ${command.url}}
- * @sqfsyntaxtype ${getCommandSyntaxType(command)}
+ * @sqfsyntaxtype ${getCommandSyntaxType(command, syntax)}
  */
-export function ${getCommandDisplayName(command)}(${
-	command.parameters.map(parameter => `${parameter.name}${parameter.optional ? "?" : ""}: ${parameter.type}`).join(", ")
+export function ${getCommandDisplayName(command, syntaxIndex)}(${
+	syntax.parameters.map(parameter => `${parameter.name}${parameter.optional ? "?" : ""}: ${parameter.type}`).join(", ")
 }): ${(() => {
-		if (command.returnValue.type === undefined) {
+		if (syntax.returnValue.type === undefined) {
 			return "void"
-		} else if (typeof command.returnValue.type === "string") {
-			return command.returnValue.type
+		} else if (typeof syntax.returnValue.type === "string") {
+			return syntax.returnValue.type
 		} else {
-			return `[${command.returnValue.type.map(returnElement => {
+			return `[${syntax.returnValue.type.map(returnElement => {
 				if (returnElement.name !== undefined) {
 					return `${returnElement.name}: ${returnElement.type}`
 				} else {
@@ -85,6 +86,7 @@ export function ${getCommandDisplayName(command)}(${
 		}
 	})()}
 `
+	}).join("\n")
 }
 
 function wrapText(text, maxWidth) {
@@ -112,21 +114,22 @@ function wrapText(text, maxWidth) {
 	return lines
 }
 
-function getCommandSyntaxType(command) {
-	if (command.syntax === command.name) {
+function getCommandSyntaxType(command, syntax) {
+	if (syntax.syntax === command.name) {
 		return "nullary"
-	} else if (command.name.includes("_fnc_") || command.syntax.startsWith(command.name)) {
+	} else if (command.name.includes("_fnc_") || syntax.syntax.startsWith(command.name)) {
 		return "unary"
 	} else {
 		return "binary"
 	}
 }
 
-function getCommandDisplayName(command) {
+function getCommandDisplayName(command, syntaxIndex) {
+	const syntaxSuffix = syntaxIndex === 0 ? "" : `V${syntaxIndex+1}`
 	const indexOfFnc = command.name.indexOf("_fnc_")
 	if (indexOfFnc > -1) {
-		return command.name.substring(indexOfFnc + "_fnc_".length)
+		return command.name.substring(indexOfFnc + "_fnc_".length) + syntaxSuffix
 	} else {
-		return command.name
+		return command.name + syntaxSuffix
 	}
 }

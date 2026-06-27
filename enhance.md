@@ -5,28 +5,32 @@ Please take the data from `scraped-sqf-commands.json` and transform it into anot
 	{
 		name: string,
 		url: string,
-		syntax: string,
 		description?: string,
-		paramemters: [
+		syntaxes: [
 			{
-				name: string,
-				type: string,
-				optional: boolean,
-				description?: string,
-			}
-			...
-		]
-		returnValue: {
-			description?: string,
-			type?: string | [
-				{
-					name?: string,
-					type: string,
-					description?: string
+				syntax: string,
+				paramemters: [
+					{
+						name: string,
+						type: string,
+						optional: boolean,
+						description?: string,
+					}
+					...
+				]
+				returnValue: {
+					description?: string,
+					type?: string | [
+						{
+							name?: string,
+							type: string,
+							description?: string
+						}
+						...
+					]
 				}
-				...
-			]
-		}
+			}
+		]
 	},
 	...
 ]
@@ -51,7 +55,9 @@ Type Strategy:
 	f. Unions (from typescript)
 	g. The types under `sqf-data-types.json`
 	  * Note that `GameObject` is mean to represent the SQL `Object` data type
-	  * Any "script" parameters that have explicit input and/or output (like in `addAction`) should have their own pre-existing type in `sqf-data-types.json`, like `AddActionScript`. "script" parameters that are not given explicit input and/or output should have type as `Function`
+	  * Any "script" parameters that have explicit input and/or output (like in `addAction`) should have their own pre-existing type in `sqf-data-types.json`, like `AddActionScript`.
+	  * "script" parameters that are not given explicit input and/or output should have type as `Function`
+	    * Same goes for "order" of remoteExec
 	  * Please make the return type of commands name like `*configFile` be `ConfigFile` instead of `Config`
 	h. any (native ts/js type. use this if something tries to specify a huge amount of different types)
 	  * Please put the `spawn` command's arguments parameter to `Array<any>` instead of `any`

@@ -152,6 +152,15 @@ function parseReturnValue(retStr) {
 // Manual overrides for commands where auto-parsing isn't sufficient.
 // Add a new entry here when a command has complex types, renamed params,
 // mixed-type array returns, or optional params that aren't auto-detected.
+//
+// An override entry has shape { parameters?, returnValue?, syntaxes? }:
+//   - top-level `parameters`/`returnValue` is shorthand for a single-syntax
+//     command and is applied to its sole syntax. It throws if the command
+//     actually has more than one syntax (use the `syntaxes` form instead).
+//   - `syntaxes` is an array of per-syntax overrides, each shaped
+//     { syntax?: string, parameters?, returnValue? }. Each is matched against a
+//     command's syntax by exact `syntax` string when provided, otherwise by
+//     position (array index).
 const OVERRIDES = {
   'actionKeysEx': {
     returnValue: {
@@ -199,23 +208,46 @@ const OVERRIDES = {
   },
 
   'addAction': {
-    parameters: [
-      { name: 'object',          type: 'GameObject',               optional: false, description: 'unit, vehicle or static object; no agents' },
-      { name: 'title',           type: 'string',                   optional: false, description: 'action name displayed in the action menu; may contain Structured Text' },
-      { name: 'script',          type: 'AddActionScript',           optional: false, description: 'code to execute when the action is activated' },
-      { name: 'arguments',       type: 'any',                      optional: true,  description: '(Optional, default nil) arguments to pass to the script, accessible as _this select 3' },
-      { name: 'priority',        type: 'number',                   optional: true,  description: '(Optional, default 1.5) priority value; higher number = higher position in menu' },
-      { name: 'showWindow',      type: 'boolean',                  optional: true,  description: '(Optional, default true) if true, players see the title text as they approach the object' },
-      { name: 'hideOnUse',       type: 'boolean',                  optional: true,  description: '(Optional, default true) if true, closes the action menu after the action is selected' },
-      { name: 'shortcut',        type: 'string',                   optional: true,  description: '(Optional, default "") key name from bin.pbo to bind to this action' },
-      { name: 'condition',       type: 'string',                   optional: true,  description: '(Optional, default "true") expression that must return true for the action to be shown' },
-      { name: 'positionInModel', type: 'string',                   optional: true,  description: '(Optional, default "") named selection in the model for positioning the action in 3D space' },
-      { name: 'radius',          type: 'number',                   optional: true,  description: '(Optional, default 50) maximum 3D distance in meters for the action to be available; -1 disables' },
-      { name: 'radiusView',      type: 'number',                   optional: true,  description: '(Optional) maximum cursor distance in meters from the 3D action to activate it; -1 disables' },
-      { name: 'showIn3D',        type: 'number',                   optional: true,  description: '(Optional) bitmask condition for showing the action in 3D space' },
-      { name: 'available',       type: 'number',                   optional: true,  description: '(Optional) bitmask condition for being able to activate the action' },
-      { name: 'textDefault',     type: 'string',                   optional: true,  description: '(Optional, default "") Structured Text shown as the 3D action or highlighted in the action menu' },
-      { name: 'textToolTip',     type: 'string',                   optional: true,  description: '(Optional, default "") Structured Text faded in under textDefault when hovering in 3D space' },
+    syntaxes: [
+      {
+        syntax: 'object addAction [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, positionInModel, radius, radiusView, showIn3D, available, textDefault, textToolTip]',
+        parameters: [
+          { name: 'object',          type: 'GameObject',               optional: false, description: 'unit, vehicle or static object; no agents' },
+          { name: 'title',           type: 'string',                   optional: false, description: 'action name displayed in the action menu; may contain Structured Text' },
+          { name: 'script',          type: 'AddActionScript',           optional: false, description: 'code to execute when the action is activated' },
+          { name: 'arguments',       type: 'any',                      optional: true,  description: '(Optional, default nil) arguments to pass to the script, accessible as _this select 3' },
+          { name: 'priority',        type: 'number',                   optional: true,  description: '(Optional, default 1.5) priority value; higher number = higher position in menu' },
+          { name: 'showWindow',      type: 'boolean',                  optional: true,  description: '(Optional, default true) if true, players see the title text as they approach the object' },
+          { name: 'hideOnUse',       type: 'boolean',                  optional: true,  description: '(Optional, default true) if true, closes the action menu after the action is selected' },
+          { name: 'shortcut',        type: 'string',                   optional: true,  description: '(Optional, default "") key name from bin.pbo to bind to this action' },
+          { name: 'condition',       type: 'string',                   optional: true,  description: '(Optional, default "true") expression that must return true for the action to be shown' },
+          { name: 'positionInModel', type: 'string',                   optional: true,  description: '(Optional, default "") named selection in the model for positioning the action in 3D space' },
+          { name: 'radius',          type: 'number',                   optional: true,  description: '(Optional, default 50) maximum 3D distance in meters for the action to be available; -1 disables' },
+          { name: 'radiusView',      type: 'number',                   optional: true,  description: '(Optional) maximum cursor distance in meters from the 3D action to activate it; -1 disables' },
+          { name: 'showIn3D',        type: 'number',                   optional: true,  description: '(Optional) bitmask condition for showing the action in 3D space' },
+          { name: 'available',       type: 'number',                   optional: true,  description: '(Optional) bitmask condition for being able to activate the action' },
+          { name: 'textDefault',     type: 'string',                   optional: true,  description: '(Optional, default "") Structured Text shown as the 3D action or highlighted in the action menu' },
+          { name: 'textToolTip',     type: 'string',                   optional: true,  description: '(Optional, default "") Structured Text faded in under textDefault when hovering in 3D space' },
+        ],
+      },
+      {
+        syntax: 'object addAction [title, script, arguments, priority, showWindow, hideOnUse, shortcut, condition, radius, unconscious, selection, memoryPoint]',
+        parameters: [
+          { name: 'object',      type: 'GameObject',     optional: false, description: 'unit, vehicle or static object; no agents or simple objects' },
+          { name: 'title',       type: 'string',         optional: false, description: 'action name displayed in the action menu; may contain Structured Text' },
+          { name: 'script',      type: 'AddActionScript', optional: false, description: 'code to execute when the action is activated' },
+          { name: 'arguments',   type: 'any',            optional: true,  description: '(Optional, default nil) arguments to pass to the script, accessible as _this select 3' },
+          { name: 'priority',    type: 'number',         optional: true,  description: '(Optional, default 1.5) priority value; higher number = higher position in menu' },
+          { name: 'showWindow',  type: 'boolean',        optional: true,  description: '(Optional, default true) if true, players see the title text as they approach the object' },
+          { name: 'hideOnUse',   type: 'boolean',        optional: true,  description: '(Optional, default true) if true, closes the action menu after the action is selected' },
+          { name: 'shortcut',    type: 'string',         optional: true,  description: '(Optional, default "") key name from bin.pbo to bind to this action' },
+          { name: 'condition',   type: 'string',         optional: true,  description: '(Optional, default "true") expression that must return true for the action to be shown' },
+          { name: 'radius',      type: 'number',         optional: true,  description: '(Optional, default 50) maximum 3D distance in meters for the action to be available; -1 disables' },
+          { name: 'unconscious', type: 'boolean',        optional: true,  description: '(Optional, default false) if true, the action is available to an incapacitated player' },
+          { name: 'selection',   type: 'string',         optional: true,  description: '(Optional, default "") named selection in the object\'s geometry LOD' },
+          { name: 'memoryPoint', type: 'string',         optional: true,  description: '(Optional, default "") memory point on the object; ignored if selection is supplied' },
+        ],
+      },
     ],
   },
 
@@ -282,9 +314,22 @@ const OVERRIDES = {
   },
 
   'addPublicVariableEventHandler': {
-    parameters: [
-      { name: 'varName', type: 'string',   optional: false, description: 'missionNamespace variable name' },
-      { name: 'code',    type: 'Function', optional: false, description: 'executed in missionNamespace; _this is [varName, value, target]' },
+    syntaxes: [
+      {
+        syntax: 'varName addPublicVariableEventHandler code',
+        parameters: [
+          { name: 'varName', type: 'string',   optional: false, description: 'missionNamespace variable name' },
+          { name: 'code',    type: 'Function', optional: false, description: 'executed in missionNamespace; _this is [varName, value, target]' },
+        ],
+      },
+      {
+        syntax: 'varName addPublicVariableEventHandler [target, code]',
+        parameters: [
+          { name: 'varName', type: 'string',                         optional: false, description: 'name of the variable set on target with setVariable' },
+          { name: 'target',  type: 'GameObject | Group | TeamMember', optional: false },
+          { name: 'code',    type: 'Function',                       optional: false, description: 'executed in missionNamespace; _this is [varName, value, target]' },
+        ],
+      },
     ],
   },
 
@@ -348,12 +393,28 @@ const OVERRIDES = {
 
   // rename parameter "class" (JS reserved word) to "className"
   'cutRsc': {
-    parameters: [
-      { name: 'className', type: 'string', optional: false, description: 'the class name of the resource; "Default" will remove the current resource' },
-      { name: 'effect',    type: 'string', optional: false, description: 'one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN", "WHITE OUT", "WHITE IN"' },
-      { name: 'speed',     type: 'number', optional: true,  description: '(Optional, default -1) time in seconds to fade in resource' },
-      { name: 'showInMap', type: 'boolean', optional: true, description: '(Optional, default true) false to hide the resource when the map is opened' },
-      { name: 'drawOverHUD', type: 'boolean', optional: true, description: '(Optional, default true) false to show the resource under in-game HUD' },
+    syntaxes: [
+      {
+        syntax: 'cutRsc [class, effect, speed, showInMap, drawOverHUD]',
+        parameters: [
+          { name: 'className', type: 'string', optional: false, description: 'the class name of the resource; "Default" will remove the current resource' },
+          { name: 'effect',    type: 'string', optional: false, description: 'one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN", "WHITE OUT", "WHITE IN"' },
+          { name: 'speed',     type: 'number', optional: true,  description: '(Optional, default -1) time in seconds to fade in resource' },
+          { name: 'showInMap', type: 'boolean', optional: true, description: '(Optional, default true) false to hide the resource when the map is opened' },
+          { name: 'drawOverHUD', type: 'boolean', optional: true, description: '(Optional, default true) false to show the resource under in-game HUD' },
+        ],
+      },
+      {
+        syntax: 'layer cutRsc [class, effect, speed, showInMap, drawOverHUD]',
+        parameters: [
+          { name: 'layer',     type: 'number | string', optional: false, description: 'layer number (0 is back most) or layer name on which the effect is shown' },
+          { name: 'className', type: 'string', optional: false, description: 'the class name of the resource; "Default" will remove the current resource' },
+          { name: 'effect',    type: 'string', optional: false, description: 'one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN", "WHITE OUT", "WHITE IN"' },
+          { name: 'speed',     type: 'number', optional: true,  description: '(Optional, default -1) time in seconds to fade in resource' },
+          { name: 'showInMap', type: 'boolean', optional: true, description: '(Optional, default true) false to hide the resource when the map is opened' },
+          { name: 'drawOverHUD', type: 'boolean', optional: true, description: '(Optional, default true) false to show the resource under in-game HUD' },
+        ],
+      },
     ],
   },
 
@@ -366,58 +427,135 @@ const OVERRIDES = {
     ],
   },
 
+  // "order" / "functionName" typed as Function per enhance.md (script param without explicit I/O)
   'remoteExec': {
-    parameters: [
-      { name: 'params',  type: 'any',         optional: false, description: 'order\'s parameter; Structured Text is not meant to be sent over network' },
-      { name: 'order',   type: 'string',      optional: false, description: 'function or command name; only those allowed by CfgRemoteExec will be executed' },
-      { name: 'targets', type: 'number | GameObject | string | Side | Group | Array<any>', optional: true, description: '(Optional, default 0) target machines for execution' },
-      { name: 'JIP',     type: 'boolean | string | GameObject | Group | any', optional: true, description: '(Optional, default false) JIP (Join In Progress) ID or persistence mode' },
+    syntaxes: [
+      {
+        syntax: 'params remoteExec [order, targets, JIP]',
+        parameters: [
+          { name: 'params',  type: 'any',      optional: false, description: 'order\'s parameter; Structured Text is not meant to be sent over network' },
+          { name: 'order',   type: 'Function', optional: false, description: 'function or command to execute; only those allowed by CfgRemoteExec will be executed' },
+          { name: 'targets', type: 'number | GameObject | string | Side | Group | Array<any>', optional: true, description: '(Optional, default 0) target machines for execution' },
+          { name: 'JIP',     type: 'boolean | string | GameObject | Group | any', optional: true, description: '(Optional, default false) JIP (Join In Progress) ID or persistence mode' },
+        ],
+        returnValue: {
+          description: 'return value depends on the JIP parameter',
+          type: [
+            { name: 'error', type: 'null',   description: 'nil in case of error' },
+            { name: 'jipId', type: 'string', description: 'string with the JIP ID (or "" if JIP is false/empty)' },
+          ],
+        },
+      },
+      {
+        syntax: 'remoteExec [functionName, targets, JIP]',
+        parameters: [
+          { name: 'functionName', type: 'Function', optional: false, description: 'function or command to execute; only those allowed by CfgRemoteExec will be executed' },
+          { name: 'targets',      type: 'number | GameObject | string | Side | Group | Array<any>', optional: true, description: '(Optional, default 0) target machines for execution' },
+          { name: 'JIP',          type: 'boolean | string | GameObject | Group | any', optional: true, description: '(Optional, default false) JIP (Join In Progress) ID or persistence mode' },
+        ],
+        returnValue: {
+          description: 'return value depends on the JIP parameter',
+          type: [
+            { name: 'error', type: 'null',   description: 'nil in case of error' },
+            { name: 'jipId', type: 'string', description: 'string with the JIP ID (or "" if JIP is false/empty)' },
+          ],
+        },
+      },
     ],
-    returnValue: {
-      description: 'return value depends on the JIP parameter',
-      type: [
-        { name: 'error',    type: 'null', description: 'nil in case of error' },
-        { name: 'jipId',    type: 'string', description: 'string with the JIP ID (or "" if JIP is false/empty)' },
-      ],
-    },
   },
 
   // spawn.code has no explicit typed I/O -> Function
   // Script Handle return type not yet in sqf-data-types.json -> any
   'spawn': {
-    parameters: [
-      { name: 'arguments', type: 'Array<any>', optional: false, description: 'arguments passed to the script, available as _this inside the code' },
-      { name: 'code',      type: 'Function',   optional: false },
+    syntaxes: [
+      {
+        syntax: 'arguments spawn code',
+        parameters: [
+          { name: 'arguments', type: 'Array<any>', optional: false, description: 'arguments passed to the script, available as _this inside the code' },
+          { name: 'code',      type: 'Function',   optional: false },
+        ],
+        returnValue: {
+          type: 'any',
+          description: 'Script Handle — can be used with scriptDone to check when the spawned script has finished',
+        },
+      },
+      {
+        syntax: 'spawn code',
+        parameters: [
+          { name: 'code', type: 'Function', optional: false },
+        ],
+        returnValue: {
+          type: 'any',
+          description: 'Script Handle — can be used with scriptDone to check when the spawned script has finished',
+        },
+      },
+      {
+        syntax: 'spawn name',
+        parameters: [
+          { name: 'name', type: 'string', optional: false, description: 'name of an "Empty Handle"; behaves like scriptName inside a function' },
+        ],
+        returnValue: {
+          type: 'any',
+          description: 'Script Handle — an "Empty Handle" to be used as a Promise',
+        },
+      },
     ],
-    returnValue: {
-      type: 'any',
-      description: 'Script Handle — can be used with scriptDone to check when the spawned script has finished',
-    },
   },
 };
+
+// Resolve the override block (if any) that applies to a single syntax of a command.
+function resolveSyntaxOverride(override, syn, index, cmd) {
+  if (!override) return null;
+
+  if (override.syntaxes) {
+    const byString = override.syntaxes.find(o => o.syntax === syn.syntax);
+    if (byString) return byString;
+    return override.syntaxes[index] || null;
+  }
+
+  if (override.parameters || override.returnValue) {
+    if (cmd.syntaxes.length !== 1) {
+      throw new Error(
+        `Override for "${cmd.name}" uses top-level parameters/returnValue but the ` +
+        `command has ${cmd.syntaxes.length} syntaxes; use the "syntaxes" array form instead.`
+      );
+    }
+    return override;
+  }
+
+  return null;
+}
+
+// Transform a single scraped syntax { syntax, parameters: [strings], returnValue: string }
+function transformSyntax(syn, synOverride) {
+  const parameters = synOverride && synOverride.parameters
+    ? synOverride.parameters
+    : (syn.parameters || []).map(p => parseParam(p)).filter(Boolean);
+
+  const returnValue = synOverride && synOverride.returnValue
+    ? synOverride.returnValue
+    : parseReturnValue(syn.returnValue);
+
+  return { syntax: syn.syntax, parameters, returnValue };
+}
 
 // Transform all non-denylisted commands
 const transformed = scraped
   .filter(cmd => !denylist.has(cmd.name))
   .map(cmd => {
-    const override = OVERRIDES[cmd.name] || {};
+    const override = OVERRIDES[cmd.name];
 
-    const parameters = override.parameters
-      ? override.parameters
-      : (cmd.parameters || []).map(p => parseParam(p)).filter(Boolean);
-
-    const returnValue = override.returnValue
-      ? override.returnValue
-      : parseReturnValue(cmd.returnValue);
+    const syntaxes = (cmd.syntaxes || []).map((syn, i) =>
+      transformSyntax(syn, resolveSyntaxOverride(override, syn, i, cmd))
+    );
 
     const description = cmd.description && !cmd.description.includes('Description needed')
       ? cmd.description
       : undefined;
 
-    const result = { name: cmd.name, url: cmd.url, syntax: cmd.syntax };
+    const result = { name: cmd.name, url: cmd.url };
     if (description) result.description = description;
-    result.parameters = parameters;
-    result.returnValue = returnValue;
+    result.syntaxes = syntaxes;
 
     return result;
   });

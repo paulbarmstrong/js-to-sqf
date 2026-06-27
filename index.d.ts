@@ -246,6 +246,24 @@ export function acos(x: number): number
 export function action(unit: GameObject, actionArray: Array<any>): void
 
 /**
+ * Make a unit perform an action. See Category:Actions for action names and
+ * syntaxes. Since Arma 3 2.18 it is possible to use actionNow to perform some
+ * actions immediately without any animation. However, note that some actions do
+ * require animations (for example, opening inventory while on foot), otherwise
+ * they will get cancelled. ⓘ
+ * • in singleplayer, when user Alt-Tabs the simulation is paused and so the action
+ * will also halt until user returns to the game. For example, player action
+ * ["GetInDriver", car]; executed while user is Alt-Tabbed will result in the user
+ * seeing the action happening when he returns to the game screen. This does not
+ * happen in Multiplayer.
+ * • the alternative syntax creates a temporary Logic entity in place of unit.
+ *
+ * @see {@link https://community.bistudio.com/wiki/action}
+ * @sqfsyntaxtype unary
+ */
+export function actionV2(actionArray: Array<any>): void
+
+/**
  * Represents the SQF `actionIDs` command.
  *
  * @param entity - entity with added user actions
@@ -267,6 +285,19 @@ export function actionIDs(entity: GameObject): Array<number>
  * @sqfsyntaxtype unary
  */
 export function actionKeys(userAction: string): Array<number>
+
+/**
+ * Returns Array containing dikCodes of keys, buttons and combos assigned to the
+ * given user action. Action names could be found in config class ControllerSchemes
+ * or user action names or user profile, for example: keyWatch[] = { 24 }; To
+ * retrieve the value, use the property name without 'key': actionKeys "Watch"; //
+ * 24 In addition, some of the actions are also listed in here: inputAction/actions
+ *
+ * @returns Array<string>
+ * @see {@link https://community.bistudio.com/wiki/actionKeys}
+ * @sqfsyntaxtype unary
+ */
+export function actionKeysV2(userAction: string): Array<string>
 
 /**
  * Gives a broken down version of actionKeys return. Returns an Array containing
@@ -305,6 +336,17 @@ export function actionKeysEx(userAction: string): [mainKeyArray: Array<any>, com
 export function actionKeysImages(userAction: string): StructuredText
 
 /**
+ * Returns a list of button images or names assigned to the given user action. A
+ * maximum of maxKeys keys is listed. You can find the action names in the
+ * ControllerSchemes config class or user action names.
+ *
+ * @returns StructuredText
+ * @see {@link https://community.bistudio.com/wiki/actionKeysImages}
+ * @sqfsyntaxtype unary
+ */
+export function actionKeysImagesV2(userAction: string, maxKeys: number): StructuredText
+
+/**
  * Returns a list of button names assigned to the given user action. Action names
  * can be found in config class ControllerSchemes or user action names.
  *
@@ -313,6 +355,18 @@ export function actionKeysImages(userAction: string): StructuredText
  * @sqfsyntaxtype unary
  */
 export function actionKeysNames(userAction: string): string
+
+/**
+ * Returns a list of button names assigned to the given user action. Action names
+ * can be found in config class ControllerSchemes or user action names.
+ *
+ * @param maxKeys - maximum number of keys to return
+ * @param inputDevicePriority - result sorted by inputDevicePriority with values:
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/actionKeysNames}
+ * @sqfsyntaxtype unary
+ */
+export function actionKeysNamesV2(userAction: string, maxKeys: number, inputDevicePriority: string): string
 
 /**
  * Returns a list of button names assigned to the given user action. You can find
@@ -324,6 +378,19 @@ export function actionKeysNames(userAction: string): string
  * @sqfsyntaxtype unary
  */
 export function actionKeysNamesArray(userAction: string): Array<string>
+
+/**
+ * Returns a list of button names assigned to the given user action. You can find
+ * the action names in config class ControllerSchemes or user action names.
+ *
+ * @param userAction - name of the action
+ * @param maxKeys - maximum number of keys to return
+ * @param inputDevicePriority - (Optional) result sorted by inputDevicePriority with values:
+ * @returns Array<string>
+ * @see {@link https://community.bistudio.com/wiki/actionKeysNamesArray}
+ * @sqfsyntaxtype unary
+ */
+export function actionKeysNamesArrayV2(userAction: string, maxKeys: number, inputDevicePriority?: string): Array<string>
 
 /**
  * Returns localized name of action.
@@ -413,7 +480,7 @@ export function activeTitleEffectParams(layer: number): [effectType: string, eff
  * Connect entities together. Be aware to select the correct type of Eden Entities
  * for the connection type.
  *
- * @param type - connection class from "Cfg3DEN" >> "Connections":
+ * @param type - connection class from c"Cfg3DEN" >> "Connections":
  * @param from - entities which are being connected
  * @param to - entity to which entities will be connected to
  * @returns true If the connection was made
@@ -482,6 +549,38 @@ export function add3DENLayer(parentLayerID: number, name: string): number
  * @sqfsyntaxtype binary
  */
 export function addAction(object: GameObject, title: string, script: AddActionScript, arguments?: any, priority?: number, showWindow?: boolean, hideOnUse?: boolean, shortcut?: string, condition?: string, positionInModel?: string, radius?: number, radiusView?: number, showIn3D?: number, available?: number, textDefault?: string, textToolTip?: string): number
+
+/**
+ * Adds an entry to the action menu of an object. The action can only be activated
+ * when in proximity to the object and looking at it. Adding an action to the
+ * player makes that action available to the player at all times. For event
+ * handling of user interaction see inGameUISetEventHandler.
+ *
+ * @param object - unit, vehicle or static object; no agents or simple objects
+ * @param title - action name displayed in the action menu; may contain Structured Text
+ * @param script - code to execute when the action is activated
+ * @param arguments - (Optional, default nil) arguments to pass to the script, accessible as _this
+ * select 3
+ * @param priority - (Optional, default 1.5) priority value; higher number = higher position in menu
+ * @param showWindow - (Optional, default true) if true, players see the title text as they approach
+ * the object
+ * @param hideOnUse - (Optional, default true) if true, closes the action menu after the action is
+ * selected
+ * @param shortcut - (Optional, default "") key name from bin.pbo to bind to this action
+ * @param condition - (Optional, default "true") expression that must return true for the action to be
+ * shown
+ * @param radius - (Optional, default 50) maximum 3D distance in meters for the action to be
+ * available; -1 disables
+ * @param unconscious - (Optional, default false) if true, the action is available to an incapacitated
+ * player
+ * @param selection - (Optional, default "") named selection in the object's geometry LOD
+ * @param memoryPoint - (Optional, default "") memory point on the object; ignored if selection is
+ * supplied
+ * @returns the added action's ID. Action can be removed with removeAction (see also removeAllActions). IDs are incrementing, the first given action to each unit has the ID 0, the second the ID 1, etc. IDs are also passed to the called script (see the script parameter)
+ * @see {@link https://community.bistudio.com/wiki/addAction}
+ * @sqfsyntaxtype binary
+ */
+export function addActionV2(object: GameObject, title: string, script: AddActionScript, arguments?: any, priority?: number, showWindow?: boolean, hideOnUse?: boolean, shortcut?: string, condition?: string, radius?: number, unconscious?: boolean, selection?: string, memoryPoint?: string): number
 
 /**
  * Adds a backpack for a unit. If a unit already has a backpack, the old backpack
@@ -801,6 +900,24 @@ export function addLiveStats(unit: GameObject, score: number): void
 export function addMagazine(unitName: GameObject, magazineName: string): void
 
 /**
+ * Adds a magazine to a person. Infantry units can only carry a specific number of
+ * magazines, once the magazine slots are filled (or uniform/vest/bagpack are full
+ * in Arma 3), any further addMagazine commands are ignored. If class of magazine
+ * does not exist, an error message is printed in .rpt: player addMagazine
+ * "dasdsa"; // .rpt: Given magazine[dasdsa] not found ⓘUse addMagazine before
+ * addWeapon for the weapon to be loaded with the magazine automatically.
+ *
+ * @param unitName - person to add the magazines to
+ * @param magazineName - magazine name. See the topic Category:Weapons for reference about possible
+ * values.
+ * @param ammoCount - ammo quantity to be added to magazine. If it goes beyond maximum magazine
+ * capacity, the magazine will be given full and not overloaded.
+ * @see {@link https://community.bistudio.com/wiki/addMagazine}
+ * @sqfsyntaxtype binary
+ */
+export function addMagazineV2(unitName: GameObject, magazineName: string, ammoCount: number): void
+
+/**
  * Adds magazines with specified ammo count to the cargo space of a vehicle or a
  * container.
  *
@@ -1019,6 +1136,26 @@ export function addPrimaryWeaponItem(unit: GameObject, item: string): void | boo
  * @sqfsyntaxtype binary
  */
 export function addPublicVariableEventHandler(varName: string, code: Function): void
+
+/**
+ * This command is deprecated since 1.52 and the introduction of remoteExec and
+ * remoteExecCall. This event handler will detect if a missionNamespace variable
+ * (it is attached to) has been broadcast over network with publicVariable,
+ * publicVariableClient or publicVariableServer commands and will execute EH code
+ * upon detection. ⓘ
+ * • This EH works only in Multiplayer environment
+ * • There is no way to remove this EH
+ * • This EH will not fire on the machine that executed broadcast with
+ * publicVariable command, only on the machines that receive the broadcast
+ * • The value of broadcast variable can be exactly the same, it is the actual
+ * broadcast that triggers EH not the change in variable
+ *
+ * @param varName - name of the variable set on target with setVariable
+ * @param code - executed in missionNamespace; _this is [varName, value, target]
+ * @see {@link https://community.bistudio.com/wiki/addPublicVariableEventHandler}
+ * @sqfsyntaxtype binary
+ */
+export function addPublicVariableEventHandlerV2(varName: string, target: GameObject | Group | TeamMember, code: Function): void
 
 /**
  * Add a number to the rating of a unit - negative values can be used to reduce the
@@ -1296,7 +1433,7 @@ export function assignedVehicleRole(unitName: GameObject): Array<any>
  * used. ⓘ
  * • All direction commands, such as setDir, setVectorDirAndUp, etc. for an
  * attached object should be used relative to the reference object's direction
- * (i.e. in model space), e.g c_attachedObj setDir 0 will make it face the same
+ * (i.e. in model space), e.g _attachedObj setDir 0 will make it face the same
  * direction as the reference object, 90 face to the right, 180 face to the back,
  * etc.
  * • Attached triggers only follow the direction of the object to which they are
@@ -1346,6 +1483,34 @@ export function closeDialog(exitcode: number): void
 export function configClasses(condition: string, config: Config): Array<Config>
 
 /**
+ * Returns an array of config entries which meet criteria in condition code.
+ * Command iterates through all available config sub classes of the given config
+ * class. Current looked at config is stored in _x variable (similar to alternative
+ * count command implementation). Condition has to return true in order for the
+ * looked at config to be added to the resulting array. Slightly faster than
+ * configProperties, but doesn't account for config properties or inherited
+ * entries. ⚠
+ * • The condition code passed to configClasses should only be used for simple
+ * filter expressions and nothing more
+ * • Do not use "isClass _x" in the condition. The engine does this check already
+ * • Arma 3 v2.02 brought specific engine optimisations for the following
+ * conditions:
+ * ◦ "true"
+ * ◦ "getNumber (_x >> 'scope') > 0"
+ *
+ * @param config - target config
+ * @param depth - how many levels of subclasses to go deep
+ * @param includeInherited - true to look through inherited classes
+ * @param allSubclasses - true to return all subclasses, false - to return only the last tier.
+ * @param classNames - (Optional, default: false) when true class names Strings are returned, when
+ * false - Configs are returned.
+ * @returns Array<any>
+ * @see {@link https://community.bistudio.com/wiki/configClasses}
+ * @sqfsyntaxtype unary
+ */
+export function configClassesV2(config: Config, depth: number, includeInherited: boolean, allSubclasses: boolean, classNames?: boolean): Array<any>
+
+/**
  * Return root of config entries hierarchy.
  *
  * @returns ConfigFile
@@ -1388,6 +1553,24 @@ export function copyToClipboard(text: string): void
 export function count(value: any): number
 
 /**
+ * Can be used to count:
+ * • The number of elements in an array (returns the already internally known array
+ * size)
+ * • The number of elements in an array matching the condition
+ * • The number of sub-entries in a config entry
+ * • 1.28 The number of characters in an ANSI string ⓘIf Unicode support is
+ * desired, see forceUnicode.
+ *
+ * @param condition - condition that must return true for the tested element to be counted. The
+ * variable _x will contain the currently tested element If the provided array
+ * contains different data types, use isEqualTo for item comparison instead of ==.
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/count}
+ * @sqfsyntaxtype binary
+ */
+export function countV2(condition: Function, array: Array<any>): number
+
+/**
  * Creates a dialog which is defined either in the mission's description.ext, in
  * the campaign's description.ext or in the global resource.cpp. The given name has
  * to be the class name used in one of these files. If another dialog is already
@@ -1402,6 +1585,23 @@ export function count(value: any): number
  * @sqfsyntaxtype unary
  */
 export function createDialog(dialogName: string): boolean
+
+/**
+ * Creates a dialog which is defined either in the mission's description.ext, in
+ * the campaign's description.ext or in the global resource.cpp. The given name has
+ * to be the class name used in one of these files. If another dialog is already
+ * opened, the desired dialog is created as a child dialog of the one already
+ * opened. ⓘBy default, displays created with createDisplay are rendered on top of
+ * dialogs created with createDialog. If forceOnTop is set to true, the dialog will
+ * be rendered on top of displays.
+ *
+ * @param dialogName - class name used in the description.ext, resource.cpp or config.cpp
+ * @param forceOnTop - (Optional, default false) if true, dialog will be rendered on top of displays
+ * @returns created dialog
+ * @see {@link https://community.bistudio.com/wiki/createDialog}
+ * @sqfsyntaxtype unary
+ */
+export function createDialogV2(dialogName: string, forceOnTop?: boolean): Display
 
 /**
  * Creates a new Group for the given Side. Using this command if the group limit is
@@ -1423,6 +1623,28 @@ export function createDialog(dialogName: string): boolean
  * @sqfsyntaxtype unary
  */
 export function createGroup(side: Side): Group
+
+/**
+ * Creates a new Group for the given Side. Using this command if the group limit is
+ * reached will return grpNull. The new Group exists globally, but it's locality is
+ * where this command was executed. Game 1.00 1.00 1.00 1.00 1.50 1.00 1.00 1.68
+ * Group auto-deletion Group limit per side 63 144 288 ⚠
+ * • Groups can only be created for the west/blufor, opfor/east,
+ * independent/resistance, civilian and sideLogic sides - any other side will
+ * return grpNull
+ * • Before Arma 3, a Side center must exist before group creation (either by
+ * having editor-placed units or createCenter usage)
+ * • createCenter usage is not needed anymore as all centers are automatically
+ * created.
+ * • When the last unit leaves its group, the group usually gets immediately
+ * auto-deleted, regardless of its auto-deletion setting.
+ *
+ * @param deleteWhenEmpty - true to delete the group when empty.
+ * @returns grpNull if the group limit is reached
+ * @see {@link https://community.bistudio.com/wiki/createGroup}
+ * @sqfsyntaxtype unary
+ */
+export function createGroupV2(side: Side, deleteWhenEmpty: boolean): Group
 
 /**
  * Creates a new map marker at the given position. The marker will be created for
@@ -1470,6 +1692,33 @@ export function createMarker(name: string, position: any | GameObject, channel?:
 export function createVehicle(type: string, position: PositionAGL): GameObject
 
 /**
+ * Creates an empty object of given classname type. See Arma 3: Assets / Arma 3:
+ * createVehicle/vehicles, or Category:CfgVehicles for earlier games. ⓘ
+ * • To create objects of type "Logic", use createUnit.
+ * • To create an editable Eden Editor entity, see create3DENEntity. To avoid
+ * vehicle randomisation in Arma 3, set the BIS_enableRandomization variable
+ * immediately after creating the vehicle: private "_vehicle"; isNil { // run
+ * unscheduled _vehicle = "C_Offroad_01_F" createVehicle getPosATL player; _vehicle
+ * setVariable ["BIS_enableRandomization", false]; }; // the _vehicle variable is
+ * available after that See the Arma 3: Vehicle Customisation page for more
+ * information and settings.
+ *
+ * @param type - vehicle/object className
+ * @param position - desired placement position, (PositionAGL if watercraft or amphibious)
+ * @param markers - (Optional, default []) if the markers array contains any markers, the position
+ * is randomly picked from array of given markers plus desired placement position.
+ * If any of the markers were given z coordinate with setMarkerPos, the vehicle
+ * will also be created at given z coordinate.
+ * @param placement - (Optional, default 0) the vehicle is placed inside a circle with given position
+ * as center and placement as its radius.
+ * @param special - (Optional, default "NONE") can be one of the following:
+ * @returns created vehicle or objNull if failed
+ * @see {@link https://community.bistudio.com/wiki/createVehicle}
+ * @sqfsyntaxtype unary
+ */
+export function createVehicleV2(type: string, position: any | PositionAGL, markers?: Array<string>, placement?: number, special?: string): GameObject
+
+/**
  * Creates vehicle crew corresponding to the provided vehicle's faction. If the
  * vehicle is already occupied, the command will only create missing crew in the
  * existing vehicle's group. To find out which crew will be created, use
@@ -1493,6 +1742,54 @@ export function createVehicle(type: string, position: PositionAGL): GameObject
 export function createVehicleCrew(vehicle: GameObject): Group
 
 /**
+ * Creates vehicle crew corresponding to the provided vehicle's faction. If the
+ * vehicle is already occupied, the command will only create missing crew in the
+ * existing vehicle's group. To find out which crew will be created, use
+ * BIS_fnc_vehicleCrewTurrets. This command: Does Does not
+ * • 1.26 create a group if one is needed (otherwise uses group _vehicle)
+ * • create a driver if the vehicle needs one (hasDriver = 1; in config)
+ * • create all non-FFV turrets gunners (if the turret needs one - config
+ * {hasGunner without dontCreateAI)
+ * • create crew with ranks - with the driver as "LIEUTENANT" and all turret units
+ * as "SERGEANT", unlike a crewed vehicle placed in Eden Editor where all units are
+ * "PRIVATE".
+ * • add vehicle to the group, unlike a crewed vehicle placed in Eden Editor. See
+ * BIS_fnc_spawnVehicle to spawn a crew-full vehicle with group addition
+ * • create cargo units.
+ *
+ * @param group - group to put crew in
+ * @param vehicle - vehicle to populate with crew
+ * @returns the group of the created crew or grpNull
+ * @see {@link https://community.bistudio.com/wiki/createVehicleCrew}
+ * @sqfsyntaxtype binary
+ */
+export function createVehicleCrewV2(group: Group, vehicle: GameObject): Group
+
+/**
+ * Creates vehicle crew corresponding to the provided vehicle's faction. If the
+ * vehicle is already occupied, the command will only create missing crew in the
+ * existing vehicle's group. To find out which crew will be created, use
+ * BIS_fnc_vehicleCrewTurrets. This command: Does Does not
+ * • 1.26 create a group if one is needed (otherwise uses group _vehicle)
+ * • create a driver if the vehicle needs one (hasDriver = 1; in config)
+ * • create all non-FFV turrets gunners (if the turret needs one - config
+ * {hasGunner without dontCreateAI)
+ * • create crew with ranks - with the driver as "LIEUTENANT" and all turret units
+ * as "SERGEANT", unlike a crewed vehicle placed in Eden Editor where all units are
+ * "PRIVATE".
+ * • add vehicle to the group, unlike a crewed vehicle placed in Eden Editor. See
+ * BIS_fnc_spawnVehicle to spawn a crew-full vehicle with group addition
+ * • create cargo units.
+ *
+ * @param side - side to create crew on
+ * @param vehicle - vehicle to populate with crew
+ * @returns the group of the created crew or grpNull
+ * @see {@link https://community.bistudio.com/wiki/createVehicleCrew}
+ * @sqfsyntaxtype binary
+ */
+export function createVehicleCrewV3(side: Side, vehicle: GameObject): Group
+
+/**
  * Creates an object of the given type. The Created object is not transferred
  * through network in MP games. netId of such vehicle in multiplayer will be "0:0".
  * To disable local vehicle creation, use CfgDisabledCommands to blacklist this
@@ -1505,6 +1802,28 @@ export function createVehicleCrew(vehicle: GameObject): Group
  * @sqfsyntaxtype binary
  */
 export function createVehicleLocal(type: string, position: PositionAGL): GameObject
+
+/**
+ * Creates an object of the given type. The Created object is not transferred
+ * through network in MP games. netId of such vehicle in multiplayer will be "0:0".
+ * To disable local vehicle creation, use CfgDisabledCommands to blacklist this
+ * command. Alternatively, you can use createSimpleObject with local option enabled
+ * where applicable.
+ *
+ * @param type - vehicle/object className
+ * @param position - desired placement position
+ * @param markers - (Optional, default []) if the markers array contains any markers, the position
+ * is randomly picked from array of given markers plus desired placement position.
+ * If any of the markers were given z coordinate with setMarkerPos, the vehicle
+ * will also be created at given z coordinate.
+ * @param placement - (Optional, default 0) the vehicle is placed inside a circle with given position
+ * as center and placement as its radius.
+ * @param special - (Optional, default "NONE") can be one of the following:
+ * @returns created vehicle or objNull if failed
+ * @see {@link https://community.bistudio.com/wiki/createVehicleLocal}
+ * @sqfsyntaxtype unary
+ */
+export function createVehicleLocalV2(type: string, position: any | PositionATL, markers?: Array<string>, placement?: number, special?: string): GameObject
 
 /**
  * Returns the crew (both dead and alive) of the given vehicle.
@@ -1544,6 +1863,28 @@ export function ctrlSetStructuredText(control: Control, structuredText: Structur
  * @sqfsyntaxtype unary
  */
 export function ctrlSetText(idc: number, text: string): void
+
+/**
+ * Sets the text of a control of the currently active user dialog or display. This
+ * command can be used for static texts, buttons, edit lines and active texts as
+ * well as for images, where you can use it to set the image path. Read Arma: GUI
+ * Configuration for more information about user dialogs and controls. Use endl to
+ * insert line breaks. Since 2.06 supported control types are:
+ * • CT_STATIC
+ * • CT_EDIT
+ * • CT_XKEYDESC
+ * • CT_XBUTTON
+ * • CT_SHORTCUTBUTTON
+ * • CT_STRUCTURED_TEXT
+ * • CT_BUTTON
+ * • CT_ACTIVETEXT Since 2.22 CT_PROGRESS is also supported.
+ *
+ * @param control - control
+ * @param text - text or image path or texture, depending on the control type
+ * @see {@link https://community.bistudio.com/wiki/ctrlSetText}
+ * @sqfsyntaxtype binary
+ */
+export function ctrlSetTextV2(control: Control, text: string): void
 
 /**
  * Sets text color of given control. As of Arma 3 v1.40 this command can also be
@@ -1602,6 +1943,27 @@ export function currentWaypoint(groupName: Group): number
 export function cutRsc(className: string, effect: string, speed?: number, showInMap?: boolean, drawOverHUD?: boolean): void
 
 /**
+ * Display a resource defined in RscTitles of the mission's Description.ext, the
+ * campaign's description.ext or the global config. For greater efficiency and ease
+ * of modability, it is recommended to use named layers available with String and
+ * Syntax 2. ⚠To avoid conflicts with existing layers it is recommended to register
+ * a layer with BIS_fnc_rscLayer and to start the name with a TAG: ("TAG_myLayer"
+ * call BIS_fnc_rscLayer) cutRsc ["myRsc", "PLAIN"]; "TAG_myLayer" cutRsc ["myRsc",
+ * "PLAIN"];
+ *
+ * @param layer - layer number (0 is back most) or layer name on which the effect is shown
+ * @param className - the class name of the resource; "Default" will remove the current resource
+ * @param effect - one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN",
+ * "WHITE OUT", "WHITE IN"
+ * @param speed - (Optional, default -1) time in seconds to fade in resource
+ * @param showInMap - (Optional, default true) false to hide the resource when the map is opened
+ * @param drawOverHUD - (Optional, default true) false to show the resource under in-game HUD
+ * @see {@link https://community.bistudio.com/wiki/cutRsc}
+ * @sqfsyntaxtype binary
+ */
+export function cutRscV2(layer: number | string, className: string, effect: string, speed?: number, showInMap?: boolean, drawOverHUD?: boolean): void
+
+/**
  * Displays a text message in the center of the screen. The text can be displayed
  * on multiple lines by using "\n" new line characters: cutText
  * ["line1\nline2\nline3", "PLAIN"]; For greater efficiency and ease of modability
@@ -1621,6 +1983,28 @@ export function cutRsc(className: string, effect: string, speed?: number, showIn
  * @sqfsyntaxtype unary
  */
 export function cutText(text: string, type: string, speed?: number, showInMap?: boolean, isStructuredText?: boolean, drawOverHUD?: boolean): void
+
+/**
+ * Displays a text message in the center of the screen. The text can be displayed
+ * on multiple lines by using "\n" new line characters: cutText
+ * ["line1\nline2\nline3", "PLAIN"]; For greater efficiency and ease of modability
+ * it is recommended to use named layers through the alternative syntax.
+ *
+ * @param text - text to be displayed
+ * @param type - one of "PLAIN", "PLAIN DOWN", "BLACK", "BLACK FADED", "BLACK OUT", "BLACK IN",
+ * "WHITE OUT" and "WHITE IN". See Title Effect Types for more information about
+ * these values.
+ * @param speed - (Optional, default -1) time in seconds to fade in resource. If 0 or less,
+ * default value is used
+ * @param showInMap - (Optional, default true) false to hide the text when the map is opened
+ * @param isStructuredText - (Optional, default false) true to switch support for Structured Text formatting
+ * - see Example 4
+ * @param drawOverHUD - (Optional, default true) false to show the text under in-game HUD
+ * @returns any
+ * @see {@link https://community.bistudio.com/wiki/cutText}
+ * @sqfsyntaxtype binary
+ */
+export function cutTextV2(layer: number | string, text: string, type: string, speed?: number, showInMap?: boolean, isStructuredText?: boolean, drawOverHUD?: boolean): any
 
 /**
  * Return the damage value of an object.
@@ -1671,6 +2055,20 @@ export function deleteMarker(name: string): void
 export function deleteVehicle(object: GameObject): void
 
 /**
+ * Deletes an object. Only objects inserted in the mission editor and objects
+ * created during the game's progress can be deleted by this command. Terrain
+ * objects and players cannot be deleted. ⓘThe actual object deletion, when the
+ * object becomes objNull, happens on the next frame after command execution, but
+ * there are some object modifications that happen immediately. For example if the
+ * object is a unit in a group, it immediately becomes groupless (isNull group
+ * _unit; // true).
+ *
+ * @see {@link https://community.bistudio.com/wiki/deleteVehicle}
+ * @sqfsyntaxtype unary
+ */
+export function deleteVehicleV2(objects: Array<GameObject>): void
+
+/**
  * Removes the specified waypoint. ⓘ
  * • When a waypoint is deleted, all other group waypoints are immediately
  * re-indexed. See Example 2 for a deletion of all group's waypoints.
@@ -1704,7 +2102,7 @@ export function diag_log(output: any): void
  * key code constants, which are relevant to key related user interface events
  * like: KeyDown & KeyUp. ⚠Display EHs are processed from last to first added; an
  * input override should be set up in the first added EH. ⓘThe event handler ID can
- * be accessed inside the event handler code using the c_thisEventHandler magic
+ * be accessed inside the event handler code using the _thisEventHandler magic
  * variable.
  *
  * @param eventName - event name ⚠When using the event names listed here with the ctrlAddEventHandler,
@@ -1730,6 +2128,15 @@ export function displayAddEventHandler(display: Display, eventName: string, code
 export function displayCtrl(display: Display, idc: number): Control
 
 /**
+ * Return child control with specified idc.
+ *
+ * @returns Control
+ * @see {@link https://community.bistudio.com/wiki/displayCtrl}
+ * @sqfsyntaxtype unary
+ */
+export function displayCtrlV2(idc: number): Control
+
+/**
  * Remove a given event handler from the given display.
  *
  * @param handlerType - type of the event handler
@@ -1750,6 +2157,30 @@ export function displayRemoveEventHandler(display: Display, handlerType: string,
  * @sqfsyntaxtype binary
  */
 export function distance(param1: GameObject | PositionAGL | any, param2: GameObject | PositionAGL | any): number
+
+/**
+ * Returns a distance in meters between Objects, Positions or Locations. ⚠If
+ * positions are supplied as arguments, the coordinates are treated as PositionAGL.
+ * If Position2D is supplied, z is assumed 0. If you need distance between two
+ * Position3D coordinates, use vectorDistance.
+ *
+ * @returns distance in meters or 1e10 if distance cannot be calculated
+ * @see {@link https://community.bistudio.com/wiki/distance}
+ * @sqfsyntaxtype binary
+ */
+export function distanceV2(location1: any | PositionAGL, location2: any | PositionAGL): number
+
+/**
+ * Returns a distance in meters between Objects, Positions or Locations. ⚠If
+ * positions are supplied as arguments, the coordinates are treated as PositionAGL.
+ * If Position2D is supplied, z is assumed 0. If you need distance between two
+ * Position3D coordinates, use vectorDistance.
+ *
+ * @returns distance c calculated as c = sqrt(a * a + b * b);
+ * @see {@link https://community.bistudio.com/wiki/distance}
+ * @sqfsyntaxtype binary
+ */
+export function distanceV3(a: number, b: number): number
 
 /**
  * Returns a 2D distance (distance projected to X,Y plane) in meters between
@@ -1799,6 +2230,16 @@ export function enableRopeAttach(entity: GameObject, enable: boolean): void
 export function enableSaving(enable: boolean): void
 
 /**
+ * Enable / disable saving of the game with an optional autosave.
+ *
+ * @param enable - allow saveGame command usage and manual saving
+ * @param save - create an autosave on command execution
+ * @see {@link https://community.bistudio.com/wiki/enableSaving}
+ * @sqfsyntaxtype unary
+ */
+export function enableSavingV2(enable: boolean, save: boolean): void
+
+/**
  * Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is
  * first searched in the mission folder, then in the campaign scripts folder and
  * finally in the global scripts folder. Argument (if any) are available in _this
@@ -1825,6 +2266,84 @@ export function enableSaving(enable: boolean): void
 export function execFSM(arguments: any, fsmFilePath: string): number
 
 /**
+ * Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is
+ * first searched in the mission folder, then in the campaign scripts folder and
+ * finally in the global scripts folder. Argument (if any) are available in _this
+ * variable inside FSM. Variables set inside FSMs can be read/modified externally,
+ * using setFSMVariable and getFSMVariable commands. The return value is the FSM
+ * handle; it can be used to determine (via completedFSM) when the FSM has
+ * finished. In Arma 3, the FSM handle is also available within the FSM through the
+ * _thisFSM variable. Scripted FSMs are added into the scheduler just like exec
+ * scripts, execVM scripts and spawn scripts. To see what FSMs are currently in the
+ * scheduler, use diag_activeMissionFSMs command. ⚠While the code placed into any
+ * of the sections of FSM cannot be suspended (canSuspend is false), the FSM itself
+ * is suspended every simulation between the state's init and precondition
+ * (exception is the init state). This is the only place where scripted FSM is
+ * suspended/resumed. The usual difference between the state's init and
+ * precondition is 1 frame but if the scheduler is busy it can take longer. See FSM
+ * for more information about FSM's structure.
+ *
+ * @param fsmFilePath - file with FSM code
+ * @returns FSM handle (also available as _thisFSM in the FSM)
+ * @see {@link https://community.bistudio.com/wiki/execFSM}
+ * @sqfsyntaxtype unary
+ */
+export function execFSMV2(fsmFilePath: string): number
+
+/**
+ * Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is
+ * first searched in the mission folder, then in the campaign scripts folder and
+ * finally in the global scripts folder. Argument (if any) are available in _this
+ * variable inside FSM. Variables set inside FSMs can be read/modified externally,
+ * using setFSMVariable and getFSMVariable commands. The return value is the FSM
+ * handle; it can be used to determine (via completedFSM) when the FSM has
+ * finished. In Arma 3, the FSM handle is also available within the FSM through the
+ * _thisFSM variable. Scripted FSMs are added into the scheduler just like exec
+ * scripts, execVM scripts and spawn scripts. To see what FSMs are currently in the
+ * scheduler, use diag_activeMissionFSMs command. ⚠While the code placed into any
+ * of the sections of FSM cannot be suspended (canSuspend is false), the FSM itself
+ * is suspended every simulation between the state's init and precondition
+ * (exception is the init state). This is the only place where scripted FSM is
+ * suspended/resumed. The usual difference between the state's init and
+ * precondition is 1 frame but if the scheduler is busy it can take longer. See FSM
+ * for more information about FSM's structure.
+ *
+ * @param arguments - arguments accessible as _this in the FSM
+ * @param fsmFilePath - file with FSM code
+ * @param allowTermination - true to allow FSM termination with terminate command. Optional, default false
+ * @returns FSM handle (also available as _thisFSM in the FSM)
+ * @see {@link https://community.bistudio.com/wiki/execFSM}
+ * @sqfsyntaxtype binary
+ */
+export function execFSMV3(arguments: any, fsmFilePath: string, allowTermination: boolean): number
+
+/**
+ * Execute scripted FSM and return the FSM handle or 0 when failed. The FSM file is
+ * first searched in the mission folder, then in the campaign scripts folder and
+ * finally in the global scripts folder. Argument (if any) are available in _this
+ * variable inside FSM. Variables set inside FSMs can be read/modified externally,
+ * using setFSMVariable and getFSMVariable commands. The return value is the FSM
+ * handle; it can be used to determine (via completedFSM) when the FSM has
+ * finished. In Arma 3, the FSM handle is also available within the FSM through the
+ * _thisFSM variable. Scripted FSMs are added into the scheduler just like exec
+ * scripts, execVM scripts and spawn scripts. To see what FSMs are currently in the
+ * scheduler, use diag_activeMissionFSMs command. ⚠While the code placed into any
+ * of the sections of FSM cannot be suspended (canSuspend is false), the FSM itself
+ * is suspended every simulation between the state's init and precondition
+ * (exception is the init state). This is the only place where scripted FSM is
+ * suspended/resumed. The usual difference between the state's init and
+ * precondition is 1 frame but if the scheduler is busy it can take longer. See FSM
+ * for more information about FSM's structure.
+ *
+ * @param fsmFilePath - file with FSM code
+ * @param allowTermination - true to allow FSM termination with terminate command. Optional, default false
+ * @returns FSM handle (also available as _thisFSM in the FSM)
+ * @see {@link https://community.bistudio.com/wiki/execFSM}
+ * @sqfsyntaxtype unary
+ */
+export function execFSMV4(fsmFilePath: string, allowTermination: boolean): number
+
+/**
  * Searches for an array element within an array or an ANSI string within an ANSI
  * string. If Unicode support is desired, see forceUnicode. ⚠Search is
  * cASe-seNsItiVE!
@@ -1836,6 +2355,33 @@ export function execFSM(arguments: any, fsmFilePath: string): number
  * @sqfsyntaxtype binary
  */
 export function find(array: Array<any>, element: any): number
+
+/**
+ * Searches for an array element within an array or an ANSI string within an ANSI
+ * string. If Unicode support is desired, see forceUnicode. ⚠Search is
+ * cASe-seNsItiVE!
+ *
+ * @param string - string to search in
+ * @param substring - substring to find
+ * @returns zero-based position of the first sequence of characters that matches substring, -1 if not found
+ * @see {@link https://community.bistudio.com/wiki/find}
+ * @sqfsyntaxtype binary
+ */
+export function findV2(string: string, substring: string): number
+
+/**
+ * Searches for an array element within an array or an ANSI string within an ANSI
+ * string. If Unicode support is desired, see forceUnicode. ⚠Search is
+ * cASe-seNsItiVE!
+ *
+ * @param string - string to search in
+ * @param substring - substring to find
+ * @param indexStart - zero-based index which defines where find starts from
+ * @returns zero-based position of the first sequence of characters that matches substring, -1 if not found
+ * @see {@link https://community.bistudio.com/wiki/find}
+ * @sqfsyntaxtype binary
+ */
+export function findV3(string: string, substring: string, indexStart: number): number
 
 /**
  * Finds a display by its IDD which can either be defined in missionConfigFile
@@ -1851,6 +2397,21 @@ export function find(array: Array<any>, element: any): number
  * @sqfsyntaxtype unary
  */
 export function findDisplay(idd: number): Display
+
+/**
+ * Finds a display by its IDD which can either be defined in missionConfigFile
+ * (description.ext) or configFile (config.cpp) or by its UI On Texture's unique
+ * name (see displayUniqueName). If the specified display cannot be found,
+ * displayNull is returned. ⚠Dedicated servers and headless clients do not have a
+ * primary display (e.g findDisplay 46 will return displayNull). Detect both with
+ * the hasInterface command. ⓘFor a list of (almost) all Arma 3's IDDs, see Arma 3:
+ * IDD List.
+ *
+ * @returns Display
+ * @see {@link https://community.bistudio.com/wiki/findDisplay}
+ * @sqfsyntaxtype unary
+ */
+export function findDisplayV2(displayName: string): Display
 
 /**
  * Composes a string containing other variables or other variable types. Converts
@@ -1884,6 +2445,22 @@ export function format(formatString: string, varN: any): string
 export function fullCrew(vehicle: GameObject): Array<any>
 
 /**
+ * Returns an array with all crew inside given vehicle, with or without empty
+ * seats. ⚠With the introduction of person turrets (FFV), the returned cargoIndex
+ * works with moveInCargo but does not with actions such as "GetInCargo" and
+ * "MoveToCargo". To find out indexes for actions, use the "cargo" filter (See
+ * Example 3).
+ *
+ * @param type - role filter (case-insensitive). An invalid value (e.g "") will return all
+ * positions. Available values:
+ * @param includeEmpty - (Optional, default false) include empty crew seats
+ * @returns list of arrays in format [unit, role, cargoIndex, turretPath, personTurret, assignedUnit, positionName]:
+ * @see {@link https://community.bistudio.com/wiki/fullCrew}
+ * @sqfsyntaxtype unary
+ */
+export function fullCrewV2(vehicle: GameObject, type: string, includeEmpty?: boolean): Array<any>
+
+/**
  * Get provided object's hit points damage.
  *
  * @param entity - object to be queried
@@ -1914,6 +2491,19 @@ export function getDammage(object: GameObject): number
 export function getDir(object: GameObject): number
 
 /**
+ * Returns the object heading in the range 0..360. The alternative syntax gets
+ * heading from one object or position to another object or position, and should be
+ * used instead of BIS_fnc_dirTo.
+ *
+ * @param pos1 - from where
+ * @param pos2 - to where
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/getDir}
+ * @sqfsyntaxtype binary
+ */
+export function getDirV2(pos1: any, pos2: any): number
+
+/**
  * Return the value of variable in the variable space of given FSM. The FSM handle
  * is the number returned by the execFSM command.
  *
@@ -1925,6 +2515,29 @@ export function getDir(object: GameObject): number
 export function getFSMVariable(FSMhandle: number, name: string): any
 
 /**
+ * Return the value of variable in the variable space of given FSM. The FSM handle
+ * is the number returned by the execFSM command.
+ *
+ * @param name - name of the variable
+ * @param defaultValue - value to return if variable is nil
+ * @returns any
+ * @see {@link https://community.bistudio.com/wiki/getFSMVariable}
+ * @sqfsyntaxtype binary
+ */
+export function getFSMVariableV2(FSMhandle: number, name: string, defaultValue: any): any
+
+/**
+ * Returns marker color for given marker. ⓘThis command is identical to
+ * markerColor.
+ *
+ * @param markerName - marker name
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/getMarkerColor}
+ * @sqfsyntaxtype unary
+ */
+export function getMarkerColor(markerName: string): string
+
+/**
  * Returns marker position.
  *
  * @returns format [x,y,0]
@@ -1932,6 +2545,15 @@ export function getFSMVariable(FSMhandle: number, name: string): any
  * @sqfsyntaxtype unary
  */
 export function getMarkerPos(markerName: string): PositionAGL
+
+/**
+ * Returns marker position.
+ *
+ * @returns if preserveElevation is true or [x,y,0] if preserveElevation is false
+ * @see {@link https://community.bistudio.com/wiki/getMarkerPos}
+ * @sqfsyntaxtype unary
+ */
+export function getMarkerPosV2(markerName: string, preserveElevation?: any): PositionAGL
 
 /**
  * Returns object or location position. If the argument is an object, the return
@@ -1954,6 +2576,52 @@ export function getMarkerPos(markerName: string): PositionAGL
  * @sqfsyntaxtype unary
  */
 export function getPos(object: GameObject): PositionAGLS
+
+/**
+ * Returns object or location position. If the argument is an object, the return
+ * value is in format PositionAGLS. The alternative syntax gets the position given
+ * distance and heading away from provided object or position - the command
+ * equivalent of BIS_fnc_relPos. ⚠Do not use this command's first syntax to get an
+ * object's position in 3D format:
+ * • the Z value from this command is relative to the surface underneath, and there
+ * is no compatible setter command to use it with;the commonly misused code: _obj1
+ * setPos getPos _obj2 is absolutely wrong
+ * • this command is significantly slower than other position commands because it
+ * has to calculate the surface below a position from objects in the (2D) area; its
+ * performance therefore suffers from areas with a high density of objects such as
+ * cities, and can easily be ~20x slower than other, simpler position commands -
+ * see this benchmark. The only correct usage of this command is to determine the
+ * altitude of an object from the surface below it (see Example 4).
+ *
+ * @returns see locationPosition
+ * @see {@link https://community.bistudio.com/wiki/getPos}
+ * @sqfsyntaxtype unary
+ */
+export function getPosV2(location: any): PositionAGL
+
+/**
+ * Returns object or location position. If the argument is an object, the return
+ * value is in format PositionAGLS. The alternative syntax gets the position given
+ * distance and heading away from provided object or position - the command
+ * equivalent of BIS_fnc_relPos. ⚠Do not use this command's first syntax to get an
+ * object's position in 3D format:
+ * • the Z value from this command is relative to the surface underneath, and there
+ * is no compatible setter command to use it with;the commonly misused code: _obj1
+ * setPos getPos _obj2 is absolutely wrong
+ * • this command is significantly slower than other position commands because it
+ * has to calculate the surface below a position from objects in the (2D) area; its
+ * performance therefore suffers from areas with a high density of objects such as
+ * cities, and can easily be ~20x slower than other, simpler position commands -
+ * see this benchmark. The only correct usage of this command is to determine the
+ * altitude of an object from the surface below it (see Example 4).
+ *
+ * @param distance - distance from position
+ * @param heading - in which compass direction
+ * @returns the Z value is terrain level Above Ground Level, either 0 over land or getTerrainHeightASL (negative value) over water
+ * @see {@link https://community.bistudio.com/wiki/getPos}
+ * @sqfsyntaxtype binary
+ */
+export function getPosV3(origin: any, distance: number, heading: number): PositionAGLS
 
 /**
  * Returns the object position height above sea level.
@@ -2018,6 +2686,32 @@ export function getText(config: Config): string
 export function getVariable(varspace: any, name: string): any
 
 /**
+ * Returns the value of variable in the variable space assigned to various data
+ * types. All available data types combinations: Primary syntax (String)
+ * Alternative syntax (Array) Code Since Code Since Namespace getVariable String -
+ * Namespace getVariable Array Arma 2: Operation Arrowhead v1.60 Object getVariable
+ * String - Object getVariable Array - Group getVariable String - Group getVariable
+ * Array - Team Member getVariable String - Team Member getVariable Array - Task
+ * getVariable String - Task getVariable Array Arma 3 v1.68 Location getVariable
+ * String - Location getVariable Array Arma 3 v1.68 Control getVariable String -
+ * Control getVariable Array Arma 3 v1.56 Display getVariable String Arma 3 v1.56
+ * Display getVariable Array Arma 3 v1.56 ⚠When variable is set on a Task, it is
+ * not actually set on the task itself, but on the FSM attached to the task. If
+ * there is no FSM, getVariable will not work. In the case of Alt Syntax usage in
+ * Arma 3, defaultValue will be returned if:
+ * • Requested variable is either undefined or nil
+ * • Variable namespace is null (objNull, grpNull, etc.)
+ *
+ * @param name - variable name in given namespace
+ * @param defaultValue - value to return if variable doesn't exist ⚠A dynamic defaultValue e.g random 500
+ * will always be executed, even if the variable is defined.
+ * @returns current value of the variable or defaultValue if the variable doesn't exist.
+ * @see {@link https://community.bistudio.com/wiki/getVariable}
+ * @sqfsyntaxtype binary
+ */
+export function getVariableV2(varspace: any, name: string, defaultValue: any): any
+
+/**
  * Types text to the global radio channel. The text will be visible only on the PC
  * where command was executed. If you need the message to show on all computers,
  * you have to execute it globally (see remoteExec). Use clearRadio to clear chat
@@ -2058,10 +2752,20 @@ export function groupChat(unit: GameObject, chatText: string): void
  * Returns a group's name or a unit's group ID number.
  *
  * @returns the group's name (e.g "Alpha Red")
- * @see {@link https://community.bistudio.com/wiki/groupID}
+ * @see {@link https://community.bistudio.com/wiki/groupId}
  * @sqfsyntaxtype unary
  */
 export function groupId(group: Group): string
+
+/**
+ * Returns a group's name or a unit's group ID number.
+ *
+ * @param unit - a group's unit
+ * @returns the unit's group ID (e.g "2, taking command")
+ * @see {@link https://community.bistudio.com/wiki/groupId}
+ * @sqfsyntaxtype unary
+ */
+export function groupIdV2(unit: GameObject): number
 
 /**
  * A non-existing Group. To compare non-existent groups use isNull or isEqualTo:
@@ -2090,6 +2794,15 @@ export function gunner(vehicle: GameObject): GameObject
  * @sqfsyntaxtype unary
  */
 export function hideObject(object: GameObject): void
+
+/**
+ * Hide entity. Can be used on soldiers and vehicles, also on static objects.
+ *
+ * @param hidden - true->hidden; false->visible
+ * @see {@link https://community.bistudio.com/wiki/hideObject}
+ * @sqfsyntaxtype binary
+ */
+export function hideObjectV2(object: GameObject, hidden: boolean): void
 
 /**
  * Outputs a hint message to the right of the screen (left of the screen in
@@ -2152,6 +2865,30 @@ export function isEqualTo(val1: any, val2: any): boolean
 export function isKindOf(object: GameObject, typeName: string): boolean
 
 /**
+ * Checks whether the given object or type is (a subtype) of the given type. While
+ * Syntax 1 and Syntax 2 only support CfgVehicles, 1.00CfgAmmo and
+ * CfgNonAIVehicles, Syntax 3 can be used with any config, including the mission
+ * config.
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/isKindOf}
+ * @sqfsyntaxtype binary
+ */
+export function isKindOfV2(class1: string, class2: string): boolean
+
+/**
+ * Checks whether the given object or type is (a subtype) of the given type. While
+ * Syntax 1 and Syntax 2 only support CfgVehicles, 1.00CfgAmmo and
+ * CfgNonAIVehicles, Syntax 3 can be used with any config, including the mission
+ * config.
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/isKindOf}
+ * @sqfsyntaxtype binary
+ */
+export function isKindOfV3(class1: string, class2: string, targetConfig: Config): boolean
+
+/**
  * Tests whether a variable is nil or undefined from its identifier, or whether the
  * given expression evaluates to nil or Nothing. This command does not exist in
  * Operation Flashpoint/Arma: Cold War Assault but can be emulated (see Example 5).
@@ -2163,6 +2900,29 @@ export function isKindOf(object: GameObject, typeName: string): boolean
  * @sqfsyntaxtype unary
  */
 export function isNil(variableName: string): boolean
+
+/**
+ * Tests whether a variable is nil or undefined from its identifier, or whether the
+ * given expression evaluates to nil or Nothing. This command does not exist in
+ * Operation Flashpoint/Arma: Cold War Assault but can be emulated (see Example 5).
+ *
+ * @param code - code to evaluate:
+ * @returns true if code returns Nothing, false otherwise
+ * @see {@link https://community.bistudio.com/wiki/isNil}
+ * @sqfsyntaxtype unary
+ */
+export function isNilV2(code: Function): boolean
+
+/**
+ * Tests whether a variable is nil or undefined from its identifier, or whether the
+ * given expression evaluates to nil or Nothing. This command does not exist in
+ * Operation Flashpoint/Arma: Cold War Assault but can be emulated (see Example 5).
+ *
+ * @returns true if variable is nil or undefined
+ * @see {@link https://community.bistudio.com/wiki/isNil}
+ * @sqfsyntaxtype binary
+ */
+export function isNilV3(namespace: any, variableName: string): boolean
 
 /**
  * Checks whether the tested item is null. Which null type the item has to be equal
@@ -2208,6 +2968,25 @@ export function isObjectHidden(object: GameObject): boolean
 export function isPlayer(unit: GameObject): boolean
 
 /**
+ * Checks if given person is a player. Returns true for headless clients as well.
+ * ⓘPrior to Arma 3 v2.02, in some cases the identity of certain player units could
+ * fail to propagate to other clients and the server, which caused isPlayer and
+ * getPlayerUID to incorrectly return false and "" respectively, where the affected
+ * units were not local. See this GitHub bug report for more info. Remain vigilant
+ * toward potential false negatives. ⚠When used on vehicles, this command will
+ * return true if effectiveCommander of the vehicle is player. Just because it
+ * returns true does not automatically mean we have a player unit. Unlike main
+ * syntax, alternative syntax always returns false when used on vehicles, even if
+ * they're controlled by a player.
+ *
+ * @param person - dead or alive unit
+ * @returns true if is/was player and the identity still exists on the (dead) body
+ * @see {@link https://community.bistudio.com/wiki/isPlayer}
+ * @sqfsyntaxtype unary
+ */
+export function isPlayerV2(person: GameObject): boolean
+
+/**
  * Join all units in the array to given group silently (without radio message). To
  * have a group member leave a group, join him with the grpNull group (e.g. [guy1]
  * joinSilent grpNull), but beware, as brand new group is created for the leaving
@@ -2244,6 +3023,15 @@ export function leader(unitOrGroup: GameObject | Group): GameObject
 export function localNamespace(): Namespace
 
 /**
+ * Returns colour of the given marker. See also setMarkerColor/Local.
+ *
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/markerColor}
+ * @sqfsyntaxtype unary
+ */
+export function markerColor(markerName: string): string
+
+/**
  * Returns the global namespace attached to mission.
  *
  * @returns Namespace
@@ -2271,6 +3059,19 @@ export function mod(a: number, b: number): number
  * @sqfsyntaxtype binary
  */
 export function moveInCargo(unit: GameObject, vehicle: GameObject): void
+
+/**
+ * Moves a unit into a vehicle cargo position (immediately and without animation).
+ * ⓘSee AI Group Vehicle Management for more information. ⚠If the unit is already
+ * in a vehicle, nothing will happen. You should use moveOut to move the unit out
+ * of his vehicle before trying to move him into a new (or same) vehicle.
+ *
+ * @param canReassign - (Optional, default true) try to move unit into the first free vehicle cargo seat
+ * if cargoIndex is already occupied
+ * @see {@link https://community.bistudio.com/wiki/moveInCargo}
+ * @sqfsyntaxtype binary
+ */
+export function moveInCargoV2(unit: GameObject, vehicle: GameObject, cargoIndex: number, canReassign?: boolean): void
 
 /**
  * Moves soldier into vehicle driver position (immediate, no animation). ⓘSee AI
@@ -2320,6 +3121,33 @@ export function moveInGunner(unitName: GameObject, vehicle: GameObject): void
 export function moveOut(soldier: GameObject): void
 
 /**
+ * Moves the soldier out of the vehicle. Notes:
+ * • Works for both AI and player entities
+ * • AI unit gets back in - unless is under player command or combined with other
+ * sqf commands (orderGetIn false, allowGetIn false or leaveVehicle)
+ * • Respects the vehicle's lock state (same as action "Eject") - unlike doGetOut,
+ * commandGetOut. It will work for player entities regardless though
+ * • Still executes when the vehicle is moving/flying (same as action "Eject") -
+ * unlike doGetOut, commandGetOut
+ * • Without vehicle's position's get out animation - unlike action eject,
+ * doGetOut, commandGetOut
+ * • Immediately - unlike action eject, doGetOut, commandGetOut
+ * • Works also on dead units (same as action "Eject" (but one after another)) -
+ * unlike doGetOut, commandGetOut
+ * • Does not work for UAV crew
+ * • Does not work for remoteControlled units
+ * • Works on unconscious (same as action "Eject" (but one after another)) - unlike
+ * doGetOut, commandGetOut (unless AI under player command)
+ *
+ * @param soldier - unit
+ * @param vehicle - vehicle could be objNull, in this case the command is identical to the main
+ * syntax.
+ * @see {@link https://community.bistudio.com/wiki/moveOut}
+ * @sqfsyntaxtype binary
+ */
+export function moveOutV2(soldier: GameObject, vehicle: GameObject): void
+
+/**
  * Low level command to person to move to given position. It is good to check first
  * if AI pilot unit state is COMPLETED moveToCompleted first as this command will
  * set unit into WAIT state waiting for instruction, but only if the unit has
@@ -2342,6 +3170,112 @@ export function moveTo(unit: GameObject, position: PositionATL): void
  * @sqfsyntaxtype unary
  */
 export function name(object: GameObject): string
+
+/**
+ * When argument is Object, the command returns the name given to a unit using the
+ * setIdentity instruction or selected randomly by the game engine if setIdentity
+ * has not been used on the unit. If used on vehicle, name of first crew member (in
+ * order commander, driver, gunner). If used on an object, "Error: No unit" is
+ * being returned.
+ *
+ * @returns the location's name. To get its textual value, use text (see Example 3)
+ * @see {@link https://community.bistudio.com/wiki/name}
+ * @sqfsyntaxtype unary
+ */
+export function nameV2(location: any): string
+
+/**
+ * When argument is Object, the command returns the name given to a unit using the
+ * setIdentity instruction or selected randomly by the game engine if setIdentity
+ * has not been used on the unit. If used on vehicle, name of first crew member (in
+ * order commander, driver, gunner). If used on an object, "Error: No unit" is
+ * being returned.
+ *
+ * @returns namespace's name. Possible values:
+ * @see {@link https://community.bistudio.com/wiki/name}
+ * @sqfsyntaxtype unary
+ */
+export function nameV3(namespace: Namespace): string
+
+/**
+ * When argument is Object, the command returns the name given to a unit using the
+ * setIdentity instruction or selected randomly by the game engine if setIdentity
+ * has not been used on the unit. If used on vehicle, name of first crew member (in
+ * order commander, driver, gunner). If used on an object, "Error: No unit" is
+ * being returned.
+ *
+ * @returns The name given to the script via scriptName or the name passed to spawn when creating a "Empty Handle"
+ * @see {@link https://community.bistudio.com/wiki/name}
+ * @sqfsyntaxtype unary
+ */
+export function nameV4(scriptHandle: any): string
+
+/**
+ * Returns the nearest object of given type (or inherited classes) to given
+ * position within a sphere. Hardcoded radius is 50 meters. Unlike with
+ * nearestObjects, where distance is measured in 2D space, nearestObject will be
+ * closest object in 3D space. ⓘ
+ * • in Operation Flashpoint, only objects of the exact provided class are found.
+ * • if an object ID is used (Syntax 4, see Example 2) the search range is
+ * unlimited
+ *
+ * @param position - position to start search at
+ * @param type - type of object (see typeOf, class type)
+ * @returns nearest object, objNull otherwise
+ * @see {@link https://community.bistudio.com/wiki/nearestObject}
+ * @sqfsyntaxtype unary
+ */
+export function nearestObject(position: GameObject | any, type: string): GameObject
+
+/**
+ * Returns the nearest object of given type (or inherited classes) to given
+ * position within a sphere. Hardcoded radius is 50 meters. Unlike with
+ * nearestObjects, where distance is measured in 2D space, nearestObject will be
+ * closest object in 3D space. ⓘ
+ * • in Operation Flashpoint, only objects of the exact provided class are found.
+ * • if an object ID is used (Syntax 4, see Example 2) the search range is
+ * unlimited
+ *
+ * @param position - position to start search at
+ * @returns nearest object, objNull otherwise
+ * @see {@link https://community.bistudio.com/wiki/nearestObject}
+ * @sqfsyntaxtype unary
+ */
+export function nearestObjectV2(position: any): GameObject
+
+/**
+ * Returns the nearest object of given type (or inherited classes) to given
+ * position within a sphere. Hardcoded radius is 50 meters. Unlike with
+ * nearestObjects, where distance is measured in 2D space, nearestObject will be
+ * closest object in 3D space. ⓘ
+ * • in Operation Flashpoint, only objects of the exact provided class are found.
+ * • if an object ID is used (Syntax 4, see Example 2) the search range is
+ * unlimited
+ *
+ * @param position - position to start search at
+ * @param typeOrId - type of object (see typeOf, class type) or Visitor id (see getObjectID)
+ * @returns nearest object, objNull otherwise
+ * @see {@link https://community.bistudio.com/wiki/nearestObject}
+ * @sqfsyntaxtype binary
+ */
+export function nearestObjectV3(position: any, typeOrId: string): GameObject
+
+/**
+ * Returns the nearest object of given type (or inherited classes) to given
+ * position within a sphere. Hardcoded radius is 50 meters. Unlike with
+ * nearestObjects, where distance is measured in 2D space, nearestObject will be
+ * closest object in 3D space. ⓘ
+ * • in Operation Flashpoint, only objects of the exact provided class are found.
+ * • if an object ID is used (Syntax 4, see Example 2) the search range is
+ * unlimited
+ *
+ * @param position - position to start search at
+ * @param id - object Visitor id
+ * @returns nearest object, objNull otherwise
+ * @see {@link https://community.bistudio.com/wiki/nearestObject}
+ * @sqfsyntaxtype binary
+ */
+export function nearestObjectV4(position: any, id: number): GameObject
 
 /**
  * Returns a list of nearest objects of the given types to the given position or
@@ -2424,6 +3358,17 @@ export function player(): GameObject
 export function playSound(soundName: string): GameObject
 
 /**
+ * Plays a sound from CfgSounds. Sound can be defined in missionConfigFile,
+ * configFile or campaignConfigFile.
+ *
+ * @param offset - (Optional, default 0) offset in seconds. Same as playMusic
+ * @returns the speaker object (Nothing before )
+ * @see {@link https://community.bistudio.com/wiki/playSound}
+ * @sqfsyntaxtype unary
+ */
+export function playSoundV2(soundName: string, isSpeech?: boolean | any, offset?: number): GameObject
+
+/**
  * Returns position of an object (alias of getPos) or location (alias of
  * locationPosition). ⚠Do not use this command to get an object's position in 3D.
  * See getPos for an explanation and alternatives.
@@ -2433,6 +3378,17 @@ export function playSound(soundName: string): GameObject
  * @sqfsyntaxtype unary
  */
 export function position(object: GameObject): PositionAGLS
+
+/**
+ * Returns position of an object (alias of getPos) or location (alias of
+ * locationPosition). ⚠Do not use this command to get an object's position in 3D.
+ * See getPos for an explanation and alternatives.
+ *
+ * @returns see locationPosition ⚠This position is the location's position regardless of attachObject usage - see Example 3.
+ * @see {@link https://community.bistudio.com/wiki/position}
+ * @sqfsyntaxtype unary
+ */
+export function positionV2(location: any): PositionAGL
 
 /**
  * Returns the global namespace attached to the active user profile. Use
@@ -2485,7 +3441,8 @@ export function publicVariable(varName: string): void
  * be executed for joining player.
  *
  * @param params - order's parameter; Structured Text is not meant to be sent over network
- * @param order - function or command name; only those allowed by CfgRemoteExec will be executed
+ * @param order - function or command to execute; only those allowed by CfgRemoteExec will be
+ * executed
  * @param targets - (Optional, default 0) target machines for execution
  * @param JIP - (Optional, default false) JIP (Join In Progress) ID or persistence mode
  * @returns return value depends on the JIP parameter *  - error - nil in case of error
@@ -2493,7 +3450,34 @@ export function publicVariable(varName: string): void
  * @see {@link https://community.bistudio.com/wiki/remoteExec}
  * @sqfsyntaxtype binary
  */
-export function remoteExec(params: any, order: string, targets?: number | GameObject | string | Side | Group | Array<any>, JIP?: boolean | string | GameObject | Group | any): [error: null, jipId: string]
+export function remoteExec(params: any, order: Function, targets?: number | GameObject | string | Side | Group | Array<any>, JIP?: boolean | string | GameObject | Group | any): [error: null, jipId: string]
+
+/**
+ * Asks the server to execute the given function or script command on the given
+ * target machine(s).
+ * • Functions are executed in the scheduled environment; suspension is allowed.
+ * • Script commands are executed in the unscheduled environment; suspension is not
+ * allowed (see Example 7). Read Arma 3: Remote Execution for more information
+ * about remote execution, security features and JIP techniques.
+ * ⓘremoteExec/remoteExecCall can be used in single player as well, as it is
+ * considered as player-hosted multiplayer. ⚠The direct execution of call or spawn
+ * via remoteExec (or remoteExecCall) should be avoided to prevent issues in cases
+ * where the remote execution of call or spawn is blocked by CfgRemoteExec. It is
+ * instead recommended to create a function to be itself remote-executed. ⚠The
+ * order of persistent remote execution for JIP players is not guaranteed, i.e. the
+ * order in which multiple calls are added is not necessarily the order they will
+ * be executed for joining player.
+ *
+ * @param functionName - function or command to execute; only those allowed by CfgRemoteExec will be
+ * executed
+ * @param targets - (Optional, default 0) target machines for execution
+ * @param JIP - (Optional, default false) JIP (Join In Progress) ID or persistence mode
+ * @returns return value depends on the JIP parameter *  - error - nil in case of error
+ *  - jipId - string with the JIP ID (or "" if JIP is false/empty)
+ * @see {@link https://community.bistudio.com/wiki/remoteExec}
+ * @sqfsyntaxtype unary
+ */
+export function remoteExecV2(functionName: Function, targets?: number | GameObject | string | Side | Group | Array<any>, JIP?: boolean | string | GameObject | Group | any): [error: null, jipId: string]
 
 /**
  * Removes user added action with given ID. This only removes actions added with
@@ -2507,7 +3491,7 @@ export function remoteExec(params: any, order: string, targets?: number | GameOb
 export function removeAction(unit: GameObject, actionID: number): void
 
 /**
- * Removes all unit's user added actions. ⓘThis command's syntax was cunit
+ * Removes all unit's user added actions. ⓘThis command's syntax was unit
  * removeAllActions number from Arma 3 v0.50 to v1.06. ⚠Usage of this command is
  * usually a bad practice unless justified by the situation; removing all actions
  * in order to remove all actions that one added is not a good method as a mod or
@@ -2550,6 +3534,25 @@ export function serverNamespace(): any
  * @sqfsyntaxtype binary
  */
 export function setDamage(object: GameObject, damage: number): void
+
+/**
+ * Event Handler Triggered Hit HandleDamage Killed MPKilled Sets the damage (or
+ * lack thereof) of an object/unit. The alternative syntax allows to skip
+ * destruction effects for vehicles and buildings and set a tree/pole/wall fall
+ * direction (away from killer).
+ *
+ * @param damage - range 0..1, 0 = pristine/healthy condition, 1 = entirely destroyed/killed
+ * @param useEffects - false to skip destruction effects
+ * @param SEServer killer - (Optional, default objNull) the entity that caused the damage (can be anything).
+ * If the damage leads to the death of the unit, the killer will be used as the
+ * object that caused the kill.
+ * @param SEServer instigator - (Optional, default objNull) the person that instigated the damage.
+ * @param allowResurrection - (Optional, default false) - Will re-set alive state of previously dead object.
+ * @param shot - (Optional, default objNull) - shot that caused the damage.
+ * @see {@link https://community.bistudio.com/wiki/setDamage}
+ * @sqfsyntaxtype binary
+ */
+export function setDamageV2(object: GameObject, damage: number, useEffects?: boolean, SEServer killer?: GameObject, SEServer instigator?: GameObject, allowResurrection?: boolean, shot?: GameObject): void
 
 /**
  * Sets object heading. Angles are measured in degrees clockwise from north; the
@@ -2711,7 +3714,7 @@ export function setPosASL(object: GameObject, pos: PositionASL): void
  * @param pylon - pylon index (index starts from 1) or pylon name (see Example 1)
  * @param magazine - magazine name
  * @param forced - (Optional, default false) true to force an incompatible magazine
- * @param turret - (Optional, default []) turret path
+ * @param turret - (Optional, default c[]) turret path
  * @returns true on success
  * @see {@link https://community.bistudio.com/wiki/setPylonLoadout}
  * @sqfsyntaxtype binary
@@ -2828,6 +3831,21 @@ export function side(target: any): Side
 export function sideChat(unit: GameObject, chatText: string): void
 
 /**
+ * Types text to the side radio channel by the specified unit. Use clearRadio to
+ * clear chat history ⚠The unit must have an assigned radio item (such as
+ * "ItemRadio") to see or transmit the messages. A radio item must have the
+ * property simulation = "ItemRadio"; in its CfgWeapons config.
+ *
+ * @param side - side to which the message will be seen
+ * @param identity - class name of one of the identities in CfgHQIdentities. Possible identities in
+ * Arma 3 are:
+ * @param chatText - message to transmit
+ * @see {@link https://community.bistudio.com/wiki/sideChat}
+ * @sqfsyntaxtype binary
+ */
+export function sideChatV2(side: Side, identity: string, chatText: string): void
+
+/**
  * Suspends code execution for given time in seconds. The sleep precision is given
  * by a framerate, the delay given is the minimal delay expected. Must be called
  * inside of a context which is interruptible, i.e. a script executed by execVM or
@@ -2874,6 +3892,45 @@ export function sort(array: Array<any>, order: boolean): void
  * @sqfsyntaxtype binary
  */
 export function spawn(arguments: Array<any>, code: Function): any
+
+/**
+ * Adds given set of compiled instructions to the scheduler. Exactly when the code
+ * will be executed is unknown, it depends on how busy is the engine and how filled
+ * up is the scheduler. Therefore spawn does not wait for the supplied code to
+ * finish, instead, spawn returns a Script handle to the scheduler task. scriptDone
+ * command can be used to check the code completion. Additional arguments are
+ * passed to the code in local variable _this. Since 1.56 the script handle also
+ * exists inside the code in _thisScript variable. To see what spawned scripts are
+ * currently in the scheduler, use diag_activeSQFScripts command. ⚠When multiple
+ * Code is spawned in an order, there is no guarantee that the spawned Code will
+ * execute in the same order (see Example 2). If the order is important, use
+ * BIS_fnc_spawnOrdered.
+ *
+ * @returns Script Handle — can be used with scriptDone to check when the spawned script has finished
+ * @see {@link https://community.bistudio.com/wiki/spawn}
+ * @sqfsyntaxtype unary
+ */
+export function spawnV2(code: Function): any
+
+/**
+ * Adds given set of compiled instructions to the scheduler. Exactly when the code
+ * will be executed is unknown, it depends on how busy is the engine and how filled
+ * up is the scheduler. Therefore spawn does not wait for the supplied code to
+ * finish, instead, spawn returns a Script handle to the scheduler task. scriptDone
+ * command can be used to check the code completion. Additional arguments are
+ * passed to the code in local variable _this. Since 1.56 the script handle also
+ * exists inside the code in _thisScript variable. To see what spawned scripts are
+ * currently in the scheduler, use diag_activeSQFScripts command. ⚠When multiple
+ * Code is spawned in an order, there is no guarantee that the spawned Code will
+ * execute in the same order (see Example 2). If the order is important, use
+ * BIS_fnc_spawnOrdered.
+ *
+ * @param name - name of an "Empty Handle"; behaves like scriptName inside a function
+ * @returns Script Handle — an "Empty Handle" to be used as a Promise
+ * @see {@link https://community.bistudio.com/wiki/spawn}
+ * @sqfsyntaxtype unary
+ */
+export function spawnV3(name: string): any
 
 /**
  * Converts any value into a string, depending on its type. If an Object has a
@@ -2988,6 +4045,78 @@ export function vehicle(unitName: GameObject): GameObject
 export function waitUntil(condition: Function): any
 
 /**
+ * Suspends execution of scheduled script until the given condition satisfied.
+ * • This command will loop and call the code inside {} mostly every frame, depends
+ * on complexity of the condition and the overall engine load, until the code
+ * returns true
+ * • If the very first execution of the code returns true the command will exit
+ * immediately, therefore it will not produce any "Suspending not allowed in this
+ * context" error when used inside non-scheduled script. For all other uses it must
+ * be executed in environment that allows suspension (canSuspend), such as spawned
+ * or execVMed code
+ * • Avoid doing waitUntil { time > 20 }; and use sleep 20; instead!
+ * • If you can, add a sleep to the condition to save some cpu cycles waitUntil {
+ * sleep 1; !alive player }; Since Arma 3 v1.94, a condition returning anything
+ * other than true or false will result in an appropriate type error.
+ *
+ * @param condition - the expression that must return a Boolean, true to finish waiting or false to
+ * continue waiting
+ * @param timeout - a timeout in seconds of game time (sleep vs uiSleep). The timeout is only
+ * checked after the condition was checked.
+ * @param interval - (Optional, default 0) the time interval in seconds of game time between
+ * condition checks, this is equivalent to using a "sleep" after the condition.
+ * @returns the value the condition evaluates to when the wait is over (normally true), or Nothing if the timeout ended the wait
+ * @see {@link https://community.bistudio.com/wiki/waitUntil}
+ * @sqfsyntaxtype unary
+ */
+export function waitUntilV2(condition: Function, timeout: number, interval?: number): any
+
+/**
+ * Suspends execution of scheduled script until the given condition satisfied.
+ * • This command will loop and call the code inside {} mostly every frame, depends
+ * on complexity of the condition and the overall engine load, until the code
+ * returns true
+ * • If the very first execution of the code returns true the command will exit
+ * immediately, therefore it will not produce any "Suspending not allowed in this
+ * context" error when used inside non-scheduled script. For all other uses it must
+ * be executed in environment that allows suspension (canSuspend), such as spawned
+ * or execVMed code
+ * • Avoid doing waitUntil { time > 20 }; and use sleep 20; instead!
+ * • If you can, add a sleep to the condition to save some cpu cycles waitUntil {
+ * sleep 1; !alive player }; Since Arma 3 v1.94, a condition returning anything
+ * other than true or false will result in an appropriate type error.
+ *
+ * @param scriptHandle - a script handle or promise to wait on
+ * @returns The result of the script or Promise
+ * @see {@link https://community.bistudio.com/wiki/waitUntil}
+ * @sqfsyntaxtype unary
+ */
+export function waitUntilV3(scriptHandle: any): any
+
+/**
+ * Suspends execution of scheduled script until the given condition satisfied.
+ * • This command will loop and call the code inside {} mostly every frame, depends
+ * on complexity of the condition and the overall engine load, until the code
+ * returns true
+ * • If the very first execution of the code returns true the command will exit
+ * immediately, therefore it will not produce any "Suspending not allowed in this
+ * context" error when used inside non-scheduled script. For all other uses it must
+ * be executed in environment that allows suspension (canSuspend), such as spawned
+ * or execVMed code
+ * • Avoid doing waitUntil { time > 20 }; and use sleep 20; instead!
+ * • If you can, add a sleep to the condition to save some cpu cycles waitUntil {
+ * sleep 1; !alive player }; Since Arma 3 v1.94, a condition returning anything
+ * other than true or false will result in an appropriate type error.
+ *
+ * @param scriptHandle - a script handle or promise to wait on
+ * @param timeout - a timeout in seconds of game time (sleep vs uiSleep)
+ * @returns the result of the script or Promise. Or Nothing if timed out.
+ * @see {@link https://community.bistudio.com/wiki/waitUntil}
+ * @sqfsyntaxtype unary
+ */
+export function waitUntilV4(scriptHandle: any, timeout: number): any
+
+/**
  * Get provided waypoint's position.
  *
  * @returns PositionAGL
@@ -3089,9 +4218,9 @@ export function endMissionServer(endType: string): boolean
  * @param maxGrad - (Optional, default 0) maximum terrain gradient (hill steepness). A quite small
  * non-zero value could result in failure to find suitable position. Recommended: +
  * @param shoreMode - (Optional, default 0) shore mode. Can be one of:
- * @param blacklistPos - (Optional, default c[]) list of blacklisted areas in format [area1, area2,
+ * @param blacklistPos - (Optional, default []) list of blacklisted areas in format [area1, area2,
  * area3... areaN]. Can be one of:
- * @param defaultPos - (Optional, default c[]) default position when no position is found. Array format
+ * @param defaultPos - (Optional, default []) default position when no position is found. Array format
  * is [landPosition, seaPosition], where:
  * @returns in format [x,y] on success. When position cannot be found at all, default map center position is returned, which will be in format [x,y,0]
  * @see {@link https://community.bistudio.com/wiki/BIS_fnc_findSafePos}
