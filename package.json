@@ -1,7 +1,10 @@
 {
-	"name": "js-to-sqf",
-	"version": "1.0.0",
+	"name": "@paulbarmstrong/js-to-sqf",
+	"version": "0.1.0-alpha",
 	"type": "module",
+	"publishConfig": {
+		"access": "public"
+	},
 	"types": "index.d.ts",
 	"exports": {
 		".": {
