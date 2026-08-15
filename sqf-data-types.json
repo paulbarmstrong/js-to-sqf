@@ -35,6 +35,21 @@
 		"url": "https://community.bistudio.com/wiki/Diary_Record"
 	},
 	{
+		"name": "Location",
+		"description": "A location is an extended type of marker. For example city names displayed on the map are locations; their information can be accessed and modified with Location commands.",
+		"url": "https://community.bistudio.com/wiki/Location"
+	},
+	{
+		"name": "Task",
+		"description": "A Task is a Data Type that contains a task's details, such as location, title and description.",
+		"url": "https://community.bistudio.com/wiki/Task"
+	},
+	{
+		"name": "ScriptHandle",
+		"description": "A Script Handle, used to identify scripts in script operations called using spawn or execVM.",
+		"url": "https://community.bistudio.com/wiki/Script_Handle"
+	},
+	{
 		"name": "Side",
 		"description": "Data type representing a side.",
 		"url": "https://community.bistudio.com/wiki/Side"

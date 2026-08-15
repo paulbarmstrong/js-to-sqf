@@ -69,6 +69,6 @@ Type Strategy:
 
 If there isn't enough information or a proper mapping for a particular type please stop and raise the concern. Otherwise please save it into `enhanced-sqf-commands.json` in the same directory.
 
-A `transform.cjs` script lives alongside this file and implements the rules above. Run it with `node transform.cjs` to regenerate `enhanced-sqf-commands.json`. When adding a new command that needs non-trivial type mapping, add an entry to the `OVERRIDES` object in that script rather than hand-editing the output JSON. An override may also list `dropSyntaxes` for wiki syntaxes that aren't callable commands (like the deprecated `local variable = value` declaration). The script also strips scraping artifacts from urls (query strings such as Cloudflare `?__cf_chl_f_tk=...` tokens).
+A `transform.cjs` script lives alongside this file and implements the rules above. Run it with `node transform.cjs` to regenerate `enhanced-sqf-commands.json`. When adding a new command that needs non-trivial type mapping, add an entry to the `OVERRIDES` object in that script rather than hand-editing the output JSON. An override may also list `dropSyntaxes` for wiki syntaxes that aren't callable commands (like the deprecated `local variable = value` declaration). The script also strips scraping artifacts from urls (query strings such as Cloudflare `?__cf_chl_f_tk=...` tokens) and from descriptions (the wiki code-block `Copy` button label glued to the front of a snippet, e.g. `CopygrpNull == grpNull;`).
 
 Previous claude session ID: baf256fd-a298-4e3c-a516-49fb365d4d10

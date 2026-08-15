@@ -3368,6 +3368,34 @@
     ]
   },
   {
+    "name": "configNull",
+    "url": "https://community.bistudio.com/wiki/configNull",
+    "description": "A non-existing Config. ⚠Unlike other null values (objNull, grpNull, etc), configNull returns true when compared to itself. configNull == configNull; // returns true isNull configNull; // returns true configNull isEqualTo configNull; // returns true configNull == configFile >> \"ANonExistentEntry\"; // returns true",
+    "syntaxes": [
+      {
+        "syntax": "configNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "Config"
+        }
+      }
+    ]
+  },
+  {
+    "name": "controlNull",
+    "url": "https://community.bistudio.com/wiki/controlNull",
+    "description": "A non-existing Control. To compare non-existent objects use isNull or isEqualTo (see examples).",
+    "syntaxes": [
+      {
+        "syntax": "controlNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "Control"
+        }
+      }
+    ]
+  },
+  {
     "name": "copyToClipboard",
     "url": "https://community.bistudio.com/wiki/copyToClipboard",
     "description": "Copies ANSI text string to the clipboard. If Unicode support is desired, see forceUnicode.",
@@ -4325,6 +4353,20 @@
     ]
   },
   {
+    "name": "diaryRecordNull",
+    "url": "https://community.bistudio.com/wiki/diaryRecordNull",
+    "description": "A non-existent Diary Record. To compare non-existent objects use isNull or isEqualTo: diaryRecordNull == diaryRecordNull; // false isNull diaryRecordNull; // true diaryRecordNull isEqualTo diaryRecordNull; // true ⓘBefore Arma 3 v2.00, isNull did not work with the diary record type and diaryRecordNull did not exist. In order to verify a null record, it is possible to create a variable and compare against it: private _diaryRecordNull = objNull createDiaryRecord []; private _createdRecord = player createDiaryRecord [\"Diary\", [\"Title\", \"Description\"]]; if (_createdRecord isEqualTo _diaryRecordNull) then { hint \"Failed\"; };",
+    "syntaxes": [
+      {
+        "syntax": "diaryRecordNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "DiaryRecord"
+        }
+      }
+    ]
+  },
+  {
     "name": "displayAddEventHandler",
     "url": "https://community.bistudio.com/wiki/displayAddEventHandler",
     "description": "Adds an event handler to the given display. See User Interface Event Handlers for the full list of event names. If applicable, see DIK_KeyCodes for a list of key code constants, which are relevant to key related user interface events like: KeyDown & KeyUp. ⚠Display EHs are processed from last to first added; an input override should be set up in the first added EH. ⓘThe event handler ID can be accessed inside the event handler code using the _thisEventHandler magic variable.",
@@ -4396,6 +4438,20 @@
     ]
   },
   {
+    "name": "displayNull",
+    "url": "https://community.bistudio.com/wiki/displayNull",
+    "description": "A non-existing Display. To compare non-existent displays use isNull or isEqualTo: displayNull == displayNull; // false isNull displayNull; // true displayNull isEqualTo displayNull; // true",
+    "syntaxes": [
+      {
+        "syntax": "displayNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "Display"
+        }
+      }
+    ]
+  },
+  {
     "name": "displayRemoveEventHandler",
     "url": "https://community.bistudio.com/wiki/displayRemoveEventHandler",
     "description": "Remove a given event handler from the given display.",
@@ -4454,12 +4510,12 @@
         "parameters": [
           {
             "name": "location1",
-            "type": "any | PositionAGL | Position2D",
+            "type": "Location | PositionAGL | Position2D",
             "optional": false
           },
           {
             "name": "location2",
-            "type": "any | PositionAGL | Position2D",
+            "type": "Location | PositionAGL | Position2D",
             "optional": false
           }
         ],
@@ -5171,7 +5227,7 @@
         "parameters": [
           {
             "name": "location",
-            "type": "any",
+            "type": "Location",
             "optional": false
           }
         ],
@@ -6141,6 +6197,20 @@
     ]
   },
   {
+    "name": "locationNull",
+    "url": "https://community.bistudio.com/wiki/locationNull",
+    "description": "A non-existing Location. To compare non-existent locations use isNull or isEqualTo: locationNull == locationNull; // false isNull locationNull; // true locationNull isEqualTo locationNull; // true",
+    "syntaxes": [
+      {
+        "syntax": "locationNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "Location"
+        }
+      }
+    ]
+  },
+  {
     "name": "lock",
     "url": "https://community.bistudio.com/wiki/lock",
     "description": "Lock vehicle (disable mounting / dismounting) for player. This command will remove user get in/get out actions but will not stop player getting into or out of vehicle via script commands (e.g moveInCargo). ⓘAlternative syntax is similar to setVehicleLock but with numbers.",
@@ -6419,7 +6489,7 @@
         "parameters": [
           {
             "name": "location",
-            "type": "any",
+            "type": "Location",
             "optional": false
           }
         ],
@@ -6447,7 +6517,7 @@
         "parameters": [
           {
             "name": "scriptHandle",
-            "type": "any",
+            "type": "ScriptHandle",
             "optional": false
           }
         ],
@@ -6775,7 +6845,7 @@
         "parameters": [
           {
             "name": "location",
-            "type": "any",
+            "type": "Location",
             "optional": false
           }
         ],
@@ -7137,6 +7207,21 @@
         "returnValue": {
           "type": "PositionAGL",
           "description": "world position on surface [x, y, 0]"
+        }
+      }
+    ]
+  },
+  {
+    "name": "scriptNull",
+    "url": "https://community.bistudio.com/wiki/scriptNull",
+    "description": "A non-existing or completed Script Handle. To compare non-existent scripts use isNull or isEqualTo: scriptNull == scriptNull; // ERROR! == cannot be used with script object isNull scriptNull; // true scriptNull isEqualTo scriptNull; // true",
+    "syntaxes": [
+      {
+        "syntax": "scriptNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "ScriptHandle",
+          "description": "NULL script"
         }
       }
     ]
@@ -7987,7 +8072,7 @@
         "parameters": [
           {
             "name": "target",
-            "type": "any",
+            "type": "any | Location",
             "optional": false
           }
         ],
@@ -8043,6 +8128,34 @@
           }
         ],
         "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "sideEmpty",
+    "url": "https://community.bistudio.com/wiki/sideEmpty",
+    "description": "Returns empty side, for example static buildings in Eden Editor.",
+    "syntaxes": [
+      {
+        "syntax": "sideEmpty",
+        "parameters": [],
+        "returnValue": {
+          "type": "Side"
+        }
+      }
+    ]
+  },
+  {
+    "name": "sideUnknown",
+    "url": "https://community.bistudio.com/wiki/sideUnknown",
+    "description": "The unknown side. Used when the side of a unit is unknown, e.g. for spotted targets with insufficient information.",
+    "syntaxes": [
+      {
+        "syntax": "sideUnknown",
+        "parameters": [],
+        "returnValue": {
+          "type": "Side"
+        }
       }
     ]
   },
@@ -8111,7 +8224,7 @@
           }
         ],
         "returnValue": {
-          "type": "any",
+          "type": "ScriptHandle",
           "description": "Script Handle — can be used with scriptDone to check when the spawned script has finished"
         }
       },
@@ -8125,7 +8238,7 @@
           }
         ],
         "returnValue": {
-          "type": "any",
+          "type": "ScriptHandle",
           "description": "Script Handle — can be used with scriptDone to check when the spawned script has finished"
         }
       },
@@ -8140,7 +8253,7 @@
           }
         ],
         "returnValue": {
-          "type": "any",
+          "type": "ScriptHandle",
           "description": "Script Handle — an \"Empty Handle\" to be used as a Promise"
         }
       }
@@ -8183,6 +8296,54 @@
           }
         ],
         "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "taskNull",
+    "url": "https://community.bistudio.com/wiki/taskNull",
+    "description": "A non-existing Task. To compare non-existent tasks use isNull or isEqualTo: taskNull == taskNull; // false isNull taskNull; // true taskNull isEqualTo taskNull; // true",
+    "syntaxes": [
+      {
+        "syntax": "taskNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "Task"
+        }
+      }
+    ]
+  },
+  {
+    "name": "teamMemberNull",
+    "url": "https://community.bistudio.com/wiki/teamMemberNull",
+    "description": "A non-existent Team Member. To compare non-existent team members use isNull or isEqualTo: teamMemberNull == teamMemberNull; // false isNull teamMemberNull; // true teamMemberNull isEqualTo teamMemberNull; // true",
+    "syntaxes": [
+      {
+        "syntax": "teamMemberNull",
+        "parameters": [],
+        "returnValue": {
+          "type": "TeamMember"
+        }
+      }
+    ]
+  },
+  {
+    "name": "typeName",
+    "url": "https://community.bistudio.com/wiki/typeName",
+    "description": "Returns the Data Type of an expression. The type is returned as on of the following all-uppercase strings:\n• \"ARRAY\"\n• \"BOOL\"\n• \"CODE\"\n• \"CONFIG\"\n• \"CONTROL\"\n• \"DISPLAY\"\n• \"GROUP\"\n• \"OBJECT\"\n• \"SCALAR\" (and \"NaN\")\n• \"SCRIPT\"\n• \"SIDE\"\n• \"STRING\"\n• \"TEXT\"\n• 1.08 \"LOCATION\"\n• 1.00 \"TEAM_MEMBER\"\n• 1.00 \"NAMESPACE\"\n• 1.00 \"DIARY_RECORD\"\n• 1.00 \"TASK\"\n• 2.02 \"HASHMAP\" They represent the available Data Types in Arma. For type comparison, use isEqualType command instead.",
+    "syntaxes": [
+      {
+        "syntax": "typeName anything",
+        "parameters": [
+          {
+            "name": "anything",
+            "type": "any",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "string"
+        }
       }
     ]
   },
@@ -8400,7 +8561,7 @@
         "parameters": [
           {
             "name": "scriptHandle",
-            "type": "any",
+            "type": "ScriptHandle",
             "optional": false,
             "description": "a script handle or promise to wait on"
           }
@@ -8415,7 +8576,7 @@
         "parameters": [
           {
             "name": "scriptHandle",
-            "type": "any",
+            "type": "ScriptHandle",
             "optional": false,
             "description": "a script handle or promise to wait on"
           },

@@ -25,6 +25,9 @@ const TYPE_MAP = {
   'turret path': 'TurretPath',
   'structured text': 'StructuredText',
   'diary record': 'DiaryRecord',
+  'location': 'Location',
+  'task': 'Task',
+  'script handle': 'ScriptHandle',
   // Named position types (from sqf-data-types.json)
   'position': 'PositionAGL',     // generic Position defaults to AGL (most common)
   'position2d': 'Position2D',
@@ -99,6 +102,13 @@ function isOptional(paramStr) {
 // "?__cf_chl_f_tk=..." that end up on pages scraped through a challenge)
 function cleanUrl(url) {
   return url ? url.split('?')[0] : url;
+}
+
+// Drop scraping artifacts from descriptions: the wiki's code-block "Copy" button
+// label ends up glued to the front of the snippet (e.g. "CopygrpNull == grpNull;")
+function cleanDescription(description) {
+  if (!description) return description;
+  return description.replace(/\bCopy(?!ing\b|right\b)(?=[A-Za-z_$])/g, '');
 }
 
 // Parse a parameter string "name: Type - description" (first line only)
@@ -622,7 +632,6 @@ const OVERRIDES = {
   },
 
   // spawn.code has no explicit typed I/O -> Function
-  // Script Handle return type not yet in sqf-data-types.json -> any
   'spawn': {
     syntaxes: [
       {
@@ -632,7 +641,7 @@ const OVERRIDES = {
           { name: 'code',      type: 'Function',   optional: false },
         ],
         returnValue: {
-          type: 'any',
+          type: 'ScriptHandle',
           description: 'Script Handle — can be used with scriptDone to check when the spawned script has finished',
         },
       },
@@ -642,7 +651,7 @@ const OVERRIDES = {
           { name: 'code', type: 'Function', optional: false },
         ],
         returnValue: {
-          type: 'any',
+          type: 'ScriptHandle',
           description: 'Script Handle — can be used with scriptDone to check when the spawned script has finished',
         },
       },
@@ -652,7 +661,7 @@ const OVERRIDES = {
           { name: 'name', type: 'string', optional: false, description: 'name of an "Empty Handle"; behaves like scriptName inside a function' },
         ],
         returnValue: {
-          type: 'any',
+          type: 'ScriptHandle',
           description: 'Script Handle — an "Empty Handle" to be used as a Promise',
         },
       },
@@ -710,7 +719,7 @@ const transformed = scraped
     );
 
     const description = cmd.description && !cmd.description.includes('Description needed')
-      ? cmd.description
+      ? cleanDescription(cmd.description)
       : undefined;
 
     const result = { name: cmd.name, url: cleanUrl(cmd.url) };

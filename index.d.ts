@@ -59,6 +59,28 @@ declare class Control {}
 declare class DiaryRecord {}
 
 /**
+ * A location is an extended type of marker. For example city names displayed on
+ * the map are locations; their information can be accessed and modified with
+ * Location commands.
+ * @see {@link https://community.bistudio.com/wiki/Location}
+ */
+declare class Location {}
+
+/**
+ * A Task is a Data Type that contains a task's details, such as location, title
+ * and description.
+ * @see {@link https://community.bistudio.com/wiki/Task}
+ */
+declare class Task {}
+
+/**
+ * A Script Handle, used to identify scripts in script operations called using
+ * spawn or execVM.
+ * @see {@link https://community.bistudio.com/wiki/Script_Handle}
+ */
+declare class ScriptHandle {}
+
+/**
  * Data type representing a side.
  * @see {@link https://community.bistudio.com/wiki/Side}
  */
@@ -1586,6 +1608,28 @@ export function configFile(): ConfigFile
 export function configName(config: Config): string
 
 /**
+ * A non-existing Config. ⚠Unlike other null values (objNull, grpNull, etc),
+ * configNull returns true when compared to itself. configNull == configNull; //
+ * returns true isNull configNull; // returns true configNull isEqualTo configNull;
+ * // returns true configNull == configFile >> "ANonExistentEntry"; // returns true
+ *
+ * @returns Config
+ * @see {@link https://community.bistudio.com/wiki/configNull}
+ * @sqfsyntaxtype nullary
+ */
+export function configNull(): Config
+
+/**
+ * A non-existing Control. To compare non-existent objects use isNull or isEqualTo
+ * (see examples).
+ *
+ * @returns Control
+ * @see {@link https://community.bistudio.com/wiki/controlNull}
+ * @sqfsyntaxtype nullary
+ */
+export function controlNull(): Control
+
+/**
  * Copies ANSI text string to the clipboard. If Unicode support is desired, see
  * forceUnicode.
  *
@@ -2218,6 +2262,23 @@ export function detach(object: GameObject): void
 export function diag_log(output: any): void
 
 /**
+ * A non-existent Diary Record. To compare non-existent objects use isNull or
+ * isEqualTo: diaryRecordNull == diaryRecordNull; // false isNull diaryRecordNull;
+ * // true diaryRecordNull isEqualTo diaryRecordNull; // true ⓘBefore Arma 3 v2.00,
+ * isNull did not work with the diary record type and diaryRecordNull did not
+ * exist. In order to verify a null record, it is possible to create a variable and
+ * compare against it: private _diaryRecordNull = objNull createDiaryRecord [];
+ * private _createdRecord = player createDiaryRecord ["Diary", ["Title",
+ * "Description"]]; if (_createdRecord isEqualTo _diaryRecordNull) then { hint
+ * "Failed"; };
+ *
+ * @returns DiaryRecord
+ * @see {@link https://community.bistudio.com/wiki/diaryRecordNull}
+ * @sqfsyntaxtype nullary
+ */
+export function diaryRecordNull(): DiaryRecord
+
+/**
  * Adds an event handler to the given display. See User Interface Event Handlers
  * for the full list of event names. If applicable, see DIK_KeyCodes for a list of
  * key code constants, which are relevant to key related user interface events
@@ -2258,6 +2319,17 @@ export function displayCtrl(display: Display, idc: number): Control
 export function displayCtrlV2(idc: number): Control
 
 /**
+ * A non-existing Display. To compare non-existent displays use isNull or
+ * isEqualTo: displayNull == displayNull; // false isNull displayNull; // true
+ * displayNull isEqualTo displayNull; // true
+ *
+ * @returns Display
+ * @see {@link https://community.bistudio.com/wiki/displayNull}
+ * @sqfsyntaxtype nullary
+ */
+export function displayNull(): Display
+
+/**
  * Remove a given event handler from the given display.
  *
  * @param handlerType - type of the event handler
@@ -2289,7 +2361,7 @@ export function distance(param1: GameObject | PositionAGL | Position2D, param2: 
  * @see {@link https://community.bistudio.com/wiki/distance}
  * @sqfsyntaxtype binary
  */
-export function distanceV2(location1: any | PositionAGL | Position2D, location2: any | PositionAGL | Position2D): number
+export function distanceV2(location1: Location | PositionAGL | Position2D, location2: Location | PositionAGL | Position2D): number
 
 /**
  * Returns a distance in meters between Objects, Positions or Locations. ⚠If
@@ -2751,7 +2823,7 @@ export function getPos(object: GameObject): PositionAGLS
  * @see {@link https://community.bistudio.com/wiki/getPos}
  * @sqfsyntaxtype unary
  */
-export function getPosV2(location: any): PositionAGL
+export function getPosV2(location: Location): PositionAGL
 
 /**
  * Returns object or location position. If the argument is an object, the return
@@ -3343,6 +3415,17 @@ export function local(object: GameObject | Group): boolean
 export function localNamespace(): Namespace
 
 /**
+ * A non-existing Location. To compare non-existent locations use isNull or
+ * isEqualTo: locationNull == locationNull; // false isNull locationNull; // true
+ * locationNull isEqualTo locationNull; // true
+ *
+ * @returns Location
+ * @see {@link https://community.bistudio.com/wiki/locationNull}
+ * @sqfsyntaxtype nullary
+ */
+export function locationNull(): Location
+
+/**
  * Lock vehicle (disable mounting / dismounting) for player. This command will
  * remove user get in/get out actions but will not stop player getting into or out
  * of vehicle via script commands (e.g moveInCargo). ⓘAlternative syntax is similar
@@ -3527,7 +3610,7 @@ export function name(object: GameObject): string
  * @see {@link https://community.bistudio.com/wiki/name}
  * @sqfsyntaxtype unary
  */
-export function nameV2(location: any): string
+export function nameV2(location: Location): string
 
 /**
  * When argument is Object, the command returns the name given to a unit using the
@@ -3553,7 +3636,7 @@ export function nameV3(namespace: Namespace): string
  * @see {@link https://community.bistudio.com/wiki/name}
  * @sqfsyntaxtype unary
  */
-export function nameV4(scriptHandle: any): string
+export function nameV4(scriptHandle: ScriptHandle): string
 
 /**
  * Returns the nearest object of given type (or inherited classes) to given
@@ -3766,7 +3849,7 @@ export function position(object: GameObject): PositionAGLS
  * @see {@link https://community.bistudio.com/wiki/position}
  * @sqfsyntaxtype unary
  */
-export function positionV2(location: any): PositionAGL
+export function positionV2(location: Location): PositionAGL
 
 /**
  * Returns the global namespace attached to the active user profile. Use
@@ -3991,6 +4074,18 @@ export function screenToWorld(screen: Position2D): PositionAGL
  * @sqfsyntaxtype binary
  */
 export function screenToWorldV2(camera: GameObject, screen: Position2D): PositionAGL
+
+/**
+ * A non-existing or completed Script Handle. To compare non-existent scripts use
+ * isNull or isEqualTo: scriptNull == scriptNull; // ERROR! == cannot be used with
+ * script object isNull scriptNull; // true scriptNull isEqualTo scriptNull; //
+ * true
+ *
+ * @returns NULL script
+ * @see {@link https://community.bistudio.com/wiki/scriptNull}
+ * @sqfsyntaxtype nullary
+ */
+export function scriptNull(): ScriptHandle
 
 /**
  * Returns server's namespace. This namespace is only available on the server for
@@ -4423,7 +4518,7 @@ export function setWaypointType(waypoint: Waypoint, type: string): void
  * @see {@link https://community.bistudio.com/wiki/side}
  * @sqfsyntaxtype unary
  */
-export function side(target: any): Side
+export function side(target: any | Location): Side
 
 /**
  * Types text to the side radio channel by the specified unit. Use clearRadio to
@@ -4452,6 +4547,25 @@ export function sideChat(unit: GameObject, chatText: string): void
  * @sqfsyntaxtype binary
  */
 export function sideChatV2(side: Side, identity: string, chatText: string): void
+
+/**
+ * Returns empty side, for example static buildings in Eden Editor.
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/sideEmpty}
+ * @sqfsyntaxtype nullary
+ */
+export function sideEmpty(): Side
+
+/**
+ * The unknown side. Used when the side of a unit is unknown, e.g. for spotted
+ * targets with insufficient information.
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/sideUnknown}
+ * @sqfsyntaxtype nullary
+ */
+export function sideUnknown(): Side
 
 /**
  * Suspends code execution for given time in seconds. The sleep precision is given
@@ -4499,7 +4613,7 @@ export function sort(array: Array<any>, order: boolean): void
  * @see {@link https://community.bistudio.com/wiki/spawn}
  * @sqfsyntaxtype binary
  */
-export function spawn(arguments: Array<any>, code: Function): any
+export function spawn(arguments: Array<any>, code: Function): ScriptHandle
 
 /**
  * Adds given set of compiled instructions to the scheduler. Exactly when the code
@@ -4518,7 +4632,7 @@ export function spawn(arguments: Array<any>, code: Function): any
  * @see {@link https://community.bistudio.com/wiki/spawn}
  * @sqfsyntaxtype unary
  */
-export function spawnV2(code: Function): any
+export function spawnV2(code: Function): ScriptHandle
 
 /**
  * Adds given set of compiled instructions to the scheduler. Exactly when the code
@@ -4538,7 +4652,7 @@ export function spawnV2(code: Function): any
  * @see {@link https://community.bistudio.com/wiki/spawn}
  * @sqfsyntaxtype unary
  */
-export function spawnV3(name: string): any
+export function spawnV3(name: string): ScriptHandle
 
 /**
  * Converts any value into a string, depending on its type. If an Object has a
@@ -4561,6 +4675,58 @@ export function str(value: any): string
  * @sqfsyntaxtype unary
  */
 export function systemChat(text: string): void
+
+/**
+ * A non-existing Task. To compare non-existent tasks use isNull or isEqualTo:
+ * taskNull == taskNull; // false isNull taskNull; // true taskNull isEqualTo
+ * taskNull; // true
+ *
+ * @returns Task
+ * @see {@link https://community.bistudio.com/wiki/taskNull}
+ * @sqfsyntaxtype nullary
+ */
+export function taskNull(): Task
+
+/**
+ * A non-existent Team Member. To compare non-existent team members use isNull or
+ * isEqualTo: teamMemberNull == teamMemberNull; // false isNull teamMemberNull; //
+ * true teamMemberNull isEqualTo teamMemberNull; // true
+ *
+ * @returns TeamMember
+ * @see {@link https://community.bistudio.com/wiki/teamMemberNull}
+ * @sqfsyntaxtype nullary
+ */
+export function teamMemberNull(): TeamMember
+
+/**
+ * Returns the Data Type of an expression. The type is returned as on of the
+ * following all-uppercase strings:
+ * • "ARRAY"
+ * • "BOOL"
+ * • "CODE"
+ * • "CONFIG"
+ * • "CONTROL"
+ * • "DISPLAY"
+ * • "GROUP"
+ * • "OBJECT"
+ * • "SCALAR" (and "NaN")
+ * • "SCRIPT"
+ * • "SIDE"
+ * • "STRING"
+ * • "TEXT"
+ * • 1.08 "LOCATION"
+ * • 1.00 "TEAM_MEMBER"
+ * • 1.00 "NAMESPACE"
+ * • 1.00 "DIARY_RECORD"
+ * • 1.00 "TASK"
+ * • 2.02 "HASHMAP" They represent the available Data Types in Arma. For type
+ * comparison, use isEqualType command instead.
+ *
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/typeName}
+ * @sqfsyntaxtype unary
+ */
+export function typeName(anything: any): string
 
 /**
  * Returns the class name of given target.
@@ -4719,7 +4885,7 @@ export function waitUntilV2(condition: Function, timeout: number, interval?: num
  * @see {@link https://community.bistudio.com/wiki/waitUntil}
  * @sqfsyntaxtype unary
  */
-export function waitUntilV3(scriptHandle: any): any
+export function waitUntilV3(scriptHandle: ScriptHandle): any
 
 /**
  * Suspends execution of scheduled script until the given condition satisfied.
@@ -4742,7 +4908,7 @@ export function waitUntilV3(scriptHandle: any): any
  * @see {@link https://community.bistudio.com/wiki/waitUntil}
  * @sqfsyntaxtype unary
  */
-export function waitUntilV4(scriptHandle: any, timeout: number): any
+export function waitUntilV4(scriptHandle: ScriptHandle, timeout: number): any
 
 /**
  * Get provided waypoint's position.

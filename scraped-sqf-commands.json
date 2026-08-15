@@ -1804,6 +1804,30 @@
     "url": "https://community.bistudio.com/wiki/configName"
   },
   {
+    "description": "A non-existing Config. ⚠Unlike other null values (objNull, grpNull, etc), configNull returns true when compared to itself. configNull == configNull; // returns true isNull configNull; // returns true configNull isEqualTo configNull; // returns true configNull == configFile >> \"ANonExistentEntry\"; // returns true",
+    "name": "configNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Config",
+        "syntax": "configNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/configNull"
+  },
+  {
+    "description": "A non-existing Control. To compare non-existent objects use isNull or isEqualTo (see examples).",
+    "name": "controlNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Control",
+        "syntax": "controlNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/controlNull"
+  },
+  {
     "description": "Copies ANSI text string to the clipboard. If Unicode support is desired, see forceUnicode.",
     "name": "copyToClipboard",
     "syntaxes": [
@@ -2278,6 +2302,18 @@
     "url": "https://community.bistudio.com/wiki/diag_log"
   },
   {
+    "description": "A non-existent Diary Record. To compare non-existent objects use isNull or isEqualTo: CopydiaryRecordNull == diaryRecordNull; // false isNull diaryRecordNull; // true diaryRecordNull isEqualTo diaryRecordNull; // true ⓘBefore Arma 3 v2.00, isNull did not work with the diary record type and diaryRecordNull did not exist. In order to verify a null record, it is possible to create a variable and compare against it: Copyprivate _diaryRecordNull = objNull createDiaryRecord []; private _createdRecord = player createDiaryRecord [\"Diary\", [\"Title\", \"Description\"]]; if (_createdRecord isEqualTo _diaryRecordNull) then { hint \"Failed\"; };",
+    "name": "diaryRecordNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Diary Record",
+        "syntax": "diaryRecordNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/diaryRecordNull"
+  },
+  {
     "description": "Adds an event handler to the given display. See User Interface Event Handlers for the full list of event names. If applicable, see DIK_KeyCodes for a list of key code constants, which are relevant to key related user interface events like: KeyDown & KeyUp. ⚠Display EHs are processed from last to first added; an input override should be set up in the first added EH. ⓘThe event handler ID can be accessed inside the event handler code using the _thisEventHandler magic variable.",
     "name": "displayAddEventHandler",
     "syntaxes": [
@@ -2314,6 +2350,18 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/displayCtrl"
+  },
+  {
+    "description": "A non-existing Display. To compare non-existent displays use isNull or isEqualTo: displayNull == displayNull; // false isNull displayNull; // true displayNull isEqualTo displayNull; // true",
+    "name": "displayNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Display",
+        "syntax": "displayNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/displayNull"
   },
   {
     "description": "Remove a given event handler from the given display.",
@@ -2908,7 +2956,7 @@
     "url": "https://community.bistudio.com/wiki/groupId"
   },
   {
-    "description": "A non-existing Group. To compare non-existent groups use isNull or isEqualTo: grpNull == grpNull; // false isNull grpNull; // true grpNull isEqualTo grpNull; // true",
+    "description": "A non-existing Group. To compare non-existent groups use isNull or isEqualTo: CopygrpNull == grpNull; // false isNull grpNull; // true grpNull isEqualTo grpNull; // true",
     "name": "grpNull",
     "syntaxes": [
       {
@@ -3320,6 +3368,18 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/localNamespace"
+  },
+  {
+    "description": "A non-existing Location. To compare non-existent locations use isNull or isEqualTo: locationNull == locationNull; // false isNull locationNull; // true locationNull isEqualTo locationNull; // true",
+    "name": "locationNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Location",
+        "syntax": "locationNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/locationNull"
   },
   {
     "description": "Lock vehicle (disable mounting / dismounting) for player. This command will remove user get in/get out actions but will not stop player getting into or out of vehicle via script commands (e.g moveInCargo). ⓘAlternative syntax is similar to setVehicleLock but with numbers.",
@@ -3902,6 +3962,18 @@
     "url": "https://community.bistudio.com/wiki/screenToWorld"
   },
   {
+    "description": "A non-existing or completed Script Handle. To compare non-existent scripts use isNull or isEqualTo: scriptNull == scriptNull; // ERROR! == cannot be used with script object isNull scriptNull; // true scriptNull isEqualTo scriptNull; // true",
+    "name": "scriptNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Script Handle - NULL script",
+        "syntax": "scriptNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/scriptNull"
+  },
+  {
     "description": "Selects an element from an array, config entry from Config or substring from a string or a range from an array.",
     "name": "select",
     "syntaxes": [
@@ -4464,6 +4536,30 @@
     "url": "https://community.bistudio.com/wiki/sideChat"
   },
   {
+    "description": "Returns empty side, for example static buildings in Eden Editor.",
+    "name": "sideEmpty",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Side",
+        "syntax": "sideEmpty"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/sideEmpty"
+  },
+  {
+    "description": "The unknown side. Used when the side of a unit is unknown, e.g. for spotted targets with insufficient information.",
+    "name": "sideUnknown",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Side",
+        "syntax": "sideUnknown"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/sideUnknown"
+  },
+  {
     "description": "Suspends code execution for given time in seconds. The sleep precision is given by a framerate, the delay given is the minimal delay expected. Must be called inside of a context which is interruptible, i.e. a script executed by execVM or spawn. ⓘ\n• this command will suspend the code for at least the given amount of time, and can be way more if the script scheduler is busy.\n• this command will suspend the script as the game gets paused in single player (and will resume with it). To avoid this, use uiSleep.",
     "name": "sleep",
     "syntaxes": [
@@ -4548,6 +4644,44 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/systemChat"
+  },
+  {
+    "description": "A non-existing Task. To compare non-existent tasks use isNull or isEqualTo: taskNull == taskNull; // false isNull taskNull; // true taskNull isEqualTo taskNull; // true",
+    "name": "taskNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Task",
+        "syntax": "taskNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/taskNull"
+  },
+  {
+    "description": "A non-existent Team Member. To compare non-existent team members use isNull or isEqualTo: teamMemberNull == teamMemberNull; // false isNull teamMemberNull; // true teamMemberNull isEqualTo teamMemberNull; // true",
+    "name": "teamMemberNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Team Member",
+        "syntax": "teamMemberNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/teamMemberNull"
+  },
+  {
+    "description": "Returns the Data Type of an expression. The type is returned as on of the following all-uppercase strings:\n• \"ARRAY\"\n• \"BOOL\"\n• \"CODE\"\n• \"CONFIG\"\n• \"CONTROL\"\n• \"DISPLAY\"\n• \"GROUP\"\n• \"OBJECT\"\n• \"SCALAR\" (and \"NaN\")\n• \"SCRIPT\"\n• \"SIDE\"\n• \"STRING\"\n• \"TEXT\"\n• 1.08 \"LOCATION\"\n• 1.00 \"TEAM_MEMBER\"\n• 1.00 \"NAMESPACE\"\n• 1.00 \"DIARY_RECORD\"\n• 1.00 \"TASK\"\n• 2.02 \"HASHMAP\" They represent the available Data Types in Arma. For type comparison, use isEqualType command instead.",
+    "name": "typeName",
+    "syntaxes": [
+      {
+        "parameters": [
+          "anything: Anything"
+        ],
+        "returnValue": "String",
+        "syntax": "typeName anything"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/typeName"
   },
   {
     "description": "Returns the class name of given target.",
