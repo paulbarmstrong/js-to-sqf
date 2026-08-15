@@ -66,7 +66,7 @@
 		"url": "https://community.bistudio.com/wiki/Eden_Entity"
 	},
 	{
-		"name": "Postition2D",
+		"name": "Position2D",
 		"description": "2D position.",
 		"url": "https://community.bistudio.com/wiki/Position#Position2D",
 		"type": "[number, number]"
@@ -123,7 +123,7 @@
 		"name": "AddActionScript",
 		"description": "Function that can be provided as the script for addAction.",
 		"url": "https://community.bistudio.com/wiki/addAction",
-		"type": "(target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void"
+		"type": "(target: GameObject, caller: GameObject, actionId: number, argumentList: any) => void"
 	}, {
 		"name": "ConfigFile",
 		"description": "Root of config entries hierarchy.",

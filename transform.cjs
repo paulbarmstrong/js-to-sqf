@@ -27,6 +27,7 @@ const TYPE_MAP = {
   'diary record': 'DiaryRecord',
   // Named position types (from sqf-data-types.json)
   'position': 'PositionAGL',     // generic Position defaults to AGL (most common)
+  'position2d': 'Position2D',
   'positionagl': 'PositionAGL',
   'positionasl': 'PositionASL',
   'positionaslw': 'PositionASLW',
@@ -94,11 +95,18 @@ function isOptional(paramStr) {
   return /\(optional/i.test(paramStr);
 }
 
+// Drop scraping artifacts from wiki URLs (e.g. Cloudflare challenge tokens
+// "?__cf_chl_f_tk=..." that end up on pages scraped through a challenge)
+function cleanUrl(url) {
+  return url ? url.split('?')[0] : url;
+}
+
 // Parse a parameter string "name: Type - description" (first line only)
 function parseParam(paramStr) {
   if (!paramStr) return null;
 
-  const firstLine = paramStr.split('\n')[0].trim();
+  // Strip leading locality badge artifacts from scraping (e.g. "SEServer killer: ..." -> "killer: ...")
+  const firstLine = paramStr.split('\n')[0].trim().replace(/^SE(?:Server|Client|Local|Global)\s+/, '');
   const colonIdx = firstLine.indexOf(':');
   if (colonIdx === -1) return { name: firstLine, type: 'any', optional: false };
 
@@ -160,7 +168,10 @@ function parseReturnValue(retStr) {
 //   - `syntaxes` is an array of per-syntax overrides, each shaped
 //     { syntax?: string, parameters?, returnValue? }. Each is matched against a
 //     command's syntax by exact `syntax` string when provided, otherwise by
-//     position (array index).
+//     position (array index, counted after `dropSyntaxes` has been applied).
+//   - `dropSyntaxes` is an array of exact scraped `syntax` strings to leave out
+//     entirely, for wiki entries that document something which isn't a callable
+//     command (e.g. the deprecated `local variable = value` declaration).
 const OVERRIDES = {
   'actionKeysEx': {
     returnValue: {
@@ -418,6 +429,152 @@ const OVERRIDES = {
     ],
   },
 
+  'createUnit': {
+    syntaxes: [
+      {
+        syntax: 'group createUnit [type, position, markers, placement, special]',
+        parameters: [
+          { name: 'group',     type: 'Group',                                            optional: false, description: 'existing group new unit will join; if the group is not local, a warning will be logged' },
+          { name: 'type',      type: 'string',                                           optional: false, description: 'classname of unit to be created as per CfgVehicles' },
+          { name: 'position',  type: 'GameObject | Group | PositionAGL | Position2D',    optional: false, description: 'location where to create the unit. In case of Group, the group leader\'s position is used. The Z component of the position is ignored and the unit is always placed on the surface.' },
+          { name: 'markers',   type: 'Array<string>',                                    optional: false, description: 'placement markers' },
+          { name: 'placement', type: 'number',                                           optional: false, description: 'placement radius' },
+          { name: 'special',   type: 'string',                                           optional: false, description: 'unit placement special, one of: "NONE", "FORM", "CAN_COLLIDE", "CARGO"' },
+        ],
+      },
+      {
+        syntax: 'type createUnit [position, group, init, skill, rank]',
+        parameters: [
+          { name: 'type',     type: 'string',                                        optional: false, description: 'classname of unit to be created as per CfgVehicles' },
+          { name: 'position', type: 'GameObject | Group | PositionAGL | Position2D', optional: false, description: 'location at which the unit is created. In case of Group position of the group leader is used' },
+          { name: 'group',    type: 'Group',                                         optional: false, description: 'existing group the new unit will join' },
+          { name: 'init',     type: 'string',                                        optional: true,  description: '(Optional, default "") unit init statement, similar to unit init field in the editor. The code placed in unit init will run upon unit creation for every client on network, present and future. The code itself receives the reference to the created unit via local variable this.' },
+          { name: 'skill',    type: 'number',                                        optional: true,  description: '(Optional, default 0.5) unit skill' },
+          { name: 'rank',     type: 'string',                                        optional: true,  description: '(Optional, default "PRIVATE") unit rank' },
+        ],
+        // "⚠Nothing" — type omitted, this syntax returns no unit reference
+        returnValue: {
+          description: 'this syntax does not return a unit reference',
+        },
+      },
+    ],
+  },
+
+  // renamed "unit(s)" (not a valid identifier) to "units"
+  'doWatch': {
+    syntaxes: [
+      {
+        syntax: 'unit(s) doWatch position',
+        parameters: [
+          { name: 'units',    type: 'GameObject | Array<GameObject>', optional: false },
+          { name: 'position', type: 'PositionAGL',                    optional: false },
+        ],
+      },
+      {
+        syntax: 'unit(s) doWatch target',
+        parameters: [
+          { name: 'units',  type: 'GameObject | Array<GameObject>', optional: false },
+          { name: 'target', type: 'GameObject',                     optional: false },
+        ],
+      },
+    ],
+  },
+
+  'getCompatiblePylonMagazines': {
+    parameters: [
+      { name: 'vehicle', type: 'GameObject | string', optional: false, description: 'aircraft object or config class' },
+      { name: 'pylon',   type: 'number | string',     optional: false, description: 'pylon class name from TransportPylonsComponent >> pylons class, or pylon ID. If an invalid pylon ID or class name is provided, such as 0 or "", all compatible magazines from all pylons are returned.' },
+    ],
+    returnValue: {
+      type: 'Array<string> | Array<Array<string>>',
+      description: 'magazine names for the given pylon, or one array of magazine names per pylon when all pylons are queried',
+    },
+  },
+
+  'land': {
+    parameters: [
+      { name: 'helicopter', type: 'GameObject', optional: false, description: 'helicopter or VTOL' },
+      { name: 'mode',       type: 'string',     optional: false, description: 'can be one of: "LAND" (complete stop), "GET IN" (hovering very low, for another unit to get in), "GET OUT" (hovering low, for another unit to get out), "NONE" (cancel a landing)' },
+    ],
+  },
+
+  'limitSpeed': {
+    parameters: [
+      { name: 'objectName', type: 'GameObject',       optional: false },
+      { name: 'speed',      type: 'number | boolean', optional: false, description: 'in km/h; By default, it\'s 2 * maxSpeed of the vehicle/unit (which is defined in config)' },
+    ],
+  },
+
+  // the wiki page also documents the deprecated `local variable = value`
+  // declaration (superseded by private); it is not a callable command
+  'local': {
+    dropSyntaxes: ['local variable = value From Arma 2 v1.00 until Arma 3 v1.54 - see private for later versions'],
+  },
+
+  // scraped "autoselect" type says String but the described values are booleans
+  'removeWeaponGlobal': {
+    syntaxes: [
+      {
+        syntax: 'unit removeWeaponGlobal weapon',
+        parameters: [
+          { name: 'unit',   type: 'GameObject', optional: false, description: 'unit or vehicle' },
+          { name: 'weapon', type: 'string',     optional: false, description: 'weapon class name' },
+        ],
+      },
+      {
+        syntax: 'object removeWeaponGlobal [weapon, autoselect]',
+        parameters: [
+          { name: 'object',     type: 'GameObject', optional: false, description: 'unit or vehicle' },
+          { name: 'weapon',     type: 'string',     optional: false, description: 'weapon class name' },
+          { name: 'autoselect', type: 'boolean',    optional: true,  description: '(Optional, default true) false to abort weapon autoselection when removing primary weapon.' },
+        ],
+      },
+    ],
+  },
+
+  'screenToWorld': {
+    syntaxes: [
+      {
+        syntax: 'screenToWorld screen',
+        parameters: [
+          { name: 'screen', type: 'Position2D', optional: false, description: 'screen position in format [x, y], see SafeZone for more information' },
+        ],
+        returnValue: {
+          type: 'PositionAGL',
+          description: 'world position on surface [x, y, 0]',
+        },
+      },
+      {
+        syntax: 'camera screenToWorld position',
+        parameters: [
+          { name: 'camera', type: 'GameObject', optional: false, description: 'camera object' },
+          { name: 'screen', type: 'Position2D', optional: false, description: 'screen position in format [x, y], see SafeZone for more information' },
+        ],
+        returnValue: {
+          type: 'PositionAGL',
+          description: 'world position on surface [x, y, 0]',
+        },
+      },
+    ],
+  },
+
+  'setMarkerPos': {
+    parameters: [
+      { name: 'markerName', type: 'string',                                     optional: false },
+      { name: 'position',   type: 'Position2D | PositionAGL | GameObject',      optional: false, description: 'In case of an object, the object\'s model [0,0,0] is used.' },
+    ],
+  },
+
+  // "condition" / "statement" typed as Function per enhance.md (script params
+  // without explicit I/O), even though the wiki documents them as String
+  'setWaypointStatements': {
+    parameters: [
+      { name: 'waypoint',  type: 'Waypoint', optional: false },
+      { name: 'condition', type: 'Function', optional: false },
+      { name: 'statement', type: 'Function', optional: false },
+    ],
+  },
+
   'setVariable': {
     parameters: [
       { name: 'varspace', type: 'Namespace | GameObject | Group | Control | Display', optional: false, description: 'variable space in which variable can be set' },
@@ -545,15 +702,18 @@ const transformed = scraped
   .map(cmd => {
     const override = OVERRIDES[cmd.name];
 
-    const syntaxes = (cmd.syntaxes || []).map((syn, i) =>
-      transformSyntax(syn, resolveSyntaxOverride(override, syn, i, cmd))
+    const dropped = new Set((override && override.dropSyntaxes) || []);
+    const keptSyntaxes = (cmd.syntaxes || []).filter(syn => !dropped.has(syn.syntax));
+
+    const syntaxes = keptSyntaxes.map((syn, i) =>
+      transformSyntax(syn, resolveSyntaxOverride(override, syn, i, { ...cmd, syntaxes: keptSyntaxes }))
     );
 
     const description = cmd.description && !cmd.description.includes('Description needed')
       ? cmd.description
       : undefined;
 
-    const result = { name: cmd.name, url: cmd.url };
+    const result = { name: cmd.name, url: cleanUrl(cmd.url) };
     if (description) result.description = description;
     result.syntaxes = syntaxes;
 

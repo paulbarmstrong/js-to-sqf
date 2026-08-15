@@ -58,6 +58,7 @@ Type Strategy:
 	  * Any "script" parameters that have explicit input and/or output (like in `addAction`) should have their own pre-existing type in `sqf-data-types.json`, like `AddActionScript`.
 	  * "script" parameters that are not given explicit input and/or output should have type as `Function`
 	    * Same goes for "order" of remoteExec
+		* Same goes for "condition" and "statement" of setWaypointStatements
 	  * Please make the return type of commands name like `*configFile` be `ConfigFile` instead of `Config`
 	h. any (native ts/js type. use this if something tries to specify a huge amount of different types)
 	  * Please put the `spawn` command's arguments parameter to `Array<any>` instead of `any`
@@ -68,6 +69,6 @@ Type Strategy:
 
 If there isn't enough information or a proper mapping for a particular type please stop and raise the concern. Otherwise please save it into `enhanced-sqf-commands.json` in the same directory.
 
-A `transform.cjs` script lives alongside this file and implements the rules above. Run it with `node transform.cjs` to regenerate `enhanced-sqf-commands.json`. When adding a new command that needs non-trivial type mapping, add an entry to the `OVERRIDES` object in that script rather than hand-editing the output JSON.
+A `transform.cjs` script lives alongside this file and implements the rules above. Run it with `node transform.cjs` to regenerate `enhanced-sqf-commands.json`. When adding a new command that needs non-trivial type mapping, add an entry to the `OVERRIDES` object in that script rather than hand-editing the output JSON. An override may also list `dropSyntaxes` for wiki syntaxes that aren't callable commands (like the deprecated `local variable = value` declaration). The script also strips scraping artifacts from urls (query strings such as Cloudflare `?__cf_chl_f_tk=...` tokens).
 
 Previous claude session ID: baf256fd-a298-4e3c-a516-49fb365d4d10

@@ -111,7 +111,7 @@ declare class EdenEntity {}
  * 2D position.
  * @see {@link https://community.bistudio.com/wiki/Position#Position2D}
  */
-export type Postition2D = [number, number]
+export type Position2D = [number, number]
 
 /**
  * "Above Sea Level" 3D position. Z is measured from the sea level which is
@@ -176,7 +176,7 @@ export type PositionConfig = [number, number, number]
  * Function that can be provided as the script for addAction.
  * @see {@link https://community.bistudio.com/wiki/addAction}
  */
-export type AddActionScript = (target: GameObject, caller: GameObject, actionId: string, argumentList: any) => void
+export type AddActionScript = (target: GameObject, caller: GameObject, actionId: number, argumentList: any) => void
 
 /**
  * Root of config entries hierarchy.
@@ -1342,6 +1342,30 @@ export function alive(object: GameObject): boolean
 export function allGroups(): Array<Group>
 
 /**
+ * If true, units will remain in a vehicle with broken tracks/wheels; they will
+ * still eject if the vehicle is drowning, about to explode or upside down for a
+ * while. The alternative syntax provides the ability to keep the crew in vehicle
+ * when it is upside down.
+ *
+ * @see {@link https://community.bistudio.com/wiki/allowCrewInImmobile}
+ * @sqfsyntaxtype binary
+ */
+export function allowCrewInImmobile(vehicle: GameObject, allow: boolean): void
+
+/**
+ * If true, units will remain in a vehicle with broken tracks/wheels; they will
+ * still eject if the vehicle is drowning, about to explode or upside down for a
+ * while. The alternative syntax provides the ability to keep the crew in vehicle
+ * when it is upside down.
+ *
+ * @param brokenWheels - do not auto eject when vehicle has broken wheels
+ * @param upsideDown - do not auto eject when vehicle is upside down
+ * @see {@link https://community.bistudio.com/wiki/allowCrewInImmobile}
+ * @sqfsyntaxtype binary
+ */
+export function allowCrewInImmobileV2(vehicle: GameObject, brokenWheels: boolean, upsideDown: boolean): void
+
+/**
  * Enables / disables an entity's ability to receive damage. This command does not
  * prevent the entity from taking scripted damage from commands such as setDamage,
  * setHit, setHitIndex or setHitPointDamage. ⓘThis command only supports entities
@@ -1369,6 +1393,29 @@ export function allowDamage(entity: GameObject, allow: boolean): void
  * @sqfsyntaxtype nullary
  */
 export function allPlayers(): Array<GameObject>
+
+/**
+ * Returns array of available turret paths from vehicle object. ⓘ
+ * • to look up turrets from config, use BIS_fnc_allTurrets
+ * • to get config from turret path, use BIS_fnc_turretConfig
+ *
+ * @returns Array<TurretPath>
+ * @see {@link https://community.bistudio.com/wiki/allTurrets}
+ * @sqfsyntaxtype unary
+ */
+export function allTurrets(vehicle: GameObject): Array<TurretPath>
+
+/**
+ * Returns array of available turret paths from vehicle object. ⓘ
+ * • to look up turrets from config, use BIS_fnc_allTurrets
+ * • to get config from turret path, use BIS_fnc_turretConfig
+ *
+ * @param includeFFV - true to include FFV (Firing From Vehicle) positions, false to exclude them
+ * @returns Array<TurretPath>
+ * @see {@link https://community.bistudio.com/wiki/allTurrets}
+ * @sqfsyntaxtype unary
+ */
+export function allTurretsV2(vehicle: GameObject, includeFFV: boolean): Array<TurretPath>
 
 /**
  * Returns a list of all units, except agents, dead units or units waiting for
@@ -1448,6 +1495,16 @@ export function assignedVehicleRole(unitName: GameObject): Array<any>
  * @sqfsyntaxtype binary
  */
 export function attachTo(object1: GameObject, object2: GameObject | Group, offset?: PositionRelative, memPoint?: string, followBoneRotation?: boolean): void
+
+/**
+ * Pre-defined variable for the civilian side. When used in a format statement
+ * (chint format ["%1", civilian]), the string returned is "CIV".
+ *
+ * @returns Side
+ * @see {@link https://community.bistudio.com/wiki/civilian}
+ * @sqfsyntaxtype nullary
+ */
+export function civilian(): Side
 
 /**
  * Closes the currently active dialog with exit code. It does not instantly close
@@ -1669,6 +1726,70 @@ export function createGroupV2(side: Side, deleteWhenEmpty: boolean): Group
  * @sqfsyntaxtype unary
  */
 export function createMarker(name: string, position: any | GameObject, channel?: number, creator?: GameObject): string
+
+/**
+ * Create a unit of the provided CfgVehicles class. ⚠The unit will not be created
+ * if the passed group does not exist (a.k.a grpNull); this can happen if
+ * createGroup fails because the group limit has been reached (see createGroup for
+ * respective game limits). Syntax 1 Syntax 2 Group's locality the provided group
+ * can be non-local, but a warning will be logged the provided group must be local
+ * Unit's side using a classname from a different side than the provided group will
+ * result in the unit itself being of a (config-defined) side inside a group of
+ * another side - see Example 6 for more information using a classname from a
+ * different side than the provided group will result in the unit being of the same
+ * side as the provided group Other the unit's init code will execute after a
+ * slight delay if the provided group is not local this syntax does not return a
+ * reference to the created unit (see Example 7) 1.34 1.00 This command was
+ * sometimes bugged in Operation Flashpoint or Armed Assault; an additional join
+ * may solve the problem. However, some commands such as setUnitPos only work if
+ * run before the join.
+ *
+ * @param group - existing group new unit will join; if the group is not local, a warning will be
+ * logged
+ * @param type - classname of unit to be created as per CfgVehicles
+ * @param position - location where to create the unit. In case of Group, the group leader's position
+ * is used. The Z component of the position is ignored and the unit is always
+ * placed on the surface.
+ * @param markers - placement markers
+ * @param placement - placement radius
+ * @param special - unit placement special, one of: "NONE", "FORM", "CAN_COLLIDE", "CARGO"
+ * @returns the created unit
+ * @see {@link https://community.bistudio.com/wiki/createUnit}
+ * @sqfsyntaxtype binary
+ */
+export function createUnit(group: Group, type: string, position: GameObject | Group | PositionAGL | Position2D, markers: Array<string>, placement: number, special: string): GameObject
+
+/**
+ * Create a unit of the provided CfgVehicles class. ⚠The unit will not be created
+ * if the passed group does not exist (a.k.a grpNull); this can happen if
+ * createGroup fails because the group limit has been reached (see createGroup for
+ * respective game limits). Syntax 1 Syntax 2 Group's locality the provided group
+ * can be non-local, but a warning will be logged the provided group must be local
+ * Unit's side using a classname from a different side than the provided group will
+ * result in the unit itself being of a (config-defined) side inside a group of
+ * another side - see Example 6 for more information using a classname from a
+ * different side than the provided group will result in the unit being of the same
+ * side as the provided group Other the unit's init code will execute after a
+ * slight delay if the provided group is not local this syntax does not return a
+ * reference to the created unit (see Example 7) 1.34 1.00 This command was
+ * sometimes bugged in Operation Flashpoint or Armed Assault; an additional join
+ * may solve the problem. However, some commands such as setUnitPos only work if
+ * run before the join.
+ *
+ * @param type - classname of unit to be created as per CfgVehicles
+ * @param position - location at which the unit is created. In case of Group position of the group
+ * leader is used
+ * @param group - existing group the new unit will join
+ * @param init - (Optional, default "") unit init statement, similar to unit init field in the
+ * editor. The code placed in unit init will run upon unit creation for every
+ * client on network, present and future. The code itself receives the reference to
+ * the created unit via local variable this.
+ * @param skill - (Optional, default 0.5) unit skill
+ * @param rank - (Optional, default "PRIVATE") unit rank
+ * @see {@link https://community.bistudio.com/wiki/createUnit}
+ * @sqfsyntaxtype binary
+ */
+export function createUnitV2(type: string, position: GameObject | Group | PositionAGL | Position2D, group: Group, init?: string, skill?: number, rank?: string): void
 
 /**
  * Creates an empty object of given classname type. See Arma 3: Assets / Arma 3:
@@ -2156,7 +2277,7 @@ export function displayRemoveEventHandler(display: Display, handlerType: string,
  * @see {@link https://community.bistudio.com/wiki/distance}
  * @sqfsyntaxtype binary
  */
-export function distance(param1: GameObject | PositionAGL | any, param2: GameObject | PositionAGL | any): number
+export function distance(param1: GameObject | PositionAGL | Position2D, param2: GameObject | PositionAGL | Position2D): number
 
 /**
  * Returns a distance in meters between Objects, Positions or Locations. ⚠If
@@ -2168,7 +2289,7 @@ export function distance(param1: GameObject | PositionAGL | any, param2: GameObj
  * @see {@link https://community.bistudio.com/wiki/distance}
  * @sqfsyntaxtype binary
  */
-export function distanceV2(location1: any | PositionAGL, location2: any | PositionAGL): number
+export function distanceV2(location1: any | PositionAGL | Position2D, location2: any | PositionAGL | Position2D): number
 
 /**
  * Returns a distance in meters between Objects, Positions or Locations. ⚠If
@@ -2191,6 +2312,26 @@ export function distanceV3(a: number, b: number): number
  * @sqfsyntaxtype binary
  */
 export function distance2D(from: any, to: any): number
+
+/**
+ * Order the given unit(s) to watch the given position or target (without radio
+ * messages). Use objNull as the target to order a unit to stop watching a
+ * position/target.
+ *
+ * @see {@link https://community.bistudio.com/wiki/doWatch}
+ * @sqfsyntaxtype binary
+ */
+export function doWatch(units: GameObject | Array<GameObject>, position: PositionAGL): void
+
+/**
+ * Order the given unit(s) to watch the given position or target (without radio
+ * messages). Use objNull as the target to order a unit to stop watching a
+ * position/target.
+ *
+ * @see {@link https://community.bistudio.com/wiki/doWatch}
+ * @sqfsyntaxtype binary
+ */
+export function doWatchV2(units: GameObject | Array<GameObject>, target: GameObject): void
 
 /**
  * Returns the driver of a vehicle.
@@ -2471,6 +2612,19 @@ export function fullCrewV2(vehicle: GameObject, type: string, includeEmpty?: boo
 export function getAllHitPointsDamage(entity: GameObject): Array<any>
 
 /**
+ * Get array of compatible pylon magazines
+ *
+ * @param vehicle - aircraft object or config class
+ * @param pylon - pylon class name from TransportPylonsComponent >> pylons class, or pylon ID. If
+ * an invalid pylon ID or class name is provided, such as 0 or "", all compatible
+ * magazines from all pylons are returned.
+ * @returns magazine names for the given pylon, or one array of magazine names per pylon when all pylons are queried
+ * @see {@link https://community.bistudio.com/wiki/getCompatiblePylonMagazines}
+ * @sqfsyntaxtype binary
+ */
+export function getCompatiblePylonMagazines(vehicle: GameObject | string, pylon: number | string): Array<string> | Array<Array<string>>
+
+/**
  * Returns the object damage.
  *
  * @returns number
@@ -2640,6 +2794,15 @@ export function getPosASL(object: GameObject): PositionASL
  * @sqfsyntaxtype unary
  */
 export function getPosATL(object: GameObject): PositionATL
+
+/**
+ * Return array of magazines on pylons.
+ *
+ * @returns magazine names
+ * @see {@link https://community.bistudio.com/wiki/getPylonMagazines}
+ * @sqfsyntaxtype unary
+ */
+export function getPylonMagazines(vehicle: GameObject): Array<string>
 
 /**
  * Return object which is sling loaded by vehicle
@@ -2987,6 +3150,15 @@ export function isPlayer(unit: GameObject): boolean
 export function isPlayerV2(person: GameObject): boolean
 
 /**
+ * Returns true if object is touching the ground.
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/isTouchingGround}
+ * @sqfsyntaxtype unary
+ */
+export function isTouchingGround(object: GameObject): boolean
+
+/**
  * Join all units in the array to given group silently (without radio message). To
  * have a group member leave a group, join him with the grpNull group (e.g. [guy1]
  * joinSilent grpNull), but beware, as brand new group is created for the leaving
@@ -3000,6 +3172,131 @@ export function isPlayerV2(person: GameObject): boolean
 export function joinSilent(unitArray: Array<GameObject>, group: GameObject | Group): void
 
 /**
+ * Forces a helicopter landing. If there is a helipad nearby, the helicopter will
+ * attempt to land on it. VTOL he other hand will just land somewhere. To make
+ * helicopter or VTOL land on a specific helipad use landAt.
+ *
+ * @param helicopter - helicopter or VTOL
+ * @param mode - can be one of: "LAND" (complete stop), "GET IN" (hovering very low, for another
+ * unit to get in), "GET OUT" (hovering low, for another unit to get out), "NONE"
+ * (cancel a landing)
+ * @see {@link https://community.bistudio.com/wiki/land}
+ * @sqfsyntaxtype binary
+ */
+export function land(helicopter: GameObject, mode: string): void
+
+/**
+ * Adds an item with the given text to the CT_LISTBOX or CT_COMBO or CT_TOOLBOX.
+ * ⓘIf using RscToolBox as template with ctrlCreate, clear it first with lbClear
+ *
+ * @param idc - control IDC
+ * @param text - visible text
+ * @returns index (row) of newly added item
+ * @see {@link https://community.bistudio.com/wiki/lbAdd}
+ * @sqfsyntaxtype unary
+ */
+export function lbAdd(idc: number, text: string): number
+
+/**
+ * Adds an item with the given text to the CT_LISTBOX or CT_COMBO or CT_TOOLBOX.
+ * ⓘIf using RscToolBox as template with ctrlCreate, clear it first with lbClear
+ *
+ * @returns index (row) of newly added item
+ * @see {@link https://community.bistudio.com/wiki/lbAdd}
+ * @sqfsyntaxtype binary
+ */
+export function lbAddV2(control: Control, text: string): number
+
+/**
+ * Clear all items from a CT_LISTBOX or CT_COMBO control.
+ *
+ * @param idc - control IDC
+ * @see {@link https://community.bistudio.com/wiki/lbClear}
+ * @sqfsyntaxtype unary
+ */
+export function lbClear(idc: number): void
+
+/**
+ * Clear all items from a CT_LISTBOX or CT_COMBO control.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lbClear}
+ * @sqfsyntaxtype unary
+ */
+export function lbClearV2(control: Control): void
+
+/**
+ * Returns the index of the selected item of the CT_LISTBOX, CT_LISTNBOX, CT_COMBO
+ * or CT_TOOLBOX. For CT_LISTBOX with multi selection enabled use lbSelection.
+ *
+ * @returns selected index (row) or -1 if nothing is selected
+ * @see {@link https://community.bistudio.com/wiki/lbCurSel}
+ * @sqfsyntaxtype unary
+ */
+export function lbCurSel(idc: number): number
+
+/**
+ * Returns the index of the selected item of the CT_LISTBOX, CT_LISTNBOX, CT_COMBO
+ * or CT_TOOLBOX. For CT_LISTBOX with multi selection enabled use lbSelection.
+ *
+ * @returns selected index (row) or -1 if nothing is selected
+ * @see {@link https://community.bistudio.com/wiki/lbCurSel}
+ * @sqfsyntaxtype unary
+ */
+export function lbCurSelV2(control: Control): number
+
+/**
+ * Selects the item with the given index in the listbox, listnbox, combobox,
+ * xcombobox, xlistbox ⚠The following only applies to the Alternative Syntax when
+ * used with CT_LISTBOX and CT_LISTNBOX. To deselect all entries, use -1: _ctrl
+ * lbSetCurSel -1; For listbox of style LB_MULTI use lbSetSelected instead.
+ * CT_COMBO does not allow deselecting entries, it will instead select the first
+ * one as it is not a combobox usual behaviour. If you really need to deselect a
+ * combobox, see DreadedEntity's note. For the ComboBox you might as well want to
+ * explicitly select index 0 to avoid showing ghost row.
+ *
+ * @param idc - control's IDC
+ * @see {@link https://community.bistudio.com/wiki/lbSetCurSel}
+ * @sqfsyntaxtype unary
+ */
+export function lbSetCurSel(idc: number, index: number): void
+
+/**
+ * Selects the item with the given index in the listbox, listnbox, combobox,
+ * xcombobox, xlistbox ⚠The following only applies to the Alternative Syntax when
+ * used with CT_LISTBOX and CT_LISTNBOX. To deselect all entries, use -1: _ctrl
+ * lbSetCurSel -1; For listbox of style LB_MULTI use lbSetSelected instead.
+ * CT_COMBO does not allow deselecting entries, it will instead select the first
+ * one as it is not a combobox usual behaviour. If you really need to deselect a
+ * combobox, see DreadedEntity's note. For the ComboBox you might as well want to
+ * explicitly select index 0 to avoid showing ghost row.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lbSetCurSel}
+ * @sqfsyntaxtype binary
+ */
+export function lbSetCurSelV2(control: Control, index: number): void
+
+/**
+ * Returns the shown text of the item with the given index of the CT_LISTBOX or
+ * CT_COMBO.
+ *
+ * @param idc - control IDC
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/lbText}
+ * @sqfsyntaxtype unary
+ */
+export function lbText(idc: number, index: number): string
+
+/**
+ * Returns the shown text of the item with the given index of the CT_LISTBOX or
+ * CT_COMBO.
+ *
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/lbText}
+ * @sqfsyntaxtype binary
+ */
+export function lbTextV2(control: Control, index: number): string
+
+/**
  * Returns the group leader for the given unit or group. For dead units, objNull is
  * returned.
  *
@@ -3008,6 +3305,29 @@ export function joinSilent(unitArray: Array<GameObject>, group: GameObject | Gro
  * @sqfsyntaxtype unary
  */
 export function leader(unitOrGroup: GameObject | Group): GameObject
+
+/**
+ * Limit the speed of an AI-driven vehicle or AI person to given value. It has
+ * continuous effect and AI will not break through the speed limitation until one
+ * is contacted, engaged or regrouped.
+ *
+ * @param speed - in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in
+ * config)
+ * @see {@link https://community.bistudio.com/wiki/limitSpeed}
+ * @sqfsyntaxtype binary
+ */
+export function limitSpeed(objectName: GameObject, speed: number | boolean): void
+
+/**
+ * Check if given unit is local on the computer in multiplayer games - see
+ * Multiplayer Scripting - Locality. This can be used to determine on which
+ * computer some code must be run. In single player all objects are local.
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/local}
+ * @sqfsyntaxtype unary
+ */
+export function local(object: GameObject | Group): boolean
 
 /**
  * Returns local Namespace attached to the mission. Has the same lifetime as
@@ -3021,6 +3341,31 @@ export function leader(unitOrGroup: GameObject | Group): GameObject
  * @sqfsyntaxtype nullary
  */
 export function localNamespace(): Namespace
+
+/**
+ * Lock vehicle (disable mounting / dismounting) for player. This command will
+ * remove user get in/get out actions but will not stop player getting into or out
+ * of vehicle via script commands (e.g moveInCargo). ⓘAlternative syntax is similar
+ * to setVehicleLock but with numbers.
+ *
+ * @param locked - true to lock, false to unlock
+ * @see {@link https://community.bistudio.com/wiki/lock}
+ * @sqfsyntaxtype binary
+ */
+export function lock(vehicleName: GameObject, locked: boolean): void
+
+/**
+ * Lock vehicle (disable mounting / dismounting) for player. This command will
+ * remove user get in/get out actions but will not stop player getting into or out
+ * of vehicle via script commands (e.g moveInCargo). ⓘAlternative syntax is similar
+ * to setVehicleLock but with numbers.
+ *
+ * @param lockstate - can be one of the following: 0 - Unlocked 1 - Default (player subordinate cannot
+ * enter until his leader says so) 2 - Locked 3 - Locked for player
+ * @see {@link https://community.bistudio.com/wiki/lock}
+ * @sqfsyntaxtype binary
+ */
+export function lockV2(vehicleName: GameObject, lockstate: number): void
 
 /**
  * Returns colour of the given marker. See also setMarkerColor/Local.
@@ -3225,7 +3570,7 @@ export function nameV4(scriptHandle: any): string
  * @see {@link https://community.bistudio.com/wiki/nearestObject}
  * @sqfsyntaxtype unary
  */
-export function nearestObject(position: GameObject | any, type: string): GameObject
+export function nearestObject(position: GameObject | Position2D | any, type: string): GameObject
 
 /**
  * Returns the nearest object of given type (or inherited classes) to given
@@ -3241,7 +3586,7 @@ export function nearestObject(position: GameObject | any, type: string): GameObj
  * @see {@link https://community.bistudio.com/wiki/nearestObject}
  * @sqfsyntaxtype unary
  */
-export function nearestObjectV2(position: any): GameObject
+export function nearestObjectV2(position: Position2D | any): GameObject
 
 /**
  * Returns the nearest object of given type (or inherited classes) to given
@@ -3258,7 +3603,7 @@ export function nearestObjectV2(position: any): GameObject
  * @see {@link https://community.bistudio.com/wiki/nearestObject}
  * @sqfsyntaxtype binary
  */
-export function nearestObjectV3(position: any, typeOrId: string): GameObject
+export function nearestObjectV3(position: any | Position2D, typeOrId: string): GameObject
 
 /**
  * Returns the nearest object of given type (or inherited classes) to given
@@ -3275,7 +3620,7 @@ export function nearestObjectV3(position: any, typeOrId: string): GameObject
  * @see {@link https://community.bistudio.com/wiki/nearestObject}
  * @sqfsyntaxtype binary
  */
-export function nearestObjectV4(position: any, id: number): GameObject
+export function nearestObjectV4(position: Position2D | any, id: number): GameObject
 
 /**
  * Returns a list of nearest objects of the given types to the given position or
@@ -3323,6 +3668,28 @@ export function object(id: number): GameObject
  * @sqfsyntaxtype binary
  */
 export function orderGetIn(unitArray: Array<GameObject>, order: boolean): void
+
+/**
+ * On server machine, returns the machine network ID of the client to which the
+ * object is local. Otherwise returns 0. For use on clients clientOwner command is
+ * available. To find out the owner of a Group, use groupOwner.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/owner}
+ * @sqfsyntaxtype unary
+ */
+export function owner(object: GameObject): number
+
+/**
+ * Creates a structured text by parsing the given XML description. Do not use
+ * parseText when displaying a localized text from Stringtable.xml. A detailed
+ * explanation of all formatting possibilities can be found at Structured Text.
+ *
+ * @returns StructuredText
+ * @see {@link https://community.bistudio.com/wiki/parseText}
+ * @sqfsyntaxtype unary
+ */
+export function parseText(text: string): StructuredText
 
 /**
  * Returns a list of playable units in a multiplayer game (occupied by both AI or
@@ -3505,12 +3872,90 @@ export function removeAction(unit: GameObject, actionID: number): void
 export function removeAllActions(obj: GameObject): void
 
 /**
+ * Removes unit's backpack
+ *
+ * @see {@link https://community.bistudio.com/wiki/removeBackpack}
+ * @sqfsyntaxtype unary
+ */
+export function removeBackpack(unit: GameObject): void
+
+/**
+ * Remove a weapon from a unit. An attempt to remove a weapon, which is not in
+ * unit's possession, is simply ignored.
+ *
+ * @param unit - unit or vehicle
+ * @param weapon - weapon class name
+ * @see {@link https://community.bistudio.com/wiki/removeWeaponGlobal}
+ * @sqfsyntaxtype binary
+ */
+export function removeWeaponGlobal(unit: GameObject, weapon: string): void
+
+/**
+ * Remove a weapon from a unit. An attempt to remove a weapon, which is not in
+ * unit's possession, is simply ignored.
+ *
+ * @param object - unit or vehicle
+ * @param weapon - weapon class name
+ * @param autoselect - (Optional, default true) false to abort weapon autoselection when removing
+ * primary weapon.
+ * @see {@link https://community.bistudio.com/wiki/removeWeaponGlobal}
+ * @sqfsyntaxtype binary
+ */
+export function removeWeaponGlobalV2(object: GameObject, weapon: string, autoselect?: boolean): void
+
+/**
  * Removes weapon from the turret. Use turret path [-1] for driver's turret.
  *
  * @see {@link https://community.bistudio.com/wiki/removeWeaponTurret}
  * @sqfsyntaxtype binary
  */
 export function removeWeaponTurret(vehicle: GameObject, weaponName: string, turretPath: TurretPath): void
+
+/**
+ * Rounds the provided value to the closest integer.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/round}
+ * @sqfsyntaxtype unary
+ */
+export function round(value: number): number
+
+/**
+ * Returns the position on landscape (PositionAGL) corresponding to the given point
+ * on screen (in UI coordinates). ⓘThis command performs an intersection with the
+ * ground/water surface, from the camera position along the screenToWorldDirection
+ * vector up to viewDistance for terrain intersection and 2 * viewDistance for
+ * water intersection. In other words, it is similar to doing: private _p1 =
+ * AGLToASL positionCameraToWorld [0, 0, 0]; // camera position ASL private _vector
+ * = screenToWorldDirection _screenPos; // "aim" vector private _p2 = _p1 vectorAdd
+ * (_vector vectorMultiply viewDistance * 2); // the ray does not go beyond 2 *
+ * view distance ASLToAGL terrainIntersectAtASL [_p1, _p2]
+ *
+ * @param screen - screen position in format [x, y], see SafeZone for more information
+ * @returns world position on surface [x, y, 0]
+ * @see {@link https://community.bistudio.com/wiki/screenToWorld}
+ * @sqfsyntaxtype unary
+ */
+export function screenToWorld(screen: Position2D): PositionAGL
+
+/**
+ * Returns the position on landscape (PositionAGL) corresponding to the given point
+ * on screen (in UI coordinates). ⓘThis command performs an intersection with the
+ * ground/water surface, from the camera position along the screenToWorldDirection
+ * vector up to viewDistance for terrain intersection and 2 * viewDistance for
+ * water intersection. In other words, it is similar to doing: private _p1 =
+ * AGLToASL positionCameraToWorld [0, 0, 0]; // camera position ASL private _vector
+ * = screenToWorldDirection _screenPos; // "aim" vector private _p2 = _p1 vectorAdd
+ * (_vector vectorMultiply viewDistance * 2); // the ray does not go beyond 2 *
+ * view distance ASLToAGL terrainIntersectAtASL [_p1, _p2]
+ *
+ * @param camera - camera object
+ * @param screen - screen position in format [x, y], see SafeZone for more information
+ * @returns world position on surface [x, y, 0]
+ * @see {@link https://community.bistudio.com/wiki/screenToWorld}
+ * @sqfsyntaxtype binary
+ */
+export function screenToWorldV2(camera: GameObject, screen: Position2D): PositionAGL
 
 /**
  * Returns server's namespace. This namespace is only available on the server for
@@ -3522,6 +3967,39 @@ export function removeWeaponTurret(vehicle: GameObject, weaponName: string, turr
  * @sqfsyntaxtype nullary
  */
 export function serverNamespace(): any
+
+/**
+ * Sets individual unit behaviour on every unit in a group. ⚠This command doesn't
+ * set AI Group behaviour, see setCombatBehaviour or setBehaviourStrong for this.
+ * ⓘSee AI Behaviour for details of the effect of this command on AI units.
+ * Comparison of Behaviour commands Command Applies To setBehaviour Every unit in
+ * the group, but not the group itself setBehaviourStrong Every unit in the group,
+ * and the group itself setCombatBehaviour If argument is Object, only that unit,
+ * and if argument is Group, the group itself (not its units)
+ *
+ * @param groupOrUnit - unit or a group
+ * @param behaviour - can be one of:
+ * @see {@link https://community.bistudio.com/wiki/setBehaviour}
+ * @sqfsyntaxtype binary
+ */
+export function setBehaviour(groupOrUnit: Group | GameObject, behaviour: string): void
+
+/**
+ * Sets AI group combat mode (engagement rules). For individual unit's combat mode
+ * see setUnitCombatMode. Mode may be one of the following:
+ * • "BLUE" : Never fire, keep formation
+ * • "GREEN" : Hold fire, keep formation
+ * • "WHITE" : Hold fire, engage at will/loose formation
+ * • "YELLOW" : Fire at will, keep formation
+ * • "RED" : Fire at will, engage at will/loose formation See Combat Modes for more
+ * information on combat modes.
+ *
+ * @param group - if the argument is unit Object, unit's current group is used.
+ * @param mode - see description
+ * @see {@link https://community.bistudio.com/wiki/setCombatMode}
+ * @sqfsyntaxtype binary
+ */
+export function setCombatMode(group: Group | GameObject, mode: string): void
 
 /**
  * Event Handler Triggered Hit HandleDamage Killed MPKilled Sets the damage (or
@@ -3543,16 +4021,16 @@ export function setDamage(object: GameObject, damage: number): void
  *
  * @param damage - range 0..1, 0 = pristine/healthy condition, 1 = entirely destroyed/killed
  * @param useEffects - false to skip destruction effects
- * @param SEServer killer - (Optional, default objNull) the entity that caused the damage (can be anything).
+ * @param killer - (Optional, default objNull) the entity that caused the damage (can be anything).
  * If the damage leads to the death of the unit, the killer will be used as the
  * object that caused the kill.
- * @param SEServer instigator - (Optional, default objNull) the person that instigated the damage.
+ * @param instigator - (Optional, default objNull) the person that instigated the damage.
  * @param allowResurrection - (Optional, default false) - Will re-set alive state of previously dead object.
  * @param shot - (Optional, default objNull) - shot that caused the damage.
  * @see {@link https://community.bistudio.com/wiki/setDamage}
  * @sqfsyntaxtype binary
  */
-export function setDamageV2(object: GameObject, damage: number, useEffects?: boolean, SEServer killer?: GameObject, SEServer instigator?: GameObject, allowResurrection?: boolean, shot?: GameObject): void
+export function setDamageV2(object: GameObject, damage: number, useEffects?: boolean, killer?: GameObject, instigator?: GameObject, allowResurrection?: boolean, shot?: GameObject): void
 
 /**
  * Sets object heading. Angles are measured in degrees clockwise from north; the
@@ -3565,6 +4043,15 @@ export function setDamageV2(object: GameObject, damage: number, useEffects?: boo
  * @sqfsyntaxtype binary
  */
 export function setDir(object: GameObject, heading: number): void
+
+/**
+ * Set group formation.
+ *
+ * @param formation - can be one of:
+ * @see {@link https://community.bistudio.com/wiki/setFormation}
+ * @sqfsyntaxtype binary
+ */
+export function setFormation(group: GameObject | Group, formation: string): void
 
 /**
  * Sets fuel level.
@@ -3607,6 +4094,32 @@ export function setGroupOwner(group: Group, clientID: number): boolean
 export function setHitIndex(vehicle: GameObject, hitPartIndex: number, damage: number, useEffects?: boolean, killer?: GameObject, instigator?: GameObject, breakRotor?: boolean): void
 
 /**
+ * Sets the marker alpha. This is a modifier to the existing markerColor and will
+ * be applied on top of the marker color alpha. The marker is modified on all
+ * computers in a network session. When alpha equals 1, the marker is visible, but
+ * if alpha equals 0, then the marker is invisible. Alpha can be numbers and
+ * fractions. ⓘMultiplayer optimisation: Global marker commands always broadcast
+ * the entire marker state over the network. As such, the number of network
+ * messages exchanged when creating or editing a marker can be reduced by
+ * performing all but the last operation using local marker commands, then using a
+ * global marker command for the last change (and subsequent global broadcast of
+ * all changes applied to the marker).
+ *
+ * @see {@link https://community.bistudio.com/wiki/setMarkerAlpha}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerAlpha(marker: string, alpha: number): void
+
+/**
+ * Sets the marker alpha. See setMarkerAlpha.
+ *
+ * @param alpha - alpha value from 0 (invisible) to 1 (fully visible)
+ * @see {@link https://community.bistudio.com/wiki/setMarkerAlphaLocal}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerAlphaLocal(marker: string, alpha: number): void
+
+/**
  * Set marker's colour. Arma 3's marker colour names and their corresponding RGBA
  * values can be found here: Arma 3: CfgMarkerColors. ⓘMultiplayer optimisation:
  * Global marker commands always broadcast the entire marker state over the
@@ -3619,6 +4132,24 @@ export function setHitIndex(vehicle: GameObject, hitPartIndex: number, damage: n
  * @sqfsyntaxtype binary
  */
 export function setMarkerColor(markerName: string, colour: string): void
+
+/**
+ * Moves the marker. If position is given in 3D format, z coordinate is stored with
+ * the marker and will be used when marker is passed to commands like
+ * createVehicle, createUnit, createAgent, createMine, setVehiclePosition for
+ * example. In case of an object, the object's model [0,0,0] is used. ⓘMultiplayer
+ * optimisation: Global marker commands always broadcast the entire marker state
+ * over the network. As such, the number of network messages exchanged when
+ * creating or editing a marker can be reduced by performing all but the last
+ * operation using local marker commands, then using a global marker command for
+ * the last change (and subsequent global broadcast of all changes applied to the
+ * marker).
+ *
+ * @param position - In case of an object, the object's model [0,0,0] is used.
+ * @see {@link https://community.bistudio.com/wiki/setMarkerPos}
+ * @sqfsyntaxtype binary
+ */
+export function setMarkerPos(markerName: string, position: Position2D | PositionAGL | GameObject): void
 
 /**
  * Sets the text label of an existing marker. ⓘMultiplayer optimisation: Global
@@ -3694,7 +4225,7 @@ export function setObjectTextureGlobal(object: GameObject, selection: number | s
  * @see {@link https://community.bistudio.com/wiki/setPos}
  * @sqfsyntaxtype binary
  */
-export function setPos(object: GameObject, pos: PositionAGL | any): void
+export function setPos(object: GameObject, pos: PositionAGL | Position2D): void
 
 /**
  * Sets the object position above sea level. Given position must be in PositionASL
@@ -3720,6 +4251,27 @@ export function setPosASL(object: GameObject, pos: PositionASL): void
  * @sqfsyntaxtype binary
  */
 export function setPylonLoadout(vehicle: GameObject, pylon: number | string, magazine: string, forced?: boolean, turret?: TurretPath): boolean
+
+/**
+ * Sets the skill level of given unit. The value of a sub-skill is interpolated
+ * into a range defined in CfgAISkill.
+ *
+ * @param skill - general skill in range 0..1
+ * @see {@link https://community.bistudio.com/wiki/setSkill}
+ * @sqfsyntaxtype binary
+ */
+export function setSkill(unit: GameObject, skill: number): void
+
+/**
+ * Sets the skill level of given unit. The value of a sub-skill is interpolated
+ * into a range defined in CfgAISkill.
+ *
+ * @param skillName - available sub-skills are:
+ * @param value - value in range 0..1
+ * @see {@link https://community.bistudio.com/wiki/setSkill}
+ * @sqfsyntaxtype binary
+ */
+export function setSkillV2(unit: GameObject, skillName: string, value: number): void
 
 /**
  * Creates a sling loading from a helicopter to an entity if possible. To unload
@@ -3776,6 +4328,18 @@ export function setVectorDir(object: GameObject, vectorDir: [number, number, num
 export function setVehicleAmmo(vehicleName: GameObject, value: number): void
 
 /**
+ * Sets vehicle lock. Possible values:
+ * • "UNLOCKED"
+ * • "DEFAULT"
+ * • "LOCKED"
+ * • "LOCKEDPLAYER"
+ *
+ * @see {@link https://community.bistudio.com/wiki/setVehicleLock}
+ * @sqfsyntaxtype binary
+ */
+export function setVehicleLock(vehicleName: GameObject, lockState: string): void
+
+/**
  * The waypoint is done only when the condition is fulfilled. When the waypoint is
  * done, the statement expression is executed. Within the Condition & Statement
  * code string:
@@ -3788,7 +4352,7 @@ export function setVehicleAmmo(vehicleName: GameObject, value: number): void
  * @see {@link https://community.bistudio.com/wiki/setWaypointStatements}
  * @sqfsyntaxtype binary
  */
-export function setWaypointStatements(waypoint: Waypoint, condition: string, statement: string): void
+export function setWaypointStatements(waypoint: Waypoint, condition: Function, statement: Function): void
 
 /**
  * Sets the waypoint type of given waypoint. More details at Waypoints.
@@ -4009,6 +4573,17 @@ export function units(type: any | Side): Array<GameObject>
 export function vectorAdd(vector1: Array<number>, vector2: Array<number>): Array<number>
 
 /**
+ * Magnitude of a 3D vector. 2.14Since 2.14 any count of numbers is valid. Before
+ * 2.14, the argument had to be vector 3D, or 2.00 2D (With z coordinate defaulted
+ * to 0)
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/vectorMagnitude}
+ * @sqfsyntaxtype unary
+ */
+export function vectorMagnitude(vector: Array<number>): number
+
+/**
  * Vehicle in which given unit is mounted. If none, unit is returned.
  * Alternatively, use objectParent ⚠While vehicle may return the vehicle the unit
  * is in for alive units, for dead units which are groupless, this command returns
@@ -4020,6 +4595,15 @@ export function vectorAdd(vector1: Array<number>, vector2: Array<number>): Array
  * @sqfsyntaxtype unary
  */
 export function vehicle(unitName: GameObject): GameObject
+
+/**
+ * Returns the velocity of the object as vector in m/s.
+ *
+ * @returns [number, number, number]
+ * @see {@link https://community.bistudio.com/wiki/velocity}
+ * @sqfsyntaxtype unary
+ */
+export function velocity(object: GameObject): [number, number, number]
 
 /**
  * Suspends execution of scheduled script until the given condition satisfied.
