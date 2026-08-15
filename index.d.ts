@@ -3660,6 +3660,17 @@ export function nearestObjects(position: GameObject | PositionAGL, types: Array<
 export function object(id: number): GameObject
 
 /**
+ * A non-existent Object. To compare non-existent objects use isNull or isEqualTo:
+ * objNull == objNull; // false isNull objNull; // true objNull isEqualTo objNull;
+ * // true
+ *
+ * @returns GameObject
+ * @see {@link https://community.bistudio.com/wiki/objNull}
+ * @sqfsyntaxtype nullary
+ */
+export function objNull(): GameObject
+
+/**
  * Force all units in the array to get in or out of their assigned vehicles. Units
  * must be assigned to a vehicle before this command will do anything. ⓘSee AI
  * Group Vehicle Management for more information.
@@ -3872,6 +3883,17 @@ export function removeAction(unit: GameObject, actionID: number): void
 export function removeAllActions(obj: GameObject): void
 
 /**
+ * Removes all weapons and magazines from the given unit. Does not remove items
+ * like map, compass, radio (see removeWeapon for this). ⓘDoes not quite work with
+ * vehicles. If you need to remove all weapons from a vehicle, remove each weapon
+ * individually (see removeWeapon).
+ *
+ * @see {@link https://community.bistudio.com/wiki/removeAllWeapons}
+ * @sqfsyntaxtype unary
+ */
+export function removeAllWeapons(unit: GameObject): void
+
+/**
  * Removes unit's backpack
  *
  * @see {@link https://community.bistudio.com/wiki/removeBackpack}
@@ -3919,6 +3941,19 @@ export function removeWeaponTurret(vehicle: GameObject, weaponName: string, turr
  * @sqfsyntaxtype unary
  */
 export function round(value: number): number
+
+/**
+ * Returns the X of the left border of the screen, which is also a distance in
+ * screen measurement units from top left corner of the default viewport (0,0) of
+ * the screen to the left border of the screen. Since it is going in opposite way
+ * of the X axis, the value is negative. The measurement units depend on the
+ * current screen resolution getResolution. See also SafeZone.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/safeZoneX}
+ * @sqfsyntaxtype nullary
+ */
+export function safeZoneX(): number
 
 /**
  * Returns the position on landscape (PositionAGL) corresponding to the given point
@@ -4338,6 +4373,15 @@ export function setVehicleAmmo(vehicleName: GameObject, value: number): void
  * @sqfsyntaxtype binary
  */
 export function setVehicleLock(vehicleName: GameObject, lockState: string): void
+
+/**
+ * Sets velocity vector of an object in m/s. ⚠Since 2.06 each velocity component is
+ * limited to the range +-5000 m/s.
+ *
+ * @see {@link https://community.bistudio.com/wiki/setVelocity}
+ * @sqfsyntaxtype binary
+ */
+export function setVelocity(object: GameObject, vector: [number, number, number]): void
 
 /**
  * The waypoint is done only when the condition is fulfilled. When the waypoint is

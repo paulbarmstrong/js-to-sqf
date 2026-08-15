@@ -330,8 +330,8 @@
         "parameters": [
           "object: Object - unit, vehicle or static object. No agents!",
           "title: String - the action name which is displayed in the action menu, may contain Structured Text. Because of that < and > symbols will be interpreted as opening and closing XML tags. To avoid this use &lt; for < and &gt; for >. The title text appearance can be changed with setUserActionText",
-          "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: params [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
-          "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with _this select 3 inside the script. If Array is used as an argument for example, its first element reference would be _this select 3 select 0",
+          "script: String or 1.00 Code - path to the script file relative to the mission folder, or code to execute. It will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: Copyparams [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
+          "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with c_this select 3 inside the script. If Array is used as an argument for example, its first element reference would be c_this select 3 select 0",
           "priority: Number - (Optional, default 1.5) priority value of the action. Actions will be arranged in descending order according to this value. Every game action has a preset priority value. Value can be negative or decimal fraction. Actions with same values will be arranged in order which they were made, newest at the bottom. The bigger the number the higher the action will be positioned on the menu. Typical range is 0 to 6",
           "showWindow: Boolean - (Optional, default true) if set to true, players see \"Titletext\" at mid-lower screen, as they approach the object. Only the title text for the action with highest priority and showWindow set to true will be shown",
           "hideOnUse: Boolean - (Optional, default true) if set to true, it will hide the action menu after selecting it. If set to false, it will leave the action menu open and visible after selecting the action, leaving the same action highlighted, for the purpose of allowing you to re-select that same action quickly, or to select another action",
@@ -340,8 +340,8 @@
           "positionInModel: String - (Optional, default \"\") name of the named selection in the model for positioning the action in 3D space; typically a memory point",
           "radius: Number - (Optional, default 50) maximum 3D distance in meters between the activating unit's eyePos and the object's memoryPoint, selection or position. -1 disables the radius",
           "radiusView: Number - (Optional, default unknown) maximum distance in meters the cursor can be away from the 3D action to activate it. -1 disables this radius",
-          "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. 2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
-          "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. 1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
+          "showIn3D: Number - (Optional, default unknown) condition for showing the action in 3D space. Can be combined e.g. c2 + 32\n• 1 - show\n• 2 - draw if unit is pilot\n• 4 - draw if unit is inside vehicle\n• 8 - draw if unit is outside vehicle\n• 16 - draw if not in external camera\n• 32 - draw if not in internal camera\n• 64 - draw if not in gunner camera (turret optics)",
+          "available: Number - (Optional, default unknown) condition for being able to activate the action. Can be combined e.g. c1 + 4\n• 0 - disabled\n• 1 - unit is pilot or copilot\n• 2 - unit is inside target\n• 4 - unit is not inside target",
           "textDefault: String - (Optional, default \"\") structured Text which is shown as the 3D action (so it can be an icon), or in the center of the screen when the action is highlighted in the action menu for a 2D action",
           "textToolTip: String - (Optional, default \"\") structured Text which is faded in under the textDefault when hovering over the action in 3D space"
         ],
@@ -352,8 +352,8 @@
         "parameters": [
           "object: Object - unit, vehicle or static object. No agents and simple objects!",
           "title: String - the action name displayed in the action menu, may contain Structured Text. Because of that < and > symbols will be interpreted as opening and closing XML tags. To avoid this use &lt; for < and &gt; for >. The title text appearance can be changed with setUserActionText",
-          "script: String or Code - either path to the script file, relative to the mission folder or string with code or the actual script code. If the string is a path to script file, the script file must have extension .SQS or .SQF. The script, whether it is a file or a code, will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: params [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
-          "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with _this select 3 inside the script. If Array is used as an argument for example, its first element reference would be _this select 3 select 0",
+          "script: String or Code - either path to the script file, relative to the mission folder or string with code or the actual script code. If the string is a path to script file, the script file must have extension .SQS or .SQF. The script, whether it is a file or a code, will run in scheduled environment, i.e. it is ok to use sleep. Parameters array passed to the script upon activation in _this variable is: Copyparams [\"_target\", \"_caller\", \"_actionId\", \"_arguments\"];\n• target: Object - the object which the action is assigned to\n• caller: Object - the unit that activated the action\n• actionID: Number - activated action's ID (same as addAction's return value)\n• arguments: Anything - arguments given to the script if you are using the extended syntax",
+          "arguments: Anything - (Optional, default nil) arguments to pass to the script. Accessible with c_this select 3 inside the script. If Array is used as an argument for example, its first element reference would be c_this select 3 select 0",
           "priority: Number - (Optional, default 1.5) priority value of the action. Actions will be arranged in descending order according to this value. Every game action has a preset priority value. Value can be negative or decimal fraction. Actions with same values will be arranged in order which they were made, newest at the bottom. The bigger the number the higher the action will be positioned on the menu. Typical range is 0 to 6",
           "showWindow: Boolean - (Optional, default true) if set to true, players see \"Titletext\" at mid-lower screen, as they approach the object. Only the title text for the action with highest priority and showWindow set to true will be shown",
           "hideOnUse: Boolean - (Optional, default true) if set to true, it will hide the action menu after selecting it. If set to false, it will leave the action menu open and visible after selecting the action, leaving the same action highlighted, for the purpose of allowing you to re-select that same action quickly, or to select another action",
@@ -1010,7 +1010,7 @@
         "parameters": [
           "object: Object - object to monitor",
           "type: String - event handler name",
-          "expression: String or Code - expression to execute. If EH has some data to return upon event (e.g. the \"MPKilled\" EH will return an array with 2 elements: the killed unit, and the killer), it is passed in _this variable. Since Arma 3 v.1.64 the EH handle is also stored in _thisEventHandler variable and is available during EH code execution.\n• Event Handler parameters are accessible via _this\n• The Event Handler type is available as _thisEvent\n• The Event Handler index is available as _thisEventHandler"
+          "expression: String or Code - expression to execute. If EH has some data to return upon event (e.g. the \"MPKilled\" EH will return an array with 2 elements: the killed unit, and the killer), it is passed in _this variable. Since Arma 3 v.1.64 the EH handle is also stored in _thisEventHandler variable and is available during EH code execution.\n• Event Handler parameters are accessible via c_this\n• The Event Handler type is available as c_thisEvent\n• The Event Handler index is available as c_thisEventHandler"
         ],
         "returnValue": "Number - event handler index",
         "syntax": "object addMPEventHandler [type, expression]"
@@ -3582,6 +3582,18 @@
     "url": "https://community.bistudio.com/wiki/object"
   },
   {
+    "description": "A non-existent Object. To compare non-existent objects use isNull or isEqualTo: objNull == objNull; // false isNull objNull; // true objNull isEqualTo objNull; // true",
+    "name": "objNull",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Object",
+        "syntax": "objNull"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/objNull"
+  },
+  {
     "description": "Force all units in the array to get in or out of their assigned vehicles. Units must be assigned to a vehicle before this command will do anything. ⓘSee AI Group Vehicle Management for more information.",
     "name": "orderGetIn",
     "syntaxes": [
@@ -3774,6 +3786,20 @@
     "url": "https://community.bistudio.com/wiki/removeAllActions"
   },
   {
+    "description": "Removes all weapons and magazines from the given unit. Does not remove items like map, compass, radio (see removeWeapon for this). ⓘDoes not quite work with vehicles. If you need to remove all weapons from a vehicle, remove each weapon individually (see removeWeapon).",
+    "name": "removeAllWeapons",
+    "syntaxes": [
+      {
+        "parameters": [
+          "unit: Object"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "removeAllWeapons unit"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/removeAllWeapons"
+  },
+  {
     "description": "Removes unit's backpack",
     "name": "removeBackpack",
     "syntaxes": [
@@ -3840,6 +3866,18 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/round"
+  },
+  {
+    "description": "Returns the X of the left border of the screen, which is also a distance in screen measurement units from top left corner of the default viewport (0,0) of the screen to the left border of the screen. Since it is going in opposite way of the X axis, the value is negative. The measurement units depend on the current screen resolution getResolution. See also SafeZone.",
+    "name": "safeZoneX",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Number",
+        "syntax": "safeZoneX"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/safeZoneX"
   },
   {
     "description": "Returns the position on landscape (PositionAGL) corresponding to the given point on screen (in UI coordinates). ⓘThis command performs an intersection with the ground/water surface, from the camera position along the screenToWorldDirection vector up to viewDistance for terrain intersection and 2 * viewDistance for water intersection. In other words, it is similar to doing: private _p1 = AGLToASL positionCameraToWorld [0, 0, 0]; // camera position ASL private _vector = screenToWorldDirection _screenPos; // \"aim\" vector private _p2 = _p1 vectorAdd (_vector vectorMultiply viewDistance * 2); // the ray does not go beyond 2 * view distance ASLToAGL terrainIntersectAtASL [_p1, _p2]",
@@ -4340,6 +4378,21 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/setVehicleLock"
+  },
+  {
+    "description": "Sets velocity vector of an object in m/s. ⚠Since 2.06 each velocity component is limited to the range +-5000 m/s.",
+    "name": "setVelocity",
+    "syntaxes": [
+      {
+        "parameters": [
+          "object: Object",
+          "vector: Vector3D"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "object setVelocity vector"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/setVelocity"
   },
   {
     "description": "The waypoint is done only when the condition is fulfilled. When the waypoint is done, the statement expression is executed. Within the Condition & Statement code string:\n• this refers to the group leader\n• thisList refers to the group's units ⚠The Condition code is evaluated on the group owner's machine. When condition returns true, for some strange reason, the condition is evaluated one more time. The OnActivation code is executed globally, a.k.a on every client! See Waypoints.",
