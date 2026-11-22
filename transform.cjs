@@ -279,11 +279,20 @@ const OVERRIDES = {
     ],
   },
 
+  // renamed "function" (JS reserved word) to "code"
+  'ctrlAddEventHandler': {
+    parameters: [
+      { name: 'control', type: 'Control',  optional: false },
+      { name: 'handler', type: 'string',   optional: false, description: 'event handler name (without the "on" prefix)' },
+      { name: 'code',    type: 'Function', optional: false, description: 'code to execute when the event fires' },
+    ],
+  },
+
   'addEventHandler': {
     parameters: [
       { name: 'target', type: 'GameObject | Group', optional: false },
       { name: 'type',   type: 'string',             optional: false, description: 'see Event Handlers for the full list of available options' },
-      { name: 'code',   type: 'Function | string',  optional: false, description: 'code that should be executed when the Event Handler fires' },
+      { name: 'code',   type: 'Function',           optional: false, description: 'code that should be executed when the Event Handler fires' },
     ],
   },
 

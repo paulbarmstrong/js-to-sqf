@@ -4887,5 +4887,282 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/west"
+  },
+    {
+    "description": "Add an event handler to the given control. ⚠\n• Control event handlers are processed in reversed order, i.e. last added: first, first added: last. So if you have an override it should be set up in the 1st added EH.\n• When using the event names listed here with the ctrlAddEventHandler, ctrlSetEventHandler, displayAddEventHandler or displaySetEventHandler commands, the prefix \"on\" in the event name must be removed (e.g. 'ButtonDown' instead of 'onButtonDown').",
+    "name": "ctrlAddEventHandler",
+    "syntaxes": [
+      {
+        "parameters": [
+          "control: Control",
+          "handler: String - handler name, see User Interface Event Handlers",
+          "function: String or 1.06 Code - script. Several Magic Variables are available:\n• Event Handler parameters are accessible via _this\n• The Event Handler type is available as _thisEvent\n• The Event Handler index is available as _thisEventHandler"
+        ],
+        "returnValue": "Number - handler ID or -1 if failed",
+        "syntax": "control ctrlAddEventHandler [handler, function]"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/ctrlAddEventHandler"
+  },
+  {
+    "description": "Enables or disables a control of the currently active user dialog. Disabled controls cannot be clicked onto. Read Arma: GUI Configuration for more information about user dialogs and controls.",
+    "name": "ctrlEnable",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number - control IDC",
+          "enable: Boolean - true to enable the control, false to disable it"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "ctrlEnable [idc, enable]"
+      },
+      {
+        "parameters": [
+          "controlName: Control",
+          "enable: Boolean"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "controlName ctrlEnable enable"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/ctrlEnable"
+  },
+  {
+    "description": "Returns if a control on the currently active user dialog is enabled. Disabled controls cannot be focused. Read Arma: GUI Configuration for more information about user dialogs and controls.",
+    "name": "ctrlEnabled",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number - control's IDC"
+        ],
+        "returnValue": "Boolean - true if the control is enabled, false if not",
+        "syntax": "ctrlEnabled idc"
+      },
+      {
+        "parameters": [
+          "controlName: Control"
+        ],
+        "returnValue": "Boolean - true if the control is enabled, false if not",
+        "syntax": "ctrlEnabled controlName"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/ctrlEnabled"
+  },
+  {
+    "description": "Shows or hides a control, or group of controls together with all the controls inside that group of controls. Read Arma: GUI Configuration for more information about user dialogs and controls. ⓘUsing ctrlShow on a controls group will show or hide all controls within the controls group (including controls that are placed in nested controls groups).",
+    "name": "ctrlShow",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number - control IDC",
+          "show: Boolean - true to show the control, false to hide it"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "ctrlShow [idc, show]"
+      },
+      {
+        "parameters": [
+          "control: Control",
+          "show: Boolean - true to show the control, false to hide it"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "control ctrlShow show"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/ctrlShow"
+  },
+  {
+    "description": "Returns the text of a control of the currently active user dialog. This command can be used on static texts, buttons, edit lines and active texts as well as for images, where it returns the image path. Does not work on HTML control and returns empty string \"\". Since 2.05 supported control types are: * CT_STATIC\n• CT_EDIT\n• CT_XKEYDESC\n• CT_XBUTTON\n• CT_SHORTCUTBUTTON\n• CT_STRUCTURED_TEXT\n• CT_BUTTON\n• CT_ACTIVETEXT Since 2.20 CT_PROGRESS is also supported.",
+    "name": "ctrlText",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number - control ID"
+        ],
+        "returnValue": "String - the text or image path or texture is returned, dependent on the control type",
+        "syntax": "ctrlText idc"
+      },
+      {
+        "parameters": [
+          "controlName: Control - control"
+        ],
+        "returnValue": "String - the text or image path or texture is returned, dependent on the control type",
+        "syntax": "ctrlText controlName"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/ctrlText"
+  },
+  {
+    "description": "Limit the speed of an AI-driven vehicle or AI person to given value. It has continuous effect and AI will not break through the speed limitation until one is contacted, engaged or regrouped.",
+    "name": "limitSpeed",
+    "syntaxes": [
+      {
+        "parameters": [
+          "objectName: Object",
+          "speed: Number or 2.22 Boolean - in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in config). See Example 1."
+        ],
+        "returnValue": "Nothing",
+        "syntax": "objectName limitSpeed speed"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/limitSpeed"
+  },
+  {
+    "description": "Adds a row of strings.",
+    "name": "lnbAddRow",
+    "syntaxes": [
+      {
+        "parameters": [
+          "ctrl: Number or 2.22 Control",
+          "data: Array of Strings"
+        ],
+        "returnValue": "Number - row index",
+        "syntax": "lnbAddRow [ctrl, data]"
+      },
+      {
+        "parameters": [
+          "ctrl: Control",
+          "data: Array of Strings"
+        ],
+        "returnValue": "Number - row index",
+        "syntax": "ctrl lnbAddRow data"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbAddRow"
+  },
+  {
+    "description": "Clears all items in the given listbox or combobox.",
+    "name": "lnbClear",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "lnbClear idc"
+      },
+      {
+        "parameters": [
+          "ctrl: Control"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "lnbClear ctrl"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbClear"
+  },
+  {
+    "description": "Returns the index of the selected row id 2D listbox.",
+    "name": "lnbCurSelRow",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number"
+        ],
+        "returnValue": "Number",
+        "syntax": "lnbCurSelRow idc"
+      },
+      {
+        "parameters": [
+          "ctrl: Control"
+        ],
+        "returnValue": "Number",
+        "syntax": "lnbCurSelRow ctrl"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbCurSelRow"
+  },
+  {
+    "description": "Returns the additional text (invisible) in an item with the given position of the 2D listbox.",
+    "name": "lnbData",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number or Control",
+          "row: Number",
+          "column: Number"
+        ],
+        "returnValue": "String",
+        "syntax": "lnbData [idc, [row, column]]"
+      },
+      {
+        "parameters": [
+          "ctrl: Control",
+          "row: Number",
+          "column: Number"
+        ],
+        "returnValue": "String",
+        "syntax": "ctrl lnbData [row, column]"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbData"
+  },
+  {
+    "description": "Sets the additional text (invisible) on the item with the given position of the 2D listbox.",
+    "name": "lnbSetData",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number",
+          "row: Number",
+          "column: Number",
+          "data: String - the invisible text to add"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "lnbSetData [idc, [row, column], data]"
+      },
+      {
+        "parameters": [
+          "ctrl: Control",
+          "row: Number",
+          "column: Number",
+          "data: String - the invisible text to add"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "ctrl lnbSetData [[row, column], data]"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbSetData"
+  },
+  {
+    "description": "Sets the text in the item with the given position of the 2D listbox.",
+    "name": "lnbSetText",
+    "syntaxes": [
+      {
+        "parameters": [
+          "idc: Number",
+          "row: Number",
+          "column: Number",
+          "data: String"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "lnbSetText [idc, [row, column], data]"
+      },
+      {
+        "parameters": [
+          "ctrl: Control",
+          "row: Number",
+          "column: Number",
+          "data: String"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "ctrl lnbSetText [[row, column], data]"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/lnbSetText"
+  },
+  {
+    "description": "Parses the string, interpreting its content as a floating point number. ⚠This command does not work with strings representing hexadecimal numbers (e.g \"0xCF\"). parseNumber \"512 + 0x2F\"; // 512, WRONG! \"512 + 0x2F\" call BIS_fnc_parseNumber // 559, CORRECT! ⓘStarting whitespaces are discarded, then as many valid characters are used to be interpreted as a number until an invalid character is found then the rest of the string is ignored.",
+    "name": "parseNumber",
+    "syntaxes": [
+      {
+        "parameters": [
+          "value: String or 1.50 Boolean or 2.24 Anything"
+        ],
+        "returnValue": "Number - the parsed number, 0 if no valid number was found; in the case of a passed Boolean, 0 if false, 1 if true",
+        "syntax": "parseNumber value"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/parseNumber"
   }
 ]

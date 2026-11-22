@@ -761,7 +761,7 @@ export function addEditorObject(map: Control, typeNameSubtypeConfig: Array<any>)
  * @see {@link https://community.bistudio.com/wiki/addEventHandler}
  * @sqfsyntaxtype binary
  */
-export function addEventHandler(target: GameObject | Group, type: string, code: Function | string): number
+export function addEventHandler(target: GameObject | Group, type: string, code: Function): number
 
 /**
  * Applies given force for one frame (essentially an impulse) to unit or given
@@ -4945,6 +4945,270 @@ export function weaponsTurret(vehicle: GameObject, turretPath: TurretPath): Arra
  * @sqfsyntaxtype nullary
  */
 export function west(): Side
+
+/**
+ * Add an event handler to the given control. ⚠
+ * • Control event handlers are processed in reversed order, i.e. last added:
+ * first, first added: last. So if you have an override it should be set up in the
+ * 1st added EH.
+ * • When using the event names listed here with the ctrlAddEventHandler,
+ * ctrlSetEventHandler, displayAddEventHandler or displaySetEventHandler commands,
+ * the prefix "on" in the event name must be removed (e.g. 'ButtonDown' instead of
+ * 'onButtonDown').
+ *
+ * @param handler - event handler name (without the "on" prefix)
+ * @param code - code to execute when the event fires
+ * @returns handler ID or -1 if failed
+ * @see {@link https://community.bistudio.com/wiki/ctrlAddEventHandler}
+ * @sqfsyntaxtype binary
+ */
+export function ctrlAddEventHandler(control: Control, handler: string, code: Function): number
+
+/**
+ * Enables or disables a control of the currently active user dialog. Disabled
+ * controls cannot be clicked onto. Read Arma: GUI Configuration for more
+ * information about user dialogs and controls.
+ *
+ * @param idc - control IDC
+ * @param enable - true to enable the control, false to disable it
+ * @see {@link https://community.bistudio.com/wiki/ctrlEnable}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlEnable(idc: number, enable: boolean): void
+
+/**
+ * Enables or disables a control of the currently active user dialog. Disabled
+ * controls cannot be clicked onto. Read Arma: GUI Configuration for more
+ * information about user dialogs and controls.
+ *
+ * @see {@link https://community.bistudio.com/wiki/ctrlEnable}
+ * @sqfsyntaxtype binary
+ */
+export function ctrlEnableV2(controlName: Control, enable: boolean): void
+
+/**
+ * Returns if a control on the currently active user dialog is enabled. Disabled
+ * controls cannot be focused. Read Arma: GUI Configuration for more information
+ * about user dialogs and controls.
+ *
+ * @param idc - control's IDC
+ * @returns true if the control is enabled, false if not
+ * @see {@link https://community.bistudio.com/wiki/ctrlEnabled}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlEnabled(idc: number): boolean
+
+/**
+ * Returns if a control on the currently active user dialog is enabled. Disabled
+ * controls cannot be focused. Read Arma: GUI Configuration for more information
+ * about user dialogs and controls.
+ *
+ * @returns true if the control is enabled, false if not
+ * @see {@link https://community.bistudio.com/wiki/ctrlEnabled}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlEnabledV2(controlName: Control): boolean
+
+/**
+ * Shows or hides a control, or group of controls together with all the controls
+ * inside that group of controls. Read Arma: GUI Configuration for more information
+ * about user dialogs and controls. ⓘUsing ctrlShow on a controls group will show
+ * or hide all controls within the controls group (including controls that are
+ * placed in nested controls groups).
+ *
+ * @param idc - control IDC
+ * @param show - true to show the control, false to hide it
+ * @see {@link https://community.bistudio.com/wiki/ctrlShow}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlShow(idc: number, show: boolean): void
+
+/**
+ * Shows or hides a control, or group of controls together with all the controls
+ * inside that group of controls. Read Arma: GUI Configuration for more information
+ * about user dialogs and controls. ⓘUsing ctrlShow on a controls group will show
+ * or hide all controls within the controls group (including controls that are
+ * placed in nested controls groups).
+ *
+ * @param show - true to show the control, false to hide it
+ * @see {@link https://community.bistudio.com/wiki/ctrlShow}
+ * @sqfsyntaxtype binary
+ */
+export function ctrlShowV2(control: Control, show: boolean): void
+
+/**
+ * Returns the text of a control of the currently active user dialog. This command
+ * can be used on static texts, buttons, edit lines and active texts as well as for
+ * images, where it returns the image path. Does not work on HTML control and
+ * returns empty string "". Since 2.05 supported control types are: * CT_STATIC
+ * • CT_EDIT
+ * • CT_XKEYDESC
+ * • CT_XBUTTON
+ * • CT_SHORTCUTBUTTON
+ * • CT_STRUCTURED_TEXT
+ * • CT_BUTTON
+ * • CT_ACTIVETEXT Since 2.20 CT_PROGRESS is also supported.
+ *
+ * @param idc - control ID
+ * @returns the text or image path or texture is returned, dependent on the control type
+ * @see {@link https://community.bistudio.com/wiki/ctrlText}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlText(idc: number): string
+
+/**
+ * Returns the text of a control of the currently active user dialog. This command
+ * can be used on static texts, buttons, edit lines and active texts as well as for
+ * images, where it returns the image path. Does not work on HTML control and
+ * returns empty string "". Since 2.05 supported control types are: * CT_STATIC
+ * • CT_EDIT
+ * • CT_XKEYDESC
+ * • CT_XBUTTON
+ * • CT_SHORTCUTBUTTON
+ * • CT_STRUCTURED_TEXT
+ * • CT_BUTTON
+ * • CT_ACTIVETEXT Since 2.20 CT_PROGRESS is also supported.
+ *
+ * @param controlName - control
+ * @returns the text or image path or texture is returned, dependent on the control type
+ * @see {@link https://community.bistudio.com/wiki/ctrlText}
+ * @sqfsyntaxtype unary
+ */
+export function ctrlTextV2(controlName: Control): string
+
+/**
+ * Limit the speed of an AI-driven vehicle or AI person to given value. It has
+ * continuous effect and AI will not break through the speed limitation until one
+ * is contacted, engaged or regrouped.
+ *
+ * @param speed - in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in
+ * config)
+ * @see {@link https://community.bistudio.com/wiki/limitSpeed}
+ * @sqfsyntaxtype binary
+ */
+export function limitSpeed(objectName: GameObject, speed: number | boolean): void
+
+/**
+ * Adds a row of strings.
+ *
+ * @returns row index
+ * @see {@link https://community.bistudio.com/wiki/lnbAddRow}
+ * @sqfsyntaxtype unary
+ */
+export function lnbAddRow(ctrl: number | Control, data: Array<string>): number
+
+/**
+ * Adds a row of strings.
+ *
+ * @returns row index
+ * @see {@link https://community.bistudio.com/wiki/lnbAddRow}
+ * @sqfsyntaxtype binary
+ */
+export function lnbAddRowV2(ctrl: Control, data: Array<string>): number
+
+/**
+ * Clears all items in the given listbox or combobox.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lnbClear}
+ * @sqfsyntaxtype unary
+ */
+export function lnbClear(idc: number): void
+
+/**
+ * Clears all items in the given listbox or combobox.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lnbClear}
+ * @sqfsyntaxtype unary
+ */
+export function lnbClearV2(ctrl: Control): void
+
+/**
+ * Returns the index of the selected row id 2D listbox.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/lnbCurSelRow}
+ * @sqfsyntaxtype unary
+ */
+export function lnbCurSelRow(idc: number): number
+
+/**
+ * Returns the index of the selected row id 2D listbox.
+ *
+ * @returns number
+ * @see {@link https://community.bistudio.com/wiki/lnbCurSelRow}
+ * @sqfsyntaxtype unary
+ */
+export function lnbCurSelRowV2(ctrl: Control): number
+
+/**
+ * Returns the additional text (invisible) in an item with the given position of
+ * the 2D listbox.
+ *
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/lnbData}
+ * @sqfsyntaxtype unary
+ */
+export function lnbData(idc: number | Control, row: number, column: number): string
+
+/**
+ * Returns the additional text (invisible) in an item with the given position of
+ * the 2D listbox.
+ *
+ * @returns string
+ * @see {@link https://community.bistudio.com/wiki/lnbData}
+ * @sqfsyntaxtype binary
+ */
+export function lnbDataV2(ctrl: Control, row: number, column: number): string
+
+/**
+ * Sets the additional text (invisible) on the item with the given position of the
+ * 2D listbox.
+ *
+ * @param data - the invisible text to add
+ * @see {@link https://community.bistudio.com/wiki/lnbSetData}
+ * @sqfsyntaxtype unary
+ */
+export function lnbSetData(idc: number, row: number, column: number, data: string): void
+
+/**
+ * Sets the additional text (invisible) on the item with the given position of the
+ * 2D listbox.
+ *
+ * @param data - the invisible text to add
+ * @see {@link https://community.bistudio.com/wiki/lnbSetData}
+ * @sqfsyntaxtype binary
+ */
+export function lnbSetDataV2(ctrl: Control, row: number, column: number, data: string): void
+
+/**
+ * Sets the text in the item with the given position of the 2D listbox.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lnbSetText}
+ * @sqfsyntaxtype unary
+ */
+export function lnbSetText(idc: number, row: number, column: number, data: string): void
+
+/**
+ * Sets the text in the item with the given position of the 2D listbox.
+ *
+ * @see {@link https://community.bistudio.com/wiki/lnbSetText}
+ * @sqfsyntaxtype binary
+ */
+export function lnbSetTextV2(ctrl: Control, row: number, column: number, data: string): void
+
+/**
+ * Parses the string, interpreting its content as a floating point number. ⚠This
+ * command does not work with strings representing hexadecimal numbers (e.g
+ * "0xCF"). parseNumber "512 + 0x2F"; // 512, WRONG! "512 + 0x2F" call
+ * BIS_fnc_parseNumber // 559, CORRECT! ⓘStarting whitespaces are discarded, then
+ * as many valid characters are used to be interpreted as a number until an invalid
+ * character is found then the rest of the string is ignored.
+ *
+ * @returns the parsed number, 0 if no valid number was found; in the case of a passed Boolean, 0 if false, 1 if true
+ * @see {@link https://community.bistudio.com/wiki/parseNumber}
+ * @sqfsyntaxtype unary
+ */
+export function parseNumber(value: string | boolean | any): number
 
 
 export namespace bis {

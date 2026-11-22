@@ -1207,7 +1207,7 @@
           },
           {
             "name": "code",
-            "type": "Function | string",
+            "type": "Function",
             "optional": false,
             "description": "code that should be executed when the Event Handler fires"
           }
@@ -8674,6 +8674,520 @@
         "parameters": [],
         "returnValue": {
           "type": "Side"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ctrlAddEventHandler",
+    "url": "https://community.bistudio.com/wiki/ctrlAddEventHandler",
+    "description": "Add an event handler to the given control. ⚠\n• Control event handlers are processed in reversed order, i.e. last added: first, first added: last. So if you have an override it should be set up in the 1st added EH.\n• When using the event names listed here with the ctrlAddEventHandler, ctrlSetEventHandler, displayAddEventHandler or displaySetEventHandler commands, the prefix \"on\" in the event name must be removed (e.g. 'ButtonDown' instead of 'onButtonDown').",
+    "syntaxes": [
+      {
+        "syntax": "control ctrlAddEventHandler [handler, function]",
+        "parameters": [
+          {
+            "name": "control",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "handler",
+            "type": "string",
+            "optional": false,
+            "description": "event handler name (without the \"on\" prefix)"
+          },
+          {
+            "name": "code",
+            "type": "Function",
+            "optional": false,
+            "description": "code to execute when the event fires"
+          }
+        ],
+        "returnValue": {
+          "type": "number",
+          "description": "handler ID or -1 if failed"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ctrlEnable",
+    "url": "https://community.bistudio.com/wiki/ctrlEnable",
+    "description": "Enables or disables a control of the currently active user dialog. Disabled controls cannot be clicked onto. Read Arma: GUI Configuration for more information about user dialogs and controls.",
+    "syntaxes": [
+      {
+        "syntax": "ctrlEnable [idc, enable]",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false,
+            "description": "control IDC"
+          },
+          {
+            "name": "enable",
+            "type": "boolean",
+            "optional": false,
+            "description": "true to enable the control, false to disable it"
+          }
+        ],
+        "returnValue": {}
+      },
+      {
+        "syntax": "controlName ctrlEnable enable",
+        "parameters": [
+          {
+            "name": "controlName",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "enable",
+            "type": "boolean",
+            "optional": false
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "ctrlEnabled",
+    "url": "https://community.bistudio.com/wiki/ctrlEnabled",
+    "description": "Returns if a control on the currently active user dialog is enabled. Disabled controls cannot be focused. Read Arma: GUI Configuration for more information about user dialogs and controls.",
+    "syntaxes": [
+      {
+        "syntax": "ctrlEnabled idc",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false,
+            "description": "control's IDC"
+          }
+        ],
+        "returnValue": {
+          "type": "boolean",
+          "description": "true if the control is enabled, false if not"
+        }
+      },
+      {
+        "syntax": "ctrlEnabled controlName",
+        "parameters": [
+          {
+            "name": "controlName",
+            "type": "Control",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "boolean",
+          "description": "true if the control is enabled, false if not"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ctrlShow",
+    "url": "https://community.bistudio.com/wiki/ctrlShow",
+    "description": "Shows or hides a control, or group of controls together with all the controls inside that group of controls. Read Arma: GUI Configuration for more information about user dialogs and controls. ⓘUsing ctrlShow on a controls group will show or hide all controls within the controls group (including controls that are placed in nested controls groups).",
+    "syntaxes": [
+      {
+        "syntax": "ctrlShow [idc, show]",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false,
+            "description": "control IDC"
+          },
+          {
+            "name": "show",
+            "type": "boolean",
+            "optional": false,
+            "description": "true to show the control, false to hide it"
+          }
+        ],
+        "returnValue": {}
+      },
+      {
+        "syntax": "control ctrlShow show",
+        "parameters": [
+          {
+            "name": "control",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "show",
+            "type": "boolean",
+            "optional": false,
+            "description": "true to show the control, false to hide it"
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "ctrlText",
+    "url": "https://community.bistudio.com/wiki/ctrlText",
+    "description": "Returns the text of a control of the currently active user dialog. This command can be used on static texts, buttons, edit lines and active texts as well as for images, where it returns the image path. Does not work on HTML control and returns empty string \"\". Since 2.05 supported control types are: * CT_STATIC\n• CT_EDIT\n• CT_XKEYDESC\n• CT_XBUTTON\n• CT_SHORTCUTBUTTON\n• CT_STRUCTURED_TEXT\n• CT_BUTTON\n• CT_ACTIVETEXT Since 2.20 CT_PROGRESS is also supported.",
+    "syntaxes": [
+      {
+        "syntax": "ctrlText idc",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false,
+            "description": "control ID"
+          }
+        ],
+        "returnValue": {
+          "type": "string",
+          "description": "the text or image path or texture is returned, dependent on the control type"
+        }
+      },
+      {
+        "syntax": "ctrlText controlName",
+        "parameters": [
+          {
+            "name": "controlName",
+            "type": "Control",
+            "optional": false,
+            "description": "control"
+          }
+        ],
+        "returnValue": {
+          "type": "string",
+          "description": "the text or image path or texture is returned, dependent on the control type"
+        }
+      }
+    ]
+  },
+  {
+    "name": "limitSpeed",
+    "url": "https://community.bistudio.com/wiki/limitSpeed",
+    "description": "Limit the speed of an AI-driven vehicle or AI person to given value. It has continuous effect and AI will not break through the speed limitation until one is contacted, engaged or regrouped.",
+    "syntaxes": [
+      {
+        "syntax": "objectName limitSpeed speed",
+        "parameters": [
+          {
+            "name": "objectName",
+            "type": "GameObject",
+            "optional": false
+          },
+          {
+            "name": "speed",
+            "type": "number | boolean",
+            "optional": false,
+            "description": "in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in config)"
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "lnbAddRow",
+    "url": "https://community.bistudio.com/wiki/lnbAddRow",
+    "description": "Adds a row of strings.",
+    "syntaxes": [
+      {
+        "syntax": "lnbAddRow [ctrl, data]",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "number | Control",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "Array<string>",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "number",
+          "description": "row index"
+        }
+      },
+      {
+        "syntax": "ctrl lnbAddRow data",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "Array<string>",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "number",
+          "description": "row index"
+        }
+      }
+    ]
+  },
+  {
+    "name": "lnbClear",
+    "url": "https://community.bistudio.com/wiki/lnbClear",
+    "description": "Clears all items in the given listbox or combobox.",
+    "syntaxes": [
+      {
+        "syntax": "lnbClear idc",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false
+          }
+        ],
+        "returnValue": {}
+      },
+      {
+        "syntax": "lnbClear ctrl",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "lnbCurSelRow",
+    "url": "https://community.bistudio.com/wiki/lnbCurSelRow",
+    "description": "Returns the index of the selected row id 2D listbox.",
+    "syntaxes": [
+      {
+        "syntax": "lnbCurSelRow idc",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "number"
+        }
+      },
+      {
+        "syntax": "lnbCurSelRow ctrl",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "number"
+        }
+      }
+    ]
+  },
+  {
+    "name": "lnbData",
+    "url": "https://community.bistudio.com/wiki/lnbData",
+    "description": "Returns the additional text (invisible) in an item with the given position of the 2D listbox.",
+    "syntaxes": [
+      {
+        "syntax": "lnbData [idc, [row, column]]",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number | Control",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "string"
+        }
+      },
+      {
+        "syntax": "ctrl lnbData [row, column]",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "name": "lnbSetData",
+    "url": "https://community.bistudio.com/wiki/lnbSetData",
+    "description": "Sets the additional text (invisible) on the item with the given position of the 2D listbox.",
+    "syntaxes": [
+      {
+        "syntax": "lnbSetData [idc, [row, column], data]",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "string",
+            "optional": false,
+            "description": "the invisible text to add"
+          }
+        ],
+        "returnValue": {}
+      },
+      {
+        "syntax": "ctrl lnbSetData [[row, column], data]",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "string",
+            "optional": false,
+            "description": "the invisible text to add"
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "lnbSetText",
+    "url": "https://community.bistudio.com/wiki/lnbSetText",
+    "description": "Sets the text in the item with the given position of the 2D listbox.",
+    "syntaxes": [
+      {
+        "syntax": "lnbSetText [idc, [row, column], data]",
+        "parameters": [
+          {
+            "name": "idc",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "string",
+            "optional": false
+          }
+        ],
+        "returnValue": {}
+      },
+      {
+        "syntax": "ctrl lnbSetText [[row, column], data]",
+        "parameters": [
+          {
+            "name": "ctrl",
+            "type": "Control",
+            "optional": false
+          },
+          {
+            "name": "row",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "column",
+            "type": "number",
+            "optional": false
+          },
+          {
+            "name": "data",
+            "type": "string",
+            "optional": false
+          }
+        ],
+        "returnValue": {}
+      }
+    ]
+  },
+  {
+    "name": "parseNumber",
+    "url": "https://community.bistudio.com/wiki/parseNumber",
+    "description": "Parses the string, interpreting its content as a floating point number. ⚠This command does not work with strings representing hexadecimal numbers (e.g \"0xCF\"). parseNumber \"512 + 0x2F\"; // 512, WRONG! \"512 + 0x2F\" call BIS_fnc_parseNumber // 559, CORRECT! ⓘStarting whitespaces are discarded, then as many valid characters are used to be interpreted as a number until an invalid character is found then the rest of the string is ignored.",
+    "syntaxes": [
+      {
+        "syntax": "parseNumber value",
+        "parameters": [
+          {
+            "name": "value",
+            "type": "string | boolean | any",
+            "optional": false
+          }
+        ],
+        "returnValue": {
+          "type": "number",
+          "description": "the parsed number, 0 if no valid number was found; in the case of a passed Boolean, 0 if false, 1 if true"
         }
       }
     ]
