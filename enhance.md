@@ -38,6 +38,7 @@ Please take the data from `scraped-sqf-commands.json` and transform it into anot
 
 Where:
 1. You ignore and commands that are in `command-denylist.json`
+2. Please ignore duplicate command instances (ones with the same `name` as one before)
 2. If command description contains `Description needed` then omit it. Otherwise pass it thru
 3. Each parameter name is derived from the existing entry's parameter text. Avoid using javascript reserved words like `function`, and `class`
 4. Each parameter type is derived from the existing entry's parameter text, and using the "Type Strategy" below

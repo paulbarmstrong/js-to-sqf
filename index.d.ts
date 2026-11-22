@@ -5077,18 +5077,6 @@ export function ctrlText(idc: number): string
 export function ctrlTextV2(controlName: Control): string
 
 /**
- * Limit the speed of an AI-driven vehicle or AI person to given value. It has
- * continuous effect and AI will not break through the speed limitation until one
- * is contacted, engaged or regrouped.
- *
- * @param speed - in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in
- * config)
- * @see {@link https://community.bistudio.com/wiki/limitSpeed}
- * @sqfsyntaxtype binary
- */
-export function limitSpeed(objectName: GameObject, speed: number | boolean): void
-
-/**
  * Adds a row of strings.
  *
  * @returns row index
@@ -5215,6 +5203,62 @@ export function lnbSetTextV2(ctrl: Control, cell: [number, number], data: string
  * @sqfsyntaxtype unary
  */
 export function parseNumber(value: string | boolean | any): number
+
+/**
+ * Return a UniqueID of the given unit (player). The returned string is the
+ * player's steamID64: private _steamProfileUrl =
+ * "http://steamcommunity.com/profiles/" + (getPlayerUID player); ⚠Prior to Arma 2:
+ * Operation Arrowhead v1.60, the result always consisted of a stringified number
+ * (see getPlayerUIDOld), but always had to be considered and processed as a
+ * String. Converting it to a Number could cause precision problems, as Number
+ * cannot accurately represent integers above 16777216 (224). Moreover, games since
+ * Arma 2: Operation Arrowhead v1.61 provide a value that is not all-numeric.
+ * ⓘPrior to Arma 3 v2.02, in some cases the identity of certain player units could
+ * fail to propagate to other clients and the server, which caused isPlayer and
+ * getPlayerUID to incorrectly return false and "" respectively, where the affected
+ * units were not local. See this bug report (GitHub) for more info. This was
+ * supposedly fixed, but you should remain vigilant toward false negatives
+ * nonetheless.
+ *
+ * @returns can be "_SP_AI_" or "_SP_PLAYER_" in SP, "" or UID in MP
+ * @see {@link https://community.bistudio.com/wiki/getPlayerUID}
+ * @sqfsyntaxtype unary
+ */
+export function getPlayerUID(unit: GameObject): string
+
+/**
+ * Returns true if the machine executing the command is the server in a multiplayer
+ * game or is running single player. It will return true for both dedicated and
+ * player-hosted server. See also Multiplayer Scripting/machines.
+ *
+ * @returns boolean
+ * @see {@link https://community.bistudio.com/wiki/isServer}
+ * @sqfsyntaxtype nullary
+ */
+export function isServer(): boolean
+
+/**
+ * Returns the machine network ID of the client that initiated Remote Execution.
+ * ⚠Running this command
+ * • in a Single Player environment
+ * • outside of a remote-executed context
+ * • in a remote-executed context received from a Headless Client will return 0 by
+ * design. To check if the context is remote executed, use isRemoteExecuted or
+ * isRemoteExecutedJIP.
+ *
+ * @returns returns zero in the specific cases listed in the Description
+ * @see {@link https://community.bistudio.com/wiki/remoteExecutedOwner}
+ * @sqfsyntaxtype nullary
+ */
+export function remoteExecutedOwner(): number
+
+/**
+ * Sets the position of a location.
+ *
+ * @see {@link https://community.bistudio.com/wiki/setPosition}
+ * @sqfsyntaxtype binary
+ */
+export function setPosition(location: Location, pos: PositionAGL): void
 
 
 export namespace bis {
@@ -5392,5 +5436,14 @@ export function stringToMarker(data: string): string
  * @sqfsyntaxtype unary
  */
 export function triggerToMarker(trigger: GameObject, markerName: string): GameObject
+
+/**
+ * Example (Click to enlarge) Display a text in the "mission" GUI area with some
+ * effects. Good for the beginning of a mission.
+ *
+ * @see {@link https://community.bistudio.com/wiki/BIS_fnc_infoText}
+ * @sqfsyntaxtype unary
+ */
+export function infoText(Array of Strings: any): void
 
 }

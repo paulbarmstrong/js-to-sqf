@@ -4888,7 +4888,7 @@
     ],
     "url": "https://community.bistudio.com/wiki/west"
   },
-    {
+  {
     "description": "Add an event handler to the given control. ⚠\n• Control event handlers are processed in reversed order, i.e. last added: first, first added: last. So if you have an override it should be set up in the 1st added EH.\n• When using the event names listed here with the ctrlAddEventHandler, ctrlSetEventHandler, displayAddEventHandler or displaySetEventHandler commands, the prefix \"on\" in the event name must be removed (e.g. 'ButtonDown' instead of 'onButtonDown').",
     "name": "ctrlAddEventHandler",
     "syntaxes": [
@@ -4991,21 +4991,6 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/ctrlText"
-  },
-  {
-    "description": "Limit the speed of an AI-driven vehicle or AI person to given value. It has continuous effect and AI will not break through the speed limitation until one is contacted, engaged or regrouped.",
-    "name": "limitSpeed",
-    "syntaxes": [
-      {
-        "parameters": [
-          "objectName: Object",
-          "speed: Number or 2.22 Boolean - in km/h; By default, it's 2 * maxSpeed of the vehicle/unit (which is defined in config). See Example 1."
-        ],
-        "returnValue": "Nothing",
-        "syntax": "objectName limitSpeed speed"
-      }
-    ],
-    "url": "https://community.bistudio.com/wiki/limitSpeed"
   },
   {
     "description": "Adds a row of strings.",
@@ -5164,5 +5149,72 @@
       }
     ],
     "url": "https://community.bistudio.com/wiki/parseNumber"
+  },
+  {
+    "description": "Example (Click to enlarge) Display a text in the \"mission\" GUI area with some effects. Good for the beginning of a mission.",
+    "name": "BIS_fnc_infoText",
+    "syntaxes": [
+      {
+        "parameters": [
+          "Array of Strings"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "[string_1, string_2, string_n] spawn BIS_fnc_infoText"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/BIS_fnc_infoText"
+  },
+  {
+    "description": "Return a UniqueID of the given unit (player). The returned string is the player's steamID64: private _steamProfileUrl = \"http://steamcommunity.com/profiles/\" + (getPlayerUID player); ⚠Prior to Arma 2: Operation Arrowhead v1.60, the result always consisted of a stringified number (see getPlayerUIDOld), but always had to be considered and processed as a String. Converting it to a Number could cause precision problems, as Number cannot accurately represent integers above 16777216 (224). Moreover, games since Arma 2: Operation Arrowhead v1.61 provide a value that is not all-numeric. ⓘPrior to Arma 3 v2.02, in some cases the identity of certain player units could fail to propagate to other clients and the server, which caused isPlayer and getPlayerUID to incorrectly return false and \"\" respectively, where the affected units were not local. See this bug report (GitHub) for more info. This was supposedly fixed, but you should remain vigilant toward false negatives nonetheless.",
+    "name": "getPlayerUID",
+    "syntaxes": [
+      {
+        "parameters": [
+          "unit: Object"
+        ],
+        "returnValue": "String - can be \"_SP_AI_\" or \"_SP_PLAYER_\" in SP, \"\" or UID in MP\n• The unique ID may be up to 100 characters long and may contain numbers, uppercase letters and underscores\n• The value can be used to construct a valid variable name by appending to another valid variable name, e.g missionNamespace setVariable [\"TAG_player\" + _uid, _unit];",
+        "syntax": "getPlayerUID unit"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/getPlayerUID"
+  },
+  {
+    "description": "Returns true if the machine executing the command is the server in a multiplayer game or is running single player. It will return true for both dedicated and player-hosted server. See also Multiplayer Scripting/machines.",
+    "name": "isServer",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Boolean",
+        "syntax": "isServer"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/isServer"
+  },
+  {
+    "description": "Returns the machine network ID of the client that initiated Remote Execution. ⚠Running this command\n• in a Single Player environment\n• outside of a remote-executed context\n• in a remote-executed context received from a Headless Client will return 0 by design. To check if the context is remote executed, use isRemoteExecuted or isRemoteExecutedJIP.",
+    "name": "remoteExecutedOwner",
+    "syntaxes": [
+      {
+        "parameters": [],
+        "returnValue": "Number - returns zero in the specific cases listed in the Description",
+        "syntax": "remoteExecutedOwner"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/remoteExecutedOwner"
+  },
+  {
+    "description": "Sets the position of a location.",
+    "name": "setPosition",
+    "syntaxes": [
+      {
+        "parameters": [
+          "location: Location",
+          "pos: Position"
+        ],
+        "returnValue": "Nothing",
+        "syntax": "location setPosition pos"
+      }
+    ],
+    "url": "https://community.bistudio.com/wiki/setPosition"
   }
 ]
