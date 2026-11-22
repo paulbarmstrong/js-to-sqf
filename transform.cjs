@@ -182,7 +182,77 @@ function parseReturnValue(retStr) {
 //   - `dropSyntaxes` is an array of exact scraped `syntax` strings to leave out
 //     entirely, for wiki entries that document something which isn't a callable
 //     command (e.g. the deprecated `local variable = value` declaration).
+// The scraper flattens the `[row, column]` tuple in lnb* commands into separate
+// `row` and `column` parameters. Overrides below restore it as a single tuple param.
+const LNB_CELL = {
+  name: 'cell',
+  type: '[number, number]',
+  optional: false,
+  description: 'list item position in format [row, column]',
+};
+
 const OVERRIDES = {
+  'lnbData': {
+    syntaxes: [
+      {
+        syntax: 'lnbData [idc, [row, column]]',
+        parameters: [
+          { name: 'idc', type: 'number | Control', optional: false },
+          LNB_CELL,
+        ],
+      },
+      {
+        syntax: 'ctrl lnbData [row, column]',
+        parameters: [
+          { name: 'ctrl', type: 'Control', optional: false },
+          LNB_CELL,
+        ],
+      },
+    ],
+  },
+
+  'lnbSetData': {
+    syntaxes: [
+      {
+        syntax: 'lnbSetData [idc, [row, column], data]',
+        parameters: [
+          { name: 'idc',  type: 'number', optional: false },
+          LNB_CELL,
+          { name: 'data', type: 'string', optional: false, description: 'the invisible text to add' },
+        ],
+      },
+      {
+        syntax: 'ctrl lnbSetData [[row, column], data]',
+        parameters: [
+          { name: 'ctrl', type: 'Control', optional: false },
+          LNB_CELL,
+          { name: 'data', type: 'string', optional: false, description: 'the invisible text to add' },
+        ],
+      },
+    ],
+  },
+
+  'lnbSetText': {
+    syntaxes: [
+      {
+        syntax: 'lnbSetText [idc, [row, column], data]',
+        parameters: [
+          { name: 'idc',  type: 'number', optional: false },
+          LNB_CELL,
+          { name: 'data', type: 'string', optional: false },
+        ],
+      },
+      {
+        syntax: 'ctrl lnbSetText [[row, column], data]',
+        parameters: [
+          { name: 'ctrl', type: 'Control', optional: false },
+          LNB_CELL,
+          { name: 'data', type: 'string', optional: false },
+        ],
+      },
+    ],
+  },
+
   'actionKeysEx': {
     returnValue: {
       description: 'array of [mainKeyArray, comboKeyArray, isDoubleTap] entries',

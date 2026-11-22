@@ -5144,57 +5144,63 @@ export function lnbCurSelRowV2(ctrl: Control): number
  * Returns the additional text (invisible) in an item with the given position of
  * the 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @returns string
  * @see {@link https://community.bistudio.com/wiki/lnbData}
  * @sqfsyntaxtype unary
  */
-export function lnbData(idc: number | Control, row: number, column: number): string
+export function lnbData(idc: number | Control, cell: [number, number]): string
 
 /**
  * Returns the additional text (invisible) in an item with the given position of
  * the 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @returns string
  * @see {@link https://community.bistudio.com/wiki/lnbData}
  * @sqfsyntaxtype binary
  */
-export function lnbDataV2(ctrl: Control, row: number, column: number): string
+export function lnbDataV2(ctrl: Control, cell: [number, number]): string
 
 /**
  * Sets the additional text (invisible) on the item with the given position of the
  * 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @param data - the invisible text to add
  * @see {@link https://community.bistudio.com/wiki/lnbSetData}
  * @sqfsyntaxtype unary
  */
-export function lnbSetData(idc: number, row: number, column: number, data: string): void
+export function lnbSetData(idc: number, cell: [number, number], data: string): void
 
 /**
  * Sets the additional text (invisible) on the item with the given position of the
  * 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @param data - the invisible text to add
  * @see {@link https://community.bistudio.com/wiki/lnbSetData}
  * @sqfsyntaxtype binary
  */
-export function lnbSetDataV2(ctrl: Control, row: number, column: number, data: string): void
+export function lnbSetDataV2(ctrl: Control, cell: [number, number], data: string): void
 
 /**
  * Sets the text in the item with the given position of the 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @see {@link https://community.bistudio.com/wiki/lnbSetText}
  * @sqfsyntaxtype unary
  */
-export function lnbSetText(idc: number, row: number, column: number, data: string): void
+export function lnbSetText(idc: number, cell: [number, number], data: string): void
 
 /**
  * Sets the text in the item with the given position of the 2D listbox.
  *
+ * @param cell - list item position in format [row, column]
  * @see {@link https://community.bistudio.com/wiki/lnbSetText}
  * @sqfsyntaxtype binary
  */
-export function lnbSetTextV2(ctrl: Control, row: number, column: number, data: string): void
+export function lnbSetTextV2(ctrl: Control, cell: [number, number], data: string): void
 
 /**
  * Parses the string, interpreting its content as a floating point number. ⚠This

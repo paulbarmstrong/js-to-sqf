@@ -9012,14 +9012,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           }
         ],
         "returnValue": {
@@ -9035,14 +9031,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           }
         ],
         "returnValue": {
@@ -9065,14 +9057,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           },
           {
             "name": "data",
@@ -9092,14 +9080,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           },
           {
             "name": "data",
@@ -9126,14 +9110,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           },
           {
             "name": "data",
@@ -9152,14 +9132,10 @@
             "optional": false
           },
           {
-            "name": "row",
-            "type": "number",
-            "optional": false
-          },
-          {
-            "name": "column",
-            "type": "number",
-            "optional": false
+            "name": "cell",
+            "type": "[number, number]",
+            "optional": false,
+            "description": "list item position in format [row, column]"
           },
           {
             "name": "data",
